@@ -18,7 +18,7 @@ up: ## spin up environment
 
 .PHONY: composer
 composer: ## spin up environment
-		docker-compose exec php apt-get -y install git
+		docker-compose exec php apt-get -y install git --fix-missing
 		docker-compose exec php php composer.phar install
 
 .PHONY: php
