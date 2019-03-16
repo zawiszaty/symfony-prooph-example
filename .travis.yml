@@ -8,11 +8,13 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
   - docker-compose -v
   - docker -v
+
 before_script:
   - make start
+  - make composer
 
 script:
   - make test
-  -
+
 after_success:
   - travis_retry docker-compose exec php php vendor/bin/php-coveralls

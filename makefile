@@ -1,5 +1,5 @@
 .PHONY: start
-start: erase up
+start: erase up composer
 
 .PHONY: stop
 stop: ## stop environment
@@ -10,11 +10,15 @@ down: ## stop environment
 		docker-compose down
 
 .PHONY: erase
-erase: stop down
+erase: stop
 
 .PHONY: up
 up: ## spin up environment
 		docker-compose up -d
+
+.PHONY: composer
+composer: ## spin up environment
+		docker-compose exec php php composer.phar install
 
 .PHONY: php
 php: ## spin up environment
