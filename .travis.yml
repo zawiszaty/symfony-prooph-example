@@ -9,7 +9,10 @@ before_install:
   - docker-compose -v
   - docker -v
 before_script:
-  - make dev
+  - make start
 
 script:
   - make test
+  -
+after_success:
+  - travis_retry docker-compose exec php php vendor/bin/php-coveralls

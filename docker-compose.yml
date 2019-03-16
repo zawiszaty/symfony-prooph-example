@@ -19,6 +19,7 @@ services:
       - ./app:/var/www/project
     links:
       - db
+    command: ['composer.phar', 'install']
 
   db:
     image: mysql:5.7
