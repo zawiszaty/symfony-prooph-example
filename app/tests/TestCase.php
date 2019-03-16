@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Unit;
+namespace Tests;
 
 use App\Kernel;
 use Prooph\EventSourcing\Aggregate\AggregateType;

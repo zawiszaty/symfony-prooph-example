@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Common\ValueObject;
+namespace Tests\Domain\Common\ValueObject;
 
-use App\Unit\TestCase;
+use App\Domain\Common\ValueObject\AggregateRootId;
+use Tests\TestCase;
 use Assert\Assertion;
 
 class AggregateRootIdTest extends TestCase

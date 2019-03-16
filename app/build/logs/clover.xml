@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1552767242">
-  <project timestamp="1552767242">
+<coverage generated="1552767839">
+  <project timestamp="1552767839">
     <package name="App\Domain\Category">
       <file name="/var/www/project/src/Domain/Category/Category.php">
         <class name="App\Domain\Category\Category" namespace="App\Domain\Category">

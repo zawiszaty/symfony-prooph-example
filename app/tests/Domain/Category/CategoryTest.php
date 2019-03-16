@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Category;
+namespace Tests\Domain\Category;
 
+use App\Domain\Category\Category;
 use App\Domain\Category\Events\CategoryWasCreated;
 use App\Domain\Category\ValueObject\Name;
 use App\Domain\Common\ValueObject\AggregateRootId;
-use App\Unit\TestCase;
+use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {

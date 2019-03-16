@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Unit\Infrastructure\Common\QueryHandler;
+namespace Tests\Infrastructure\Common\QueryHandler;
 
 use App\Infrastructure\Common\QueryHandler\QueryBus;
 use App\Infrastructure\Common\QueryHandler\QueryHandlerInterface;
-use App\Unit\TestCase;
+use Tests\TestCase;
 
 class TestQuery
 {
@@ -33,7 +33,7 @@ class QueryBusTest extends TestCase
     {
         parent::setUp();
         $this->queryBus = $this->container->get('App\Infrastructure\Common\QueryHandler\QueryBus');
-        $this->container->set('App\Unit\Infrastructure\Common\HandlerHandler\TestHandler', new TestHandler());
+        $this->container->set('Tests\Infrastructure\Common\HandlerHandler\TestHandler', new TestHandler());
     }
 
     public function testHandle()
