@@ -1,0 +1,35 @@
+version: '3.1'
+
+services:
+  nginx:
+    image: nginx:1.15.9
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/var/www/project
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - db
+      - php
+
+  php:
+    image: zawiszaty/tutorials_tank_php:2.0.0
+    working_dir: /var/www/project
+    volumes:
+      - ./app:/var/www/project
+    links:
+      - db
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+    ports:
+      - 3307:3307
+
+volumes:
+  php:
+  db_data:

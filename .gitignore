@@ -1,0 +1,5 @@
+.idea
+app/vendor
+app/var/
+app/.phpunit.result.cache
+app/.php_cs.cache

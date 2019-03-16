@@ -1,0 +1,7 @@
+parameters:
+	autoload_files:
+		- vendor/autoload.php
+	ignoreErrors:
+	    - '#Trying to invoke App\\Infrastructure\\Common\\CommandHandler\\CommandHandlerInterface but it might not be a callable#'
+	    - '#Trying to invoke App\\Infrastructure\\Common\\QueryHandler\\QueryHandlerInterface but it might not be a callable#'
+

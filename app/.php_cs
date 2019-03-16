@@ -1,0 +1,20 @@
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->exclude('var')
+    ->in(__DIR__)
+;
+
+return PhpCsFixer\Config::create()
+    ->setRules([
+        '@Symfony' => true,
+        'full_opening_tag' => false,
+        '@PSR2' => true,
+        'strict_param' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'declare_strict_types' => true,
+        'phpdoc_to_return_type' => true,
+        'phpdoc_types' => true,
+    ])
+    ->setFinder($finder)
+;

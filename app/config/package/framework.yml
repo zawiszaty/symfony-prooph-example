@@ -1,0 +1,3 @@
+framework:
+  secret: ca011e9495fe66fb8bb02aaecee52820
+  profiler: { only_exceptions: false }

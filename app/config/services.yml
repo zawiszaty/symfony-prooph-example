@@ -1,0 +1,12 @@
+services:
+
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  App\Infrastructure\Common\CommandHandler\CommandBus:
+    public: true
+
+  App\Infrastructure\Common\QueryHandler\QueryBus:
+    public: true
