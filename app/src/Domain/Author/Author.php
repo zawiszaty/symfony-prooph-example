@@ -28,7 +28,11 @@ class Author extends AggregateRoot
         return $author;
     }
 
-    public function applyAuthorWasCreated(AuthorWasCreated $authorWasCreated): void
+    public function changeName(string $string)
+    {
+    }
+
+    protected function applyAuthorWasCreated(AuthorWasCreated $authorWasCreated): void
     {
         $this->id = $authorWasCreated->getId();
         $this->name = $authorWasCreated->getName();
