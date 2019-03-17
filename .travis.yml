@@ -22,4 +22,4 @@ script:
   - make test
 
 after_success:
-  - travis_retry docker-compose exec php php vendor/bin/php-coveralls
+  - travis_retry cd app && php vendor/bin/php-coveralls
