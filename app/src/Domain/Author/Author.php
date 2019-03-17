@@ -2,6 +2,7 @@
 
 namespace App\Domain\Author;
 
+use App\Domain\Author\Events\AuthorWasCreated;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
 use Prooph\EventSourcing\AggregateRoot;
@@ -19,8 +20,18 @@ class Author extends AggregateRoot
      */
     protected $name;
 
-    public static function create(string $test)
+    public static function create(AggregateRootId $generate, Name $name): Author
     {
+        $author = new self();
+        $author->recordThat(AuthorWasCreated::createWithData($generate, $name));
+
+        return $author;
+    }
+
+    public function applyAuthorWasCreated(AuthorWasCreated $authorWasCreated): void
+    {
+        $this->id = $authorWasCreated->getId();
+        $this->name = $authorWasCreated->getName();
     }
 
     protected function aggregateId(): string
