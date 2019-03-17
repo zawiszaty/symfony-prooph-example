@@ -2,6 +2,7 @@
 
 namespace App\Domain\Author;
 
+use App\Domain\Author\Events\AuthorNameWasChanged;
 use App\Domain\Author\Events\AuthorWasCreated;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
@@ -28,8 +29,15 @@ class Author extends AggregateRoot
         return $author;
     }
 
-    public function changeName(string $string)
+    public function changeName(string $string): void
     {
+        $this->name->changeName($string);
+        $this->recordThat(AuthorNameWasChanged::createWithData($this->id, $this->name));
+    }
+
+    protected function applyAuthorNameWasChanged(AuthorNameWasChanged $authorNameWasChanged)
+    {
+        $this->name = $authorNameWasChanged->getName();
     }
 
     protected function applyAuthorWasCreated(AuthorWasCreated $authorWasCreated): void
@@ -61,6 +69,22 @@ class Author extends AggregateRoot
 
     protected function determineEventHandlerMethodFor(AggregateChanged $e): string
     {
-        return 'apply'.\implode(\array_slice(\explode('\\', \get_class($e)), -1));
+        return 'apply' . \implode(\array_slice(\explode('\\', \get_class($e)), -1));
+    }
+
+    /**
+     * @return AggregateRootId
+     */
+    public function getId(): AggregateRootId
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return Name
+     */
+    public function getName(): Name
+    {
+        return $this->name;
     }
 }
