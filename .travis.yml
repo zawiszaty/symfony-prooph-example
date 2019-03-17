@@ -23,4 +23,4 @@ script:
 
 after_success:
   - travis_retry cd app
-  - travis_retry php vendor/bin/php-coveralls -v
+  - travis_retry php vendor/bin/php-coveralls -v --root_dir ./..
