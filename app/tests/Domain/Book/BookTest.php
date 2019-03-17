@@ -3,8 +3,10 @@
 namespace Tests\Domain\Book;
 
 use App\Domain\Book\Book;
+use App\Domain\Book\Event\BookDescriptionWasChanged;
 use App\Domain\Book\Event\BookNameWasChanged;
 use App\Domain\Book\Event\BookWasCreated;
+use App\Domain\Book\Exception\SameDescryptionException;
 use App\Domain\Book\ValueObject\Description;
 use App\Domain\Category\Exception\SameNameException;
 use App\Domain\Common\ValueObject\AggregateRootId;
@@ -80,6 +82,33 @@ class BookTest extends TestCase
         $this->assertInstanceOf(BookNameWasChanged::class, $events[0]);
         $expectedPayload = [
             'name' => 'test',
+        ];
+        $this->assertEquals($expectedPayload, $events[0]->payload());
+    }
+
+    function test_book_it_change_same_description()
+    {
+        $this->expectException(SameDescryptionException::class);
+        $book = Book::create(
+            AggregateRootId::generate(),
+            Name::fromString('test'),
+            Description::fromString('test')
+        );
+        $this->assertInstanceOf(Book::class, $book);
+        $events = $this->popRecordedEvent($book);
+        $this->assertEquals(1, \count($events));
+        $this->assertInstanceOf(BookWasCreated::class, $events[0]);
+        $expectedPayload = [
+            'name' => 'test',
+            'description' => 'test',
+        ];
+        $this->assertEquals($expectedPayload, $events[0]->payload());
+        $book->changeDescription('test');
+        $events = $this->popRecordedEvent($book);
+        $this->assertEquals(1, \count($events));
+        $this->assertInstanceOf(BookDescriptionWasChanged::class, $events[0]);
+        $expectedPayload = [
+            'description' => 'test',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
     }
