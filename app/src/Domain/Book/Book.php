@@ -3,8 +3,10 @@
 
 namespace App\Domain\Book;
 
+use App\Domain\Book\Event\BookDescriptionWasChanged;
 use App\Domain\Book\Event\BookNameWasChanged;
 use App\Domain\Book\Event\BookWasCreated;
+use App\Domain\Book\ValueObject\Description;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
 use Prooph\EventSourcing\AggregateChanged;
@@ -23,7 +25,7 @@ class Book extends AggregateRoot
     protected $name;
 
     /**
-     * @var
+     * @var Description
      */
     protected $description;
 
@@ -46,6 +48,17 @@ class Book extends AggregateRoot
     {
         $this->name->changeName($name);
         $this->recordThat(BookNameWasChanged::createWithData($this->id, $this->name));
+    }
+
+    public function changeDescription(string $description)
+    {
+        $this->description->changeDescription($description);
+        $this->recordThat(BookDescriptionWasChanged::createWithData($this->id, $this->description));
+    }
+
+    protected function applyBookDescriptionWasChanged(BookDescriptionWasChanged $bookDescriptionWasChanged)
+    {
+        $this->description = $bookDescriptionWasChanged->getDescription();
     }
 
     protected function applyBookNameWasChanged(BookNameWasChanged $bookNameWasChanged)

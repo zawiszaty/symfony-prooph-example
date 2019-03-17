@@ -41,7 +41,7 @@ final class BookDescriptionWasChanged extends AggregateChanged
         return $this->id;
     }
 
-    public function getDescription(): Name
+    public function getDescription(): Description
     {
         if (null === $this->description) {
             $this->description = Description::fromString($this->payload['description']);

@@ -112,4 +112,30 @@ class BookTest extends TestCase
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
     }
+
+    function test_book_it_change_description()
+    {
+        $book = Book::create(
+            AggregateRootId::generate(),
+            Name::fromString('test'),
+            Description::fromString('test')
+        );
+        $this->assertInstanceOf(Book::class, $book);
+        $events = $this->popRecordedEvent($book);
+        $this->assertEquals(1, \count($events));
+        $this->assertInstanceOf(BookWasCreated::class, $events[0]);
+        $expectedPayload = [
+            'name' => 'test',
+            'description' => 'test',
+        ];
+        $this->assertEquals($expectedPayload, $events[0]->payload());
+        $book->changeDescription('test2');
+        $events = $this->popRecordedEvent($book);
+        $this->assertEquals(1, \count($events));
+        $this->assertInstanceOf(BookDescriptionWasChanged::class, $events[0]);
+        $expectedPayload = [
+            'description' => 'test2',
+        ];
+        $this->assertEquals($expectedPayload, $events[0]->payload());
+    }
 }
