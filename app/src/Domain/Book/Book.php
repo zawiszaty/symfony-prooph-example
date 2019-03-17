@@ -3,6 +3,7 @@
 
 namespace App\Domain\Book;
 
+use App\Domain\Book\Event\BookWasCreated;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
 use Prooph\EventSourcing\AggregateChanged;
@@ -24,6 +25,21 @@ class Book extends AggregateRoot
      * @var
      */
     protected $description;
+
+    public static function create(AggregateRootId $id, Name $name, ValueObject\Description $description)
+    {
+        $self = new self();
+        $self->recordThat(BookWasCreated::createWithData($id, $name, $description));
+
+        return $self;
+    }
+
+    function applyBookWasCreated(BookWasCreated $bookWasCreated)
+    {
+        $this->id = $bookWasCreated->getId();
+        $this->name = $bookWasCreated->getName();
+        $this->description = $bookWasCreated->getDescription();
+    }
 
     protected function aggregateId(): string
     {
