@@ -4,6 +4,7 @@ namespace App\Domain\Author;
 
 use App\Domain\Author\Events\AuthorNameWasChanged;
 use App\Domain\Author\Events\AuthorWasCreated;
+use App\Domain\Author\Events\AuthorWasDeleted;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
 use Prooph\EventSourcing\AggregateRoot;
@@ -33,6 +34,16 @@ class Author extends AggregateRoot
     {
         $this->name->changeName($string);
         $this->recordThat(AuthorNameWasChanged::createWithData($this->id, $this->name));
+    }
+
+    public function delete()
+    {
+        $this->recordThat(AuthorWasDeleted::createWithData($this->id));
+    }
+
+    public function applyAuthorWasDeleted(AuthorWasDeleted $authorWasDeleted)
+    {
+
     }
 
     protected function applyAuthorNameWasChanged(AuthorNameWasChanged $authorNameWasChanged)
