@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1552812819">
-  <project timestamp="1552812819">
+<coverage generated="1552825141">
+  <project timestamp="1552825141">
     <package name="App\Application\Command\Category\Create">
       <file name="/var/www/project/src/Application/Command/Category/Create/CreateCategoryCommand.php">
         <class name="App\Application\Command\Category\Create\CreateCategoryCommand" namespace="App\Application\Command\Category\Create">
@@ -18,12 +18,13 @@
       </file>
       <file name="/var/www/project/src/Application/Command/Category/Create/CreateCategoryHandler.php">
         <class name="App\Application\Command\Category\Create\CreateCategoryHandler" namespace="App\Application\Command\Category\Create">
-          <metrics complexity="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="3" coveredelements="0"/>
+          <metrics complexity="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="0" elements="4" coveredelements="0"/>
         </class>
         <line num="11" type="method" name="__invoke" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="12" type="stmt" count="0"/>
         <line num="13" type="stmt" count="0"/>
         <line num="14" type="stmt" count="0"/>
-        <metrics loc="15" ncloc="15" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="3" coveredelements="0"/>
+        <metrics loc="15" ncloc="15" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="0" elements="4" coveredelements="0"/>
       </file>
     </package>
     <package name="App\Domain\Category">
@@ -209,31 +210,31 @@
     <package name="App">
       <file name="/var/www/project/src/Kernel.php">
         <class name="App\Kernel" namespace="App">
-          <metrics complexity="8" methods="6" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="11" elements="20" coveredelements="15"/>
+          <metrics complexity="8" methods="6" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="5" elements="20" coveredelements="8"/>
         </class>
         <line num="18" type="method" name="registerBundles" visibility="public" complexity="1" crap="1" count="9"/>
         <line num="21" type="stmt" count="9"/>
         <line num="22" type="stmt" count="9"/>
         <line num="29" type="stmt" count="9"/>
-        <line num="32" type="method" name="configureContainer" visibility="protected" complexity="2" crap="2.09" count="1"/>
-        <line num="34" type="stmt" count="1"/>
-        <line num="35" type="stmt" count="1"/>
-        <line num="36" type="stmt" count="1"/>
-        <line num="39" type="stmt" count="1"/>
+        <line num="32" type="method" name="configureContainer" visibility="protected" complexity="2" crap="6.00" count="0"/>
+        <line num="34" type="stmt" count="0"/>
+        <line num="35" type="stmt" count="0"/>
+        <line num="36" type="stmt" count="0"/>
+        <line num="39" type="stmt" count="0"/>
         <line num="40" type="stmt" count="0"/>
         <line num="41" type="stmt" count="0"/>
-        <line num="45" type="stmt" count="1"/>
+        <line num="45" type="stmt" count="0"/>
         <line num="47" type="method" name="configureRoutes" visibility="protected" complexity="1" crap="2.00" count="0"/>
         <line num="51" type="stmt" count="0"/>
         <line num="54" type="method" name="getCacheDir" visibility="public" complexity="1" crap="1" count="9"/>
         <line num="56" type="stmt" count="9"/>
-        <line num="60" type="method" name="getLogDir" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="62" type="stmt" count="1"/>
+        <line num="60" type="method" name="getLogDir" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="62" type="stmt" count="0"/>
         <line num="65" type="method" name="boot" visibility="public" complexity="2" crap="2" count="9"/>
         <line num="67" type="stmt" count="9"/>
-        <metrics loc="69" ncloc="51" classes="1" methods="6" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="11" elements="20" coveredelements="15"/>
+        <metrics loc="69" ncloc="51" classes="1" methods="6" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="5" elements="20" coveredelements="8"/>
       </file>
     </package>
-    <metrics files="15" loc="523" ncloc="408" classes="11" methods="34" coveredmethods="20" conditionals="0" coveredconditionals="0" statements="95" coveredstatements="68" elements="129" coveredelements="88"/>
+    <metrics files="15" loc="523" ncloc="408" classes="11" methods="34" coveredmethods="19" conditionals="0" coveredconditionals="0" statements="96" coveredstatements="62" elements="130" coveredelements="81"/>
   </project>
 </coverage>
