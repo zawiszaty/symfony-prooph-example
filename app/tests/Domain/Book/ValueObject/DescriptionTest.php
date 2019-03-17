@@ -2,6 +2,7 @@
 
 namespace Tests\Domain\Book\ValueObject;
 
+use App\Domain\Book\Exception\SameDescryptionException;
 use App\Domain\Book\ValueObject\Description;
 use Tests\TestCase;
 
@@ -27,5 +28,11 @@ class DescriptionTest extends TestCase
     {
         $this->description->changeDescription('test2');
         $this->assertSame($this->description->toString(), 'test2');
+    }
+
+    function test_it_change_same_description()
+    {
+        $this->expectException(SameDescryptionException::class);
+        $this->description->changeDescription('test');
     }
 }
