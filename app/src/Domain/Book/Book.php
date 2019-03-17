@@ -6,6 +6,7 @@ namespace App\Domain\Book;
 use App\Domain\Book\Event\BookDescriptionWasChanged;
 use App\Domain\Book\Event\BookNameWasChanged;
 use App\Domain\Book\Event\BookWasCreated;
+use App\Domain\Book\Event\BookWasDeleted;
 use App\Domain\Book\ValueObject\Description;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
@@ -58,6 +59,12 @@ class Book extends AggregateRoot
 
     public function delete()
     {
+        $this->recordThat(BookWasDeleted::createWithData($this->id));
+    }
+
+    protected function applyBookWasDeleted(BookWasDeleted $bookWasDeleted)
+    {
+
     }
 
     protected function applyBookDescriptionWasChanged(BookDescriptionWasChanged $bookDescriptionWasChanged)
