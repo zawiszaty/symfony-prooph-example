@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\Domain\Category\Events;
+namespace App\Domain\Author\Events;
 
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
 use Prooph\EventSourcing\AggregateChanged;
 
-final class CategoryNameWasChanged extends AggregateChanged
+final class AuthorWasCreated extends AggregateChanged
 {
     /**
      * @var AggregateRootId

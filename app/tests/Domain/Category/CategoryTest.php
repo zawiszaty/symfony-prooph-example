@@ -9,8 +9,8 @@ use App\Domain\Category\Events\CategoryNameWasChanged;
 use App\Domain\Category\Events\CategoryWasCreated;
 use App\Domain\Category\Events\CategoryWasDeleted;
 use App\Domain\Category\Exception\SameNameException;
-use App\Domain\Category\ValueObject\Name;
 use App\Domain\Common\ValueObject\AggregateRootId;
+use App\Domain\Common\ValueObject\Name;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase

@@ -7,8 +7,8 @@ namespace App\Domain\Category;
 use App\Domain\Category\Events\CategoryNameWasChanged;
 use App\Domain\Category\Events\CategoryWasCreated;
 use App\Domain\Category\Events\CategoryWasDeleted;
-use App\Domain\Category\ValueObject\Name;
 use App\Domain\Common\ValueObject\AggregateRootId;
+use App\Domain\Common\ValueObject\Name;
 use Prooph\EventSourcing\AggregateChanged;
 use Prooph\EventSourcing\AggregateRoot;
 

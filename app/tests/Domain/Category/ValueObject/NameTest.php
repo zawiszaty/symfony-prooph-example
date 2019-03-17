@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Category\ValueObject;
 
 use App\Domain\Category\Exception\SameNameException;
+use App\Domain\Common\ValueObject\Name;
 use Tests\TestCase;
 
 class NameTest extends TestCase

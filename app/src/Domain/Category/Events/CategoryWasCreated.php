@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Category\Events;
 
-use App\Domain\Category\ValueObject\Name;
 use App\Domain\Common\ValueObject\AggregateRootId;
+use App\Domain\Common\ValueObject\Name;
 use Prooph\EventSourcing\AggregateChanged;
 
 final class CategoryWasCreated extends AggregateChanged
