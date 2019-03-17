@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Infrastructure\Common\QueryHandler;
 
 use App\Infrastructure\Common\CommandHandler\Exception\HandlerNotFoundException;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class CommandBus.
@@ -13,18 +12,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class QueryBus
 {
     /**
-     * @var ContainerInterface
+     * @var array
      */
-    private $container;
+    private $queryHandler = [];
 
-    /**
-     * CommandBus constructor.
-     *
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
+    public function addQueryHandler(object $query)
     {
-        $this->container = $container;
+        $this->queryHandler[\get_class($query)] = $query;
     }
 
     /**
@@ -48,12 +42,10 @@ class QueryBus
      */
     private function commandToHandler(string $command): QueryHandlerInterface
     {
-        $commandHandler = str_replace('Query', 'Handler', $command);
-
-        if (!$this->container->has($commandHandler)) {
-            throw new HandlerNotFoundException('Handler not found from: '.$command);
-        }
-        $handler = $this->container->get($commandHandler);
+        $queryHandler = explode('\\', $command);
+        $queryHandler[count($queryHandler) - 1] = str_replace('Query', 'Handler', $queryHandler[count($queryHandler) - 1]);
+        $queryHandler = implode('\\', $queryHandler);
+        $handler = $this->queryHandler[$queryHandler];
 
         if (!$handler instanceof QueryHandlerInterface) {
             throw new HandlerNotFoundException('Handler not found from: '.$command);

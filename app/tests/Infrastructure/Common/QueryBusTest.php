@@ -33,7 +33,7 @@ class QueryBusTest extends TestCase
     {
         parent::setUp();
         $this->queryBus = $this->container->get('App\Infrastructure\Common\QueryHandler\QueryBus');
-        $this->container->set('Tests\Infrastructure\Common\HandlerHandler\TestHandler', new TestHandler());
+        $this->queryBus->addQueryHandler(new TestHandler());
     }
 
     public function testHandle()

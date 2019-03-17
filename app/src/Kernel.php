@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Infrastructure\Common\BusPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -42,6 +43,7 @@ class Kernel extends BaseKernel
                 'intercept_redirects' => false,
             ]);
         }
+        $c->addCompilerPass(new BusPass());
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes): string

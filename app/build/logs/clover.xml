@@ -1,82 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1552828474">
-  <project timestamp="1552828474">
+<coverage generated="1552839036">
+  <project timestamp="1552839036">
     <package name="App\Application\Command\Category\Create">
       <file name="/var/www/project/src/Application/Command/Category/Create/CreateCategoryCommand.php">
         <class name="App\Application\Command\Category\Create\CreateCategoryCommand" namespace="App\Application\Command\Category\Create">
-          <metrics complexity="2" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="0" elements="8" coveredelements="0"/>
+          <metrics complexity="2" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="2" elements="5" coveredelements="3"/>
         </class>
-        <line num="22" type="method" name="__construct" visibility="public" complexity="1" crap="2.00" count="0"/>
-        <line num="23" type="stmt" count="0"/>
-        <line num="24" type="stmt" count="0"/>
-        <line num="25" type="stmt" count="0"/>
+        <line num="22" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="24" type="stmt" count="1"/>
+        <line num="25" type="stmt" count="1"/>
         <line num="30" type="method" name="getName" visibility="public" complexity="1" crap="2.00" count="0"/>
-        <line num="31" type="stmt" count="0"/>
         <line num="32" type="stmt" count="0"/>
-        <line num="33" type="stmt" count="0"/>
-        <metrics loc="34" ncloc="20" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="0" elements="8" coveredelements="0"/>
+        <metrics loc="34" ncloc="20" classes="1" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="2" elements="5" coveredelements="3"/>
       </file>
       <file name="/var/www/project/src/Application/Command/Category/Create/CreateCategoryHandler.php">
         <class name="App\Application\Command\Category\Create\CreateCategoryHandler" namespace="App\Application\Command\Category\Create">
-          <metrics complexity="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="3" coveredelements="0"/>
+          <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
         </class>
-        <line num="11" type="method" name="__invoke" visibility="public" complexity="1" crap="2.00" count="0"/>
-        <line num="13" type="stmt" count="0"/>
-        <line num="14" type="stmt" count="0"/>
-        <metrics loc="15" ncloc="15" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="3" coveredelements="0"/>
+        <line num="11" type="method" name="__invoke" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="13" type="stmt" count="1"/>
+        <line num="14" type="stmt" count="1"/>
+        <metrics loc="15" ncloc="15" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
       </file>
     </package>
     <package name="App\Domain\Category">
       <file name="/var/www/project/src/Domain/Category/Category.php">
         <class name="App\Domain\Category\Category" namespace="App\Domain\Category">
-          <metrics complexity="7" methods="6" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="17" coveredstatements="11" elements="23" coveredelements="14"/>
+          <metrics complexity="12" methods="11" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="25" coveredstatements="20" elements="36" coveredelements="29"/>
         </class>
-        <line num="25" type="method" name="create" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="27" type="stmt" count="1"/>
-        <line num="28" type="stmt" count="1"/>
-        <line num="30" type="stmt" count="1"/>
-        <line num="33" type="method" name="applyCategoryWasCreated" visibility="protected" complexity="1" crap="1" count="1"/>
-        <line num="35" type="stmt" count="1"/>
-        <line num="36" type="stmt" count="1"/>
-        <line num="37" type="stmt" count="1"/>
-        <line num="42" type="method" name="getName" visibility="public" complexity="1" crap="2.00" count="0"/>
-        <line num="44" type="stmt" count="0"/>
-        <line num="47" type="method" name="aggregateId" visibility="protected" complexity="1" crap="2.00" count="0"/>
-        <line num="49" type="stmt" count="0"/>
-        <line num="55" type="method" name="apply" visibility="protected" complexity="2" crap="2.50" count="1"/>
-        <line num="57" type="stmt" count="1"/>
-        <line num="58" type="stmt" count="1"/>
-        <line num="59" type="stmt" count="0"/>
-        <line num="60" type="stmt" count="0"/>
-        <line num="61" type="stmt" count="0"/>
-        <line num="62" type="stmt" count="0"/>
-        <line num="65" type="stmt" count="1"/>
-        <line num="66" type="stmt" count="1"/>
-        <line num="68" type="method" name="determineEventHandlerMethodFor" visibility="protected" complexity="1" crap="1" count="1"/>
-        <line num="70" type="stmt" count="1"/>
-        <metrics loc="72" ncloc="60" classes="1" methods="6" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="17" coveredstatements="11" elements="23" coveredelements="14"/>
+        <line num="27" type="method" name="create" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="29" type="stmt" count="4"/>
+        <line num="30" type="stmt" count="4"/>
+        <line num="32" type="stmt" count="4"/>
+        <line num="35" type="method" name="changeName" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="37" type="stmt" count="2"/>
+        <line num="38" type="stmt" count="1"/>
+        <line num="40" type="method" name="applyCategoryNameWasChanged" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="42" type="stmt" count="2"/>
+        <line num="43" type="stmt" count="1"/>
+        <line num="45" type="method" name="delete" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="47" type="stmt" count="1"/>
+        <line num="48" type="stmt" count="1"/>
+        <line num="50" type="method" name="applyCategoryWasDeleted" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="52" type="stmt" count="1"/>
+        <line num="54" type="method" name="applyCategoryWasCreated" visibility="protected" complexity="1" crap="1" count="4"/>
+        <line num="56" type="stmt" count="4"/>
+        <line num="57" type="stmt" count="4"/>
+        <line num="58" type="stmt" count="4"/>
+        <line num="63" type="method" name="getName" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="65" type="stmt" count="2"/>
+        <line num="71" type="method" name="getId" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="73" type="stmt" count="3"/>
+        <line num="76" type="method" name="aggregateId" visibility="protected" complexity="1" crap="2.00" count="0"/>
+        <line num="78" type="stmt" count="0"/>
+        <line num="84" type="method" name="apply" visibility="protected" complexity="2" crap="2.50" count="4"/>
+        <line num="86" type="stmt" count="4"/>
+        <line num="87" type="stmt" count="4"/>
+        <line num="88" type="stmt" count="0"/>
+        <line num="89" type="stmt" count="0"/>
+        <line num="90" type="stmt" count="0"/>
+        <line num="91" type="stmt" count="0"/>
+        <line num="94" type="stmt" count="4"/>
+        <line num="95" type="stmt" count="4"/>
+        <line num="97" type="method" name="determineEventHandlerMethodFor" visibility="protected" complexity="1" crap="1" count="4"/>
+        <line num="99" type="stmt" count="4"/>
+        <metrics loc="101" ncloc="86" classes="1" methods="11" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="25" coveredstatements="20" elements="36" coveredelements="29"/>
       </file>
     </package>
     <package name="App\Domain\Category\Events">
+      <file name="/var/www/project/src/Domain/Category/Events/CategoryNameWasChanged.php">
+        <class name="App\Domain\Category\Events\CategoryNameWasChanged" namespace="App\Domain\Category\Events">
+          <metrics complexity="5" methods="3" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="11" coveredstatements="7" elements="14" coveredelements="8"/>
+        </class>
+        <line num="23" type="method" name="createWithData" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="26" type="stmt" count="2"/>
+        <line num="27" type="stmt" count="2"/>
+        <line num="30" type="stmt" count="2"/>
+        <line num="31" type="stmt" count="2"/>
+        <line num="33" type="stmt" count="2"/>
+        <line num="36" type="method" name="getId" visibility="public" complexity="2" crap="6.00" count="0"/>
+        <line num="38" type="stmt" count="0"/>
+        <line num="39" type="stmt" count="0"/>
+        <line num="42" type="stmt" count="0"/>
+        <line num="45" type="method" name="getName" visibility="public" complexity="2" crap="2.15" count="2"/>
+        <line num="47" type="stmt" count="2"/>
+        <line num="48" type="stmt" count="0"/>
+        <line num="51" type="stmt" count="2"/>
+        <metrics loc="53" ncloc="46" classes="1" methods="3" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="11" coveredstatements="7" elements="14" coveredelements="8"/>
+      </file>
       <file name="/var/www/project/src/Domain/Category/Events/CategoryWasCreated.php">
         <class name="App\Domain\Category\Events\CategoryWasCreated" namespace="App\Domain\Category\Events">
           <metrics complexity="5" methods="3" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="11" coveredstatements="9" elements="14" coveredelements="10"/>
         </class>
-        <line num="23" type="method" name="createWithData" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="26" type="stmt" count="1"/>
-        <line num="27" type="stmt" count="1"/>
-        <line num="30" type="stmt" count="1"/>
-        <line num="31" type="stmt" count="1"/>
-        <line num="33" type="stmt" count="1"/>
-        <line num="36" type="method" name="getId" visibility="public" complexity="2" crap="2.15" count="1"/>
-        <line num="38" type="stmt" count="1"/>
+        <line num="23" type="method" name="createWithData" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="26" type="stmt" count="4"/>
+        <line num="27" type="stmt" count="4"/>
+        <line num="30" type="stmt" count="4"/>
+        <line num="31" type="stmt" count="4"/>
+        <line num="33" type="stmt" count="4"/>
+        <line num="36" type="method" name="getId" visibility="public" complexity="2" crap="2.15" count="4"/>
+        <line num="38" type="stmt" count="4"/>
         <line num="39" type="stmt" count="0"/>
-        <line num="42" type="stmt" count="1"/>
-        <line num="45" type="method" name="getName" visibility="public" complexity="2" crap="2.15" count="1"/>
-        <line num="47" type="stmt" count="1"/>
+        <line num="42" type="stmt" count="4"/>
+        <line num="45" type="method" name="getName" visibility="public" complexity="2" crap="2.15" count="4"/>
+        <line num="47" type="stmt" count="4"/>
         <line num="48" type="stmt" count="0"/>
-        <line num="51" type="stmt" count="1"/>
+        <line num="51" type="stmt" count="4"/>
         <metrics loc="53" ncloc="46" classes="1" methods="3" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="11" coveredstatements="9" elements="14" coveredelements="10"/>
+      </file>
+      <file name="/var/www/project/src/Domain/Category/Events/CategoryWasDeleted.php">
+        <class name="App\Domain\Category\Events\CategoryWasDeleted" namespace="App\Domain\Category\Events">
+          <metrics complexity="3" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="3" elements="8" coveredelements="4"/>
+        </class>
+        <line num="17" type="method" name="createWithData" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="20" type="stmt" count="1"/>
+        <line num="22" type="stmt" count="1"/>
+        <line num="24" type="stmt" count="1"/>
+        <line num="27" type="method" name="getId" visibility="public" complexity="2" crap="6.00" count="0"/>
+        <line num="29" type="stmt" count="0"/>
+        <line num="30" type="stmt" count="0"/>
+        <line num="33" type="stmt" count="0"/>
+        <metrics loc="35" ncloc="31" classes="1" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="3" elements="8" coveredelements="4"/>
       </file>
     </package>
     <package name="App\Domain\Category\Exception">
@@ -92,19 +136,19 @@
         <class name="App\Domain\Category\ValueObject\Name" namespace="App\Domain\Category\ValueObject">
           <metrics complexity="5" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="13" coveredelements="13"/>
         </class>
-        <line num="21" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="4"/>
-        <line num="23" type="stmt" count="4"/>
-        <line num="24" type="stmt" count="4"/>
-        <line num="26" type="method" name="fromString" visibility="public" complexity="1" crap="1" count="4"/>
-        <line num="28" type="stmt" count="4"/>
-        <line num="30" type="stmt" count="4"/>
-        <line num="33" type="method" name="toString" visibility="public" complexity="1" crap="1" count="3"/>
-        <line num="35" type="stmt" count="3"/>
-        <line num="38" type="method" name="changeName" visibility="public" complexity="2" crap="2" count="2"/>
-        <line num="40" type="stmt" count="2"/>
-        <line num="41" type="stmt" count="1"/>
-        <line num="43" type="stmt" count="1"/>
-        <line num="44" type="stmt" count="1"/>
+        <line num="21" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="7"/>
+        <line num="23" type="stmt" count="7"/>
+        <line num="24" type="stmt" count="7"/>
+        <line num="26" type="method" name="fromString" visibility="public" complexity="1" crap="1" count="7"/>
+        <line num="28" type="stmt" count="7"/>
+        <line num="30" type="stmt" count="7"/>
+        <line num="33" type="method" name="toString" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="35" type="stmt" count="6"/>
+        <line num="38" type="method" name="changeName" visibility="public" complexity="2" crap="2" count="4"/>
+        <line num="40" type="stmt" count="4"/>
+        <line num="41" type="stmt" count="2"/>
+        <line num="43" type="stmt" count="2"/>
+        <line num="44" type="stmt" count="2"/>
         <metrics loc="45" ncloc="37" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="13" coveredelements="13"/>
       </file>
     </package>
@@ -113,14 +157,14 @@
         <class name="App\Domain\Common\ValueObject\AggregateRootId" namespace="App\Domain\Common\ValueObject">
           <metrics complexity="4" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="8" coveredstatements="8" elements="12" coveredelements="12"/>
         </class>
-        <line num="22" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="3"/>
-        <line num="24" type="stmt" count="3"/>
-        <line num="25" type="stmt" count="3"/>
-        <line num="27" type="method" name="generate" visibility="public" complexity="1" crap="1" count="2"/>
-        <line num="29" type="stmt" count="2"/>
-        <line num="31" type="stmt" count="2"/>
-        <line num="34" type="method" name="toString" visibility="public" complexity="1" crap="1" count="3"/>
-        <line num="36" type="stmt" count="3"/>
+        <line num="22" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="24" type="stmt" count="6"/>
+        <line num="25" type="stmt" count="6"/>
+        <line num="27" type="method" name="generate" visibility="public" complexity="1" crap="1" count="5"/>
+        <line num="29" type="stmt" count="5"/>
+        <line num="31" type="stmt" count="5"/>
+        <line num="34" type="method" name="toString" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="36" type="stmt" count="6"/>
         <line num="39" type="method" name="fromString" visibility="public" complexity="1" crap="1" count="2"/>
         <line num="41" type="stmt" count="2"/>
         <line num="42" type="stmt" count="2"/>
@@ -128,27 +172,54 @@
         <metrics loc="46" ncloc="38" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="8" coveredstatements="8" elements="12" coveredelements="12"/>
       </file>
     </package>
+    <package name="App\Infrastructure\Common">
+      <file name="/var/www/project/src/Infrastructure/Common/BusPass.php">
+        <class name="App\Infrastructure\Common\BusPass" namespace="App\Infrastructure\Common">
+          <metrics complexity="5" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="0" elements="19" coveredelements="0"/>
+        </class>
+        <line num="15" type="method" name="process" visibility="public" complexity="5" crap="30.00" count="0"/>
+        <line num="16" type="stmt" count="0"/>
+        <line num="17" type="stmt" count="0"/>
+        <line num="18" type="stmt" count="0"/>
+        <line num="19" type="stmt" count="0"/>
+        <line num="20" type="stmt" count="0"/>
+        <line num="21" type="stmt" count="0"/>
+        <line num="23" type="stmt" count="0"/>
+        <line num="24" type="stmt" count="0"/>
+        <line num="25" type="stmt" count="0"/>
+        <line num="27" type="stmt" count="0"/>
+        <line num="28" type="stmt" count="0"/>
+        <line num="29" type="stmt" count="0"/>
+        <line num="30" type="stmt" count="0"/>
+        <line num="31" type="stmt" count="0"/>
+        <line num="33" type="stmt" count="0"/>
+        <line num="34" type="stmt" count="0"/>
+        <line num="35" type="stmt" count="0"/>
+        <line num="36" type="stmt" count="0"/>
+        <metrics loc="37" ncloc="37" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="0" elements="19" coveredelements="0"/>
+      </file>
+    </package>
     <package name="App\Infrastructure\Common\CommandHandler">
       <file name="/var/www/project/src/Infrastructure/Common/CommandHandler/CommandBus.php">
         <class name="App\Infrastructure\Common\CommandHandler\CommandBus" namespace="App\Infrastructure\Common\CommandHandler">
-          <metrics complexity="5" methods="3" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="10" elements="15" coveredelements="12"/>
+          <metrics complexity="4" methods="3" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="11" elements="15" coveredelements="13"/>
         </class>
-        <line num="25" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="2"/>
-        <line num="27" type="stmt" count="2"/>
+        <line num="24" type="method" name="handle" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="26" type="stmt" count="2"/>
         <line num="28" type="stmt" count="2"/>
-        <line num="35" type="method" name="handle" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="37" type="stmt" count="1"/>
-        <line num="39" type="stmt" count="1"/>
-        <line num="40" type="stmt" count="1"/>
-        <line num="49" type="method" name="commandToHandler" visibility="private" complexity="3" crap="3.21" count="1"/>
-        <line num="51" type="stmt" count="1"/>
-        <line num="53" type="stmt" count="1"/>
-        <line num="54" type="stmt" count="0"/>
-        <line num="56" type="stmt" count="1"/>
-        <line num="58" type="stmt" count="1"/>
-        <line num="59" type="stmt" count="0"/>
-        <line num="62" type="stmt" count="1"/>
-        <metrics loc="64" ncloc="40" classes="1" methods="3" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="10" elements="15" coveredelements="12"/>
+        <line num="29" type="stmt" count="2"/>
+        <line num="31" type="method" name="addCommandHandler" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="33" type="stmt" count="2"/>
+        <line num="34" type="stmt" count="2"/>
+        <line num="43" type="method" name="commandToHandler" visibility="private" complexity="2" crap="2.01" count="2"/>
+        <line num="45" type="stmt" count="2"/>
+        <line num="46" type="stmt" count="2"/>
+        <line num="47" type="stmt" count="2"/>
+        <line num="48" type="stmt" count="2"/>
+        <line num="50" type="stmt" count="2"/>
+        <line num="51" type="stmt" count="0"/>
+        <line num="54" type="stmt" count="2"/>
+        <metrics loc="56" ncloc="37" classes="1" methods="3" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="11" elements="15" coveredelements="13"/>
       </file>
       <file name="/var/www/project/src/Infrastructure/Common/CommandHandler/CommandBusAbstract.php">
         <class name="App\Infrastructure\Common\CommandHandler\CommandBusAbstract" namespace="App\Infrastructure\Common\CommandHandler">
@@ -174,24 +245,24 @@
     <package name="App\Infrastructure\Common\QueryHandler">
       <file name="/var/www/project/src/Infrastructure/Common/QueryHandler/QueryBus.php">
         <class name="App\Infrastructure\Common\QueryHandler\QueryBus" namespace="App\Infrastructure\Common\QueryHandler">
-          <metrics complexity="5" methods="3" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="10" elements="15" coveredelements="12"/>
+          <metrics complexity="4" methods="3" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="11" elements="15" coveredelements="13"/>
         </class>
-        <line num="25" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="27" type="stmt" count="1"/>
-        <line num="28" type="stmt" count="1"/>
-        <line num="35" type="method" name="handle" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="37" type="stmt" count="1"/>
-        <line num="39" type="stmt" count="1"/>
-        <line num="40" type="stmt" count="1"/>
-        <line num="49" type="method" name="commandToHandler" visibility="private" complexity="3" crap="3.21" count="1"/>
-        <line num="51" type="stmt" count="1"/>
-        <line num="53" type="stmt" count="1"/>
-        <line num="54" type="stmt" count="0"/>
-        <line num="56" type="stmt" count="1"/>
-        <line num="58" type="stmt" count="1"/>
-        <line num="59" type="stmt" count="0"/>
-        <line num="62" type="stmt" count="1"/>
-        <metrics loc="64" ncloc="40" classes="1" methods="3" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="10" elements="15" coveredelements="12"/>
+        <line num="19" type="method" name="addQueryHandler" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="21" type="stmt" count="1"/>
+        <line num="22" type="stmt" count="1"/>
+        <line num="29" type="method" name="handle" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="31" type="stmt" count="1"/>
+        <line num="33" type="stmt" count="1"/>
+        <line num="34" type="stmt" count="1"/>
+        <line num="43" type="method" name="commandToHandler" visibility="private" complexity="2" crap="2.01" count="1"/>
+        <line num="45" type="stmt" count="1"/>
+        <line num="46" type="stmt" count="1"/>
+        <line num="47" type="stmt" count="1"/>
+        <line num="48" type="stmt" count="1"/>
+        <line num="50" type="stmt" count="1"/>
+        <line num="51" type="stmt" count="0"/>
+        <line num="54" type="stmt" count="1"/>
+        <metrics loc="56" ncloc="37" classes="1" methods="3" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="11" elements="15" coveredelements="13"/>
       </file>
       <file name="/var/www/project/src/Infrastructure/Common/QueryHandler/QueryBusAbstract.php">
         <class name="App\Infrastructure\Common\QueryHandler\QueryBusAbstract" namespace="App\Infrastructure\Common\QueryHandler">
@@ -209,31 +280,32 @@
     <package name="App">
       <file name="/var/www/project/src/Kernel.php">
         <class name="App\Kernel" namespace="App">
-          <metrics complexity="8" methods="6" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="11" elements="20" coveredelements="15"/>
+          <metrics complexity="8" methods="6" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="15" coveredstatements="5" elements="21" coveredelements="8"/>
         </class>
-        <line num="18" type="method" name="registerBundles" visibility="public" complexity="1" crap="1" count="9"/>
-        <line num="21" type="stmt" count="9"/>
-        <line num="22" type="stmt" count="9"/>
-        <line num="29" type="stmt" count="9"/>
-        <line num="32" type="method" name="configureContainer" visibility="protected" complexity="2" crap="2.09" count="1"/>
-        <line num="34" type="stmt" count="1"/>
-        <line num="35" type="stmt" count="1"/>
-        <line num="36" type="stmt" count="1"/>
-        <line num="39" type="stmt" count="1"/>
+        <line num="19" type="method" name="registerBundles" visibility="public" complexity="1" crap="1" count="12"/>
+        <line num="22" type="stmt" count="12"/>
+        <line num="23" type="stmt" count="12"/>
+        <line num="30" type="stmt" count="12"/>
+        <line num="33" type="method" name="configureContainer" visibility="protected" complexity="2" crap="6.00" count="0"/>
+        <line num="35" type="stmt" count="0"/>
+        <line num="36" type="stmt" count="0"/>
+        <line num="37" type="stmt" count="0"/>
         <line num="40" type="stmt" count="0"/>
         <line num="41" type="stmt" count="0"/>
-        <line num="45" type="stmt" count="1"/>
-        <line num="47" type="method" name="configureRoutes" visibility="protected" complexity="1" crap="2.00" count="0"/>
-        <line num="51" type="stmt" count="0"/>
-        <line num="54" type="method" name="getCacheDir" visibility="public" complexity="1" crap="1" count="9"/>
-        <line num="56" type="stmt" count="9"/>
-        <line num="60" type="method" name="getLogDir" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="62" type="stmt" count="1"/>
-        <line num="65" type="method" name="boot" visibility="public" complexity="2" crap="2" count="9"/>
-        <line num="67" type="stmt" count="9"/>
-        <metrics loc="69" ncloc="51" classes="1" methods="6" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="11" elements="20" coveredelements="15"/>
+        <line num="42" type="stmt" count="0"/>
+        <line num="46" type="stmt" count="0"/>
+        <line num="47" type="stmt" count="0"/>
+        <line num="49" type="method" name="configureRoutes" visibility="protected" complexity="1" crap="2.00" count="0"/>
+        <line num="53" type="stmt" count="0"/>
+        <line num="56" type="method" name="getCacheDir" visibility="public" complexity="1" crap="1" count="12"/>
+        <line num="58" type="stmt" count="12"/>
+        <line num="62" type="method" name="getLogDir" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="64" type="stmt" count="0"/>
+        <line num="67" type="method" name="boot" visibility="public" complexity="2" crap="2" count="12"/>
+        <line num="69" type="stmt" count="12"/>
+        <metrics loc="71" ncloc="53" classes="1" methods="6" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="15" coveredstatements="5" elements="21" coveredelements="8"/>
       </file>
     </package>
-    <metrics files="15" loc="523" ncloc="408" classes="11" methods="34" coveredmethods="20" conditionals="0" coveredconditionals="0" statements="95" coveredstatements="68" elements="129" coveredelements="88"/>
+    <metrics files="18" loc="663" ncloc="544" classes="14" methods="45" coveredmethods="29" conditionals="0" coveredconditionals="0" statements="136" coveredstatements="87" elements="181" coveredelements="116"/>
   </project>
 </coverage>

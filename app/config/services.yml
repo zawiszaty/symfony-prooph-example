@@ -8,9 +8,11 @@ services:
   _instanceof:
     App\Infrastructure\Common\CommandHandler\CommandHandlerInterface:
       public: true
+      tags: ['app.command_handler']
 
     App\Infrastructure\Common\QueryHandler\QueryHandlerInterface:
       public: true
+      tags: ['app.query']
 
   App\Application\Command\Category\Create\CreateCategoryHandler:
     public: true

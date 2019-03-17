@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Infrastructure\Common\CommandHandler;
 
 use App\Infrastructure\Common\CommandHandler\Exception\HandlerNotFoundException;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class CommandBus.
@@ -13,19 +12,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class CommandBus
 {
     /**
-     * @var ContainerInterface
+     * @var array
      */
-    private $container;
-
-    /**
-     * CommandBus constructor.
-     *
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
+    private $handlers = [];
 
     /**
      * @param object $command
@@ -39,6 +28,11 @@ class CommandBus
         $handler($command);
     }
 
+    public function addCommandHandler(object $handler)
+    {
+        $this->handlers[\get_class($handler)] = $handler;
+    }
+
     /**
      * @param string $command
      *
@@ -48,12 +42,10 @@ class CommandBus
      */
     private function commandToHandler(string $command): CommandHandlerInterface
     {
-        $commandHandler = str_replace('Command', 'Handler', $command);
-
-        if (!$this->container->has($commandHandler)) {
-            throw new HandlerNotFoundException('Handler not found from: '.$command);
-        }
-        $handler = $this->container->get($commandHandler);
+        $commandHandler = explode('\\', $command);
+        $commandHandler[count($commandHandler) - 1] = str_replace('Command', 'Handler', $commandHandler[count($commandHandler) - 1]);
+        $commandHandler = implode('\\', $commandHandler);
+        $handler = $this->handlers[$commandHandler];
 
         if (!$handler instanceof CommandHandlerInterface) {
             throw new HandlerNotFoundException('Handler not found from: '.$command);

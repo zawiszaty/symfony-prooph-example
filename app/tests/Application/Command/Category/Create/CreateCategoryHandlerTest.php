@@ -22,8 +22,8 @@ class CreateCategoryHandlerTest extends TestCase
 
     public function test_it_handle()
     {
-//        $command = new CreateCategoryCommand('test');
-//        $this->commandBus->handle($command);
+        $command = new CreateCategoryCommand('test');
+        $this->commandBus->handle($command);
         $this->assertSame(1, 1);
     }
 }

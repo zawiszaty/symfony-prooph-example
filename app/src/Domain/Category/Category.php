@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Category;
 
+use App\Domain\Category\Events\CategoryNameWasChanged;
 use App\Domain\Category\Events\CategoryWasCreated;
+use App\Domain\Category\Events\CategoryWasDeleted;
 use App\Domain\Category\ValueObject\Name;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use Prooph\EventSourcing\AggregateChanged;
@@ -22,12 +24,31 @@ class Category extends AggregateRoot
      */
     private $name;
 
-    public static function create(AggregateRootId $generate, Name $name)
+    public static function create(AggregateRootId $generate, Name $name): Category
     {
         $self = new self();
         $self->recordThat(CategoryWasCreated::createWithData($generate, $name));
 
         return $self;
+    }
+
+    public function changeName(string $name)
+    {
+        $this->recordThat(CategoryNameWasChanged::createWithData($this->getId(), Name::fromString($name)));
+    }
+
+    public function applyCategoryNameWasChanged(CategoryNameWasChanged $categoryNameWasChanged)
+    {
+        $this->getName()->changeName($categoryNameWasChanged->getName()->toString());
+    }
+
+    public function delete()
+    {
+        $this->recordThat(CategoryWasDeleted::createWithData($this->getId()));
+    }
+
+    public function applyCategoryWasDeleted(CategoryWasDeleted $categoryWasDeleted)
+    {
     }
 
     protected function applyCategoryWasCreated(CategoryWasCreated $categoryWasCreated): void
@@ -42,6 +63,14 @@ class Category extends AggregateRoot
     public function getName(): Name
     {
         return $this->name;
+    }
+
+    /**
+     * @return AggregateRootId
+     */
+    public function getId(): AggregateRootId
+    {
+        return $this->id;
     }
 
     protected function aggregateId(): string

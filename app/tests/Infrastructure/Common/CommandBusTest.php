@@ -30,7 +30,7 @@ class CommandBusTest extends TestCase
     {
         parent::setUp();
         $this->commandBus = $this->container->get('App\Infrastructure\Common\CommandHandler\CommandBus');
-        $this->container->set('Tests\Infrastructure\Common\HandlerHandler\TestHandler', new TestHandler());
+        $this->commandBus->addCommandHandler(new TestHandler());
     }
 
     public function testHandle()
