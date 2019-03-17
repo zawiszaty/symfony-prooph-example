@@ -1,0 +1,70 @@
+{
+    "name": "prooph/snapshotter",
+    "description": "snapshot tool for prooph event-store",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "prooph",
+        "event-store",
+        "event-sourcing",
+        "ddd",
+        "snapshot"
+    ],
+    "homepage": "http://getprooph.org/",
+    "authors": [
+        {
+            "name": "Alexander Miertsch",
+            "email": "contact@prooph.de",
+            "homepage": "http://www.prooph.de"
+        },
+        {
+            "name": "Sascha-Oliver Prolic",
+            "email": "saschaprolic@googlemail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.1",
+        "prooph/event-sourcing" : "^5.0",
+        "prooph/event-store" : "^7.0",
+        "prooph/snapshot-store" : "^1.0"
+    },
+    "require-dev" : {
+        "phpunit/phpunit": "^6.0",
+        "phpspec/prophecy": "^1.7",
+        "prooph/php-cs-fixer-config": "^0.2.1",
+        "prooph/bookdown-template": "^0.2.3",
+        "satooshi/php-coveralls": "^1.0",
+        "malukenho/docheader": "^0.1.4"
+    },
+    "suggest" : {
+        "prooph/pdo-snapshot-store": "^1.0 for PDO as Snapshot Store",
+        "prooph/mongodb-snapshot-store": "^1.0 for MongoDB as Snapshot Store"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "Prooph\\Snapshotter\\" : "src"
+        }
+    },
+    "autoload-dev" : {
+        "psr-4" : {
+            "ProophTest\\Snapshotter\\": "tests/",
+            "ProophTest\\EventSourcing\\": "vendor/prooph/event-sourcing/tests/",
+            "ProophTest\\EventStore\\": "vendor/prooph/event-store/tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "2.2-dev"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs",
+            "@test"
+        ],
+        "cs": "php-cs-fixer fix -v --diff --dry-run",
+        "cs-fix": "php-cs-fixer fix -v --diff",
+        "test": "phpunit"
+    }
+}

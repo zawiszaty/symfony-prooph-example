@@ -38,7 +38,10 @@ layer: ## layer
 
 .PHONY: phpunit
 phpunit: ## layer
-		docker-compose exec php ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+		docker-compose exec php ./vendor/bin/phpunit
+.PHONY: cover
+cover: ## layer
+		docker-compose exec php php vendor/bin/php-coveralls -v
 
 .PHONY: test
 test: cs layer style phpunit

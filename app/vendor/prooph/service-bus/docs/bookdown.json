@@ -1,0 +1,12 @@
+{
+  "title": "Service Bus",
+  "content": [
+    {"overview": "service_bus_system.md"},
+    {"message_bus": "message_bus.md"},
+    {"plugins": "plugins.md"},
+    {"async_message_producer": "async_message_producer.md"},
+    {"factories": "factories.md"}
+  ],
+  "target": "./html",
+  "template": "../vendor/prooph/bookdown-template/templates/main.php"
+}
