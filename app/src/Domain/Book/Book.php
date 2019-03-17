@@ -56,6 +56,10 @@ class Book extends AggregateRoot
         $this->recordThat(BookDescriptionWasChanged::createWithData($this->id, $this->description));
     }
 
+    public function delete()
+    {
+    }
+
     protected function applyBookDescriptionWasChanged(BookDescriptionWasChanged $bookDescriptionWasChanged)
     {
         $this->description = $bookDescriptionWasChanged->getDescription();
