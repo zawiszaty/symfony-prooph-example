@@ -2,11 +2,22 @@ services:
 
   _defaults:
     autowire: true
-    autoconfigure: true
+    autoconfigure: false
     public: false
+
+  _instanceof:
+    App\Infrastructure\Common\CommandHandler\CommandHandlerInterface:
+      public: true
+
+    App\Infrastructure\Common\QueryHandler\QueryHandlerInterface:
+      public: true
+
+  App\Application\Command\Category\Create\CreateCategoryHandler:
+    public: true
 
   App\Infrastructure\Common\CommandHandler\CommandBus:
     public: true
 
   App\Infrastructure\Common\QueryHandler\QueryBus:
     public: true
+

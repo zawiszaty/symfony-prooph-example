@@ -1,6 +1,12 @@
 sudo: required
+language: php
+
+php:
+  - 7.2
+  - 7.3
 
 before_install:
+  - composer install --ignore-platform-reqs
   - sudo service mysql stop
   - sudo service mysql status
   - curl -L https://github.com/docker/compose/releases/download/1.21.1/docker-compose-`uname -s`-`uname -m` > docker-compose

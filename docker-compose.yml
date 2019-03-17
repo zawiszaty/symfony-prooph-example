@@ -13,7 +13,7 @@ services:
       - php
 
   php:
-    image: zawiszaty/tutorials-tank-php:3.0.2
+    image: zawiszaty/tutorials-tank-php:3.0.3
     working_dir: /var/www/project
     volumes:
       - ./app:/var/www/project

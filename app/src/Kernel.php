@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
@@ -18,6 +19,7 @@ class Kernel extends BaseKernel
     {
         $bundles = [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new MonologBundle(),
         ];
 
 //        if ($this->getEnvironment() == 'dev') {
@@ -30,6 +32,7 @@ class Kernel extends BaseKernel
     protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader): void
     {
         $loader->load(__DIR__.'/../config/package/framework.yml');
+        $loader->load(__DIR__.'/../config/package/monolog.yaml');
         $loader->load(__DIR__.'/../config/services.yml');
 
         // configure WebProfilerBundle only if the bundle is enabled

@@ -1,5 +1,5 @@
 .PHONY: start
-start: erase up composer
+start: erase up
 
 .PHONY: stop
 stop: ## stop environment
@@ -18,8 +18,7 @@ up: ## spin up environment
 
 .PHONY: composer
 composer: ## spin up environment
-		docker-compose exec php apt-get -y install git --fix-missing
-		docker-compose exec php php composer.phar install
+		docker-compose exec php composer install
 
 .PHONY: php
 php: ## spin up environment
