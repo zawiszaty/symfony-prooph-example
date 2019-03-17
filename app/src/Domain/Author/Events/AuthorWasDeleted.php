@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Author\Events;
 
 use App\Domain\Common\ValueObject\AggregateRootId;
-use App\Domain\Common\ValueObject\Name;
 use Prooph\EventSourcing\AggregateChanged;
 
 final class AuthorWasDeleted extends AggregateChanged

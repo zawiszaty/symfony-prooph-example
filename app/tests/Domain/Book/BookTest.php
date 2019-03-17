@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Domain\Book;
 
 use App\Domain\Book\Book;
@@ -16,7 +18,7 @@ use Tests\TestCase;
 
 class BookTest extends TestCase
 {
-    function test_book_it_create()
+    public function test_book_it_create()
     {
         $book = Book::create(
             AggregateRootId::generate(),
@@ -34,7 +36,7 @@ class BookTest extends TestCase
         $this->assertEquals($expectedPayload, $events[0]->payload());
     }
 
-    function test_book_it_change_name()
+    public function test_book_it_change_name()
     {
         $book = Book::create(
             AggregateRootId::generate(),
@@ -60,7 +62,7 @@ class BookTest extends TestCase
         $this->assertEquals($expectedPayload, $events[0]->payload());
     }
 
-    function test_book_it_change_same_name()
+    public function test_book_it_change_same_name()
     {
         $this->expectException(SameNameException::class);
         $book = Book::create(
@@ -87,7 +89,7 @@ class BookTest extends TestCase
         $this->assertEquals($expectedPayload, $events[0]->payload());
     }
 
-    function test_book_it_change_same_description()
+    public function test_book_it_change_same_description()
     {
         $this->expectException(SameDescryptionException::class);
         $book = Book::create(
@@ -114,7 +116,7 @@ class BookTest extends TestCase
         $this->assertEquals($expectedPayload, $events[0]->payload());
     }
 
-    function test_book_it_change_description()
+    public function test_book_it_change_description()
     {
         $book = Book::create(
             AggregateRootId::generate(),
@@ -140,7 +142,7 @@ class BookTest extends TestCase
         $this->assertEquals($expectedPayload, $events[0]->payload());
     }
 
-    function test_book_it_delete()
+    public function test_book_it_delete()
     {
         $book = Book::create(
             AggregateRootId::generate(),

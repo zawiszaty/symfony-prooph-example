@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Domain\Book\ValueObject;
 
 use App\Domain\Book\Exception\SameDescryptionException;
@@ -19,18 +21,18 @@ class DescriptionTest extends TestCase
         $this->description = Description::fromString('test');
     }
 
-    function test_it_to_string()
+    public function test_it_to_string()
     {
         $this->assertSame($this->description->toString(), 'test');
     }
 
-    function test_it_change_description()
+    public function test_it_change_description()
     {
         $this->description->changeDescription('test2');
         $this->assertSame($this->description->toString(), 'test2');
     }
 
-    function test_it_change_same_description()
+    public function test_it_change_same_description()
     {
         $this->expectException(SameDescryptionException::class);
         $this->description->changeDescription('test');

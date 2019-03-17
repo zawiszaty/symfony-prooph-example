@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Author;
 
 use App\Domain\Author\Events\AuthorNameWasChanged;
@@ -43,7 +45,6 @@ class Author extends AggregateRoot
 
     public function applyAuthorWasDeleted(AuthorWasDeleted $authorWasDeleted)
     {
-
     }
 
     protected function applyAuthorNameWasChanged(AuthorNameWasChanged $authorNameWasChanged)
@@ -80,7 +81,7 @@ class Author extends AggregateRoot
 
     protected function determineEventHandlerMethodFor(AggregateChanged $e): string
     {
-        return 'apply' . \implode(\array_slice(\explode('\\', \get_class($e)), -1));
+        return 'apply'.\implode(\array_slice(\explode('\\', \get_class($e)), -1));
     }
 
     /**

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Domain\Book\ValueObject;
+declare(strict_types=1);
 
+namespace App\Domain\Book\ValueObject;
 
 use App\Domain\Book\Exception\SameDescryptionException;
 

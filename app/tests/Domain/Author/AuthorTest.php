@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Domain\Author;
 
 use App\Domain\Author\Author;
@@ -13,7 +15,7 @@ use Tests\TestCase;
 
 class AuthorTest extends TestCase
 {
-    function test_it_create()
+    public function test_it_create()
     {
         $author = Author::create(AggregateRootId::generate(), Name::fromString('test'));
         $this->assertInstanceOf(Author::class, $author);
@@ -26,7 +28,7 @@ class AuthorTest extends TestCase
         $this->assertEquals($expectedPayload, $events[0]->payload());
     }
 
-    function test_it_change_name()
+    public function test_it_change_name()
     {
         $author = Author::create(AggregateRootId::generate(), Name::fromString('test'));
         $this->assertInstanceOf(Author::class, $author);
@@ -47,7 +49,7 @@ class AuthorTest extends TestCase
         $this->assertEquals($expectedPayload, $events[0]->payload());
     }
 
-    function test_it_change_same_name()
+    public function test_it_change_same_name()
     {
         $this->expectException(SameNameException::class);
         $author = Author::create(AggregateRootId::generate(), Name::fromString('test'));
@@ -69,7 +71,7 @@ class AuthorTest extends TestCase
         $this->assertEquals($expectedPayload, $events[0]->payload());
     }
 
-    function test_it_delete_author()
+    public function test_it_delete_author()
     {
         $author = Author::create(AggregateRootId::generate(), Name::fromString('test'));
         $this->assertInstanceOf(Author::class, $author);

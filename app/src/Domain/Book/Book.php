@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Book;
 
@@ -38,7 +39,7 @@ class Book extends AggregateRoot
         return $self;
     }
 
-    function applyBookWasCreated(BookWasCreated $bookWasCreated)
+    public function applyBookWasCreated(BookWasCreated $bookWasCreated)
     {
         $this->id = $bookWasCreated->getId();
         $this->name = $bookWasCreated->getName();
@@ -64,7 +65,6 @@ class Book extends AggregateRoot
 
     protected function applyBookWasDeleted(BookWasDeleted $bookWasDeleted)
     {
-
     }
 
     protected function applyBookDescriptionWasChanged(BookDescriptionWasChanged $bookDescriptionWasChanged)
@@ -100,6 +100,6 @@ class Book extends AggregateRoot
 
     protected function determineEventHandlerMethodFor(AggregateChanged $e): string
     {
-        return 'apply' . \implode(\array_slice(\explode('\\', \get_class($e)), -1));
+        return 'apply'.\implode(\array_slice(\explode('\\', \get_class($e)), -1));
     }
 }
