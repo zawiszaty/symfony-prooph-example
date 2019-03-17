@@ -4,3 +4,4 @@ app/var/
 app/.phpunit.result.cache
 app/.php_cs.cache
 app/.deptrac.cache
+app/build
