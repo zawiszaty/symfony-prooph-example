@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Category\Query\Projections;
 
 class CategoryView
@@ -29,6 +31,7 @@ class CategoryView
     {
         return $this->id;
     }
+
     public function getName(): string
     {
         return $this->name;

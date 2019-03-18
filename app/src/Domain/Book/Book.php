@@ -47,8 +47,7 @@ class Book extends AggregateRoot
         ValueObject\Description $description,
         string $category,
         string $author
-    ): self
-    {
+    ): self {
         $self = new self();
         $self->recordThat(BookWasCreated::createWithData($id, $name, $description, $category, $author));
 
@@ -118,6 +117,6 @@ class Book extends AggregateRoot
 
     protected function determineEventHandlerMethodFor(AggregateChanged $e): string
     {
-        return 'apply' . \implode(\array_slice(\explode('\\', \get_class($e)), -1));
+        return 'apply'.\implode(\array_slice(\explode('\\', \get_class($e)), -1));
     }
 }

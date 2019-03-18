@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Author\Query\Projections;
 
 class AuthorView
@@ -29,6 +31,7 @@ class AuthorView
     {
         return $this->id;
     }
+
     public function getName(): string
     {
         return $this->name;
@@ -38,5 +41,4 @@ class AuthorView
     {
         $this->name = $name;
     }
-
 }

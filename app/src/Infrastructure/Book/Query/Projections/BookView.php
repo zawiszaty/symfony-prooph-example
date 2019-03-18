@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Book\Query\Projections;
 
 use App\Infrastructure\Author\Query\Projections\AuthorView;
@@ -53,6 +55,7 @@ class BookView
     {
         return $this->id;
     }
+
     public function getName(): string
     {
         return $this->name;

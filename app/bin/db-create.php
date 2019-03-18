@@ -1,6 +1,8 @@
 <?php
 
-require __DIR__ . './../vendor/autoload.php';
+declare(strict_types=1);
+
+require __DIR__.'./../vendor/autoload.php';
 
 use App\Kernel;
 use Doctrine\DBAL\DriverManager;
@@ -21,7 +23,7 @@ if (isset($params['shards'])) {
     unset($params['global']['dbname']);
     if ($input->getOption('shard')) {
         foreach ($shards as $i => $shard) {
-            if ($shard['id'] === (int)$input->getOption('shard')) {
+            if ($shard['id'] === (int) $input->getOption('shard')) {
                 // Select sharded database
                 $params = array_merge($params, $shard);
                 unset($params['shards'][$i]['dbname'], $params['id']);
@@ -41,7 +43,7 @@ unset($params['dbname'], $params['path'], $params['url']);
 
 $tmpConnection = DriverManager::getConnection($params);
 $tmpConnection->connect($params['shards']);
-$shouldNotCreateDatabase = $ifNotExists && in_array($name, $tmpConnection->getSchemaManager()->listDatabases());
+$shouldNotCreateDatabase = $ifNotExists && in_array($name, $tmpConnection->getSchemaManager()->listDatabases(), true);
 
 // Only quote if we don't have a path
 if (!$hasPath) {
