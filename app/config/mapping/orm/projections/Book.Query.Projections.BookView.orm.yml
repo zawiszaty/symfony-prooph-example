@@ -1,0 +1,45 @@
+App\Infrastructure\Book\Query\Projections\BookView:
+  type: entity
+  table: book
+  uniqueConstraints:
+    search_idx:
+      columns: [ name ]
+  id:
+    id:
+      type: string
+      nullable: false
+      length: 255
+      options:
+        fixed: false
+      id: true
+  fields:
+    name:
+      type: string
+      nullable: false
+      length: 45
+      options:
+        fixed: false
+    description:
+      type: string
+      nullable: false
+      length: 45
+      options:
+        fixed: false
+  lifecycleCallbacks: {  }
+  manyToOne:
+    category:
+      targetEntity: App\Infrastructure\Category\Query\Projections\CategoryView
+      cascade: {  }
+      fetch: LAZY
+      mappedBy: null
+      inversedBy: null
+      orphanRemoval: false
+      nullable: false
+    author:
+      targetEntity: App\Infrastructure\Author\Query\Projections\AuthorView
+      cascade: {  }
+      fetch: LAZY
+      mappedBy: null
+      inversedBy: null
+      orphanRemoval: false
+      nullable: false

@@ -23,7 +23,9 @@ class BookTest extends TestCase
         $book = Book::create(
             AggregateRootId::generate(),
             Name::fromString('test'),
-            Description::fromString('test')
+            Description::fromString('test'),
+            '55ede857-82a9-4cff-9d23-07c35f63b206',
+            '8e9c0764-4994-11e9-8646-d663bd873d93'
         );
         $this->assertInstanceOf(Book::class, $book);
         $events = $this->popRecordedEvent($book);
@@ -32,6 +34,8 @@ class BookTest extends TestCase
         $expectedPayload = [
             'name' => 'test',
             'description' => 'test',
+            'category' => '55ede857-82a9-4cff-9d23-07c35f63b206',
+            'author' => '8e9c0764-4994-11e9-8646-d663bd873d93',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
     }
@@ -41,7 +45,9 @@ class BookTest extends TestCase
         $book = Book::create(
             AggregateRootId::generate(),
             Name::fromString('test'),
-            Description::fromString('test')
+            Description::fromString('test'),
+            '55ede857-82a9-4cff-9d23-07c35f63b206',
+            '8e9c0764-4994-11e9-8646-d663bd873d93'
         );
         $this->assertInstanceOf(Book::class, $book);
         $events = $this->popRecordedEvent($book);
@@ -50,6 +56,8 @@ class BookTest extends TestCase
         $expectedPayload = [
             'name' => 'test',
             'description' => 'test',
+            'category' => '55ede857-82a9-4cff-9d23-07c35f63b206',
+            'author' => '8e9c0764-4994-11e9-8646-d663bd873d93',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
         $book->changeName('test2');
@@ -68,7 +76,9 @@ class BookTest extends TestCase
         $book = Book::create(
             AggregateRootId::generate(),
             Name::fromString('test'),
-            Description::fromString('test')
+            Description::fromString('test'),
+            '55ede857-82a9-4cff-9d23-07c35f63b206',
+            '8e9c0764-4994-11e9-8646-d663bd873d93'
         );
         $this->assertInstanceOf(Book::class, $book);
         $events = $this->popRecordedEvent($book);
@@ -77,6 +87,8 @@ class BookTest extends TestCase
         $expectedPayload = [
             'name' => 'test',
             'description' => 'test',
+            'category' => '55ede857-82a9-4cff-9d23-07c35f63b206',
+            'author' => '8e9c0764-4994-11e9-8646-d663bd873d93',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
         $book->changeName('test');
@@ -95,7 +107,9 @@ class BookTest extends TestCase
         $book = Book::create(
             AggregateRootId::generate(),
             Name::fromString('test'),
-            Description::fromString('test')
+            Description::fromString('test'),
+            '55ede857-82a9-4cff-9d23-07c35f63b206',
+            '8e9c0764-4994-11e9-8646-d663bd873d93'
         );
         $this->assertInstanceOf(Book::class, $book);
         $events = $this->popRecordedEvent($book);
@@ -104,6 +118,8 @@ class BookTest extends TestCase
         $expectedPayload = [
             'name' => 'test',
             'description' => 'test',
+            'category' => '55ede857-82a9-4cff-9d23-07c35f63b206',
+            'author' => '8e9c0764-4994-11e9-8646-d663bd873d93',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
         $book->changeDescription('test');
@@ -121,7 +137,9 @@ class BookTest extends TestCase
         $book = Book::create(
             AggregateRootId::generate(),
             Name::fromString('test'),
-            Description::fromString('test')
+            Description::fromString('test'),
+            '55ede857-82a9-4cff-9d23-07c35f63b206',
+            '8e9c0764-4994-11e9-8646-d663bd873d93'
         );
         $this->assertInstanceOf(Book::class, $book);
         $events = $this->popRecordedEvent($book);
@@ -130,6 +148,8 @@ class BookTest extends TestCase
         $expectedPayload = [
             'name' => 'test',
             'description' => 'test',
+            'category' => '55ede857-82a9-4cff-9d23-07c35f63b206',
+            'author' => '8e9c0764-4994-11e9-8646-d663bd873d93',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
         $book->changeDescription('test2');
@@ -147,7 +167,9 @@ class BookTest extends TestCase
         $book = Book::create(
             AggregateRootId::generate(),
             Name::fromString('test'),
-            Description::fromString('test')
+            Description::fromString('test'),
+            '55ede857-82a9-4cff-9d23-07c35f63b206',
+            '8e9c0764-4994-11e9-8646-d663bd873d93'
         );
         $this->assertInstanceOf(Book::class, $book);
         $events = $this->popRecordedEvent($book);
@@ -156,6 +178,8 @@ class BookTest extends TestCase
         $expectedPayload = [
             'name' => 'test',
             'description' => 'test',
+            'category' => '55ede857-82a9-4cff-9d23-07c35f63b206',
+            'author' => '8e9c0764-4994-11e9-8646-d663bd873d93',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
         $book->delete();

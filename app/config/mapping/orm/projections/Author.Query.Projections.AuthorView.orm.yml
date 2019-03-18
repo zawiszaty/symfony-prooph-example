@@ -1,0 +1,22 @@
+App\Infrastructure\Author\Query\Projections\AuthorView:
+  type: entity
+  table: author
+  uniqueConstraints:
+    search_idx:
+      columns: [ name ]
+  id:
+    id:
+      type: string
+      nullable: false
+      length: 255
+      options:
+        fixed: false
+      id: true
+  fields:
+    name:
+      type: string
+      nullable: false
+      length: 45
+      options:
+        fixed: false
+  lifecycleCallbacks: {  }

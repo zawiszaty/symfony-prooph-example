@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App;
 
 use App\Infrastructure\Common\BusPass;
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -21,6 +22,7 @@ class Kernel extends BaseKernel
         $bundles = [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new MonologBundle(),
+            new DoctrineBundle(),
         ];
 
 //        if ($this->getEnvironment() == 'dev') {
@@ -34,6 +36,7 @@ class Kernel extends BaseKernel
     {
         $loader->load(__DIR__.'/../config/package/framework.yml');
         $loader->load(__DIR__.'/../config/package/monolog.yaml');
+        $loader->load(__DIR__.'/../config/package/doctrine.yaml');
         $loader->load(__DIR__.'/../config/services.yml');
 
         // configure WebProfilerBundle only if the bundle is enabled

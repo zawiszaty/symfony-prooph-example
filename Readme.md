@@ -1,5 +1,5 @@
 # Symfony Prooph Example
-[![Build Status](https://travis-ci.com/zawiszaty/symfony-prooph-exmaple.svg?branch=master)](https://travis-ci.com/zawiszaty/symfony-prooph-exmaple)
+[![Build Status](https://travis-ci.com/zawiszaty/symfony-prooph-example.svg?branch=master)](https://travis-ci.com/zawiszaty/symfony-prooph-example)
 [![Coverage Status](https://coveralls.io/repos/github/zawiszaty/symfony-prooph-exmaple/badge.svg?branch=master)](https://coveralls.io/github/zawiszaty/symfony-prooph-exmaple?branch=master)
 ### This repo is example how to use Prooph in Symfony project
 ### Documentation:

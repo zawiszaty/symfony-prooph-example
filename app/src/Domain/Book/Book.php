@@ -31,10 +31,26 @@ class Book extends AggregateRoot
      */
     protected $description;
 
-    public static function create(AggregateRootId $id, Name $name, ValueObject\Description $description): self
+    /**
+     * @var string
+     */
+    protected $category;
+
+    /**
+     * @var string
+     */
+    protected $author;
+
+    public static function create(
+        AggregateRootId $id,
+        Name $name,
+        ValueObject\Description $description,
+        string $category,
+        string $author
+    ): self
     {
         $self = new self();
-        $self->recordThat(BookWasCreated::createWithData($id, $name, $description));
+        $self->recordThat(BookWasCreated::createWithData($id, $name, $description, $category, $author));
 
         return $self;
     }
@@ -44,6 +60,8 @@ class Book extends AggregateRoot
         $this->id = $bookWasCreated->getId();
         $this->name = $bookWasCreated->getName();
         $this->description = $bookWasCreated->getDescription();
+        $this->author = $bookWasCreated->getAuthor();
+        $this->category = $bookWasCreated->getCategory();
     }
 
     public function changeName(string $name)
@@ -100,6 +118,6 @@ class Book extends AggregateRoot
 
     protected function determineEventHandlerMethodFor(AggregateChanged $e): string
     {
-        return 'apply'.\implode(\array_slice(\explode('\\', \get_class($e)), -1));
+        return 'apply' . \implode(\array_slice(\explode('\\', \get_class($e)), -1));
     }
 }

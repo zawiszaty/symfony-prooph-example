@@ -26,17 +26,31 @@ final class BookWasCreated extends AggregateChanged
      */
     private $description;
 
-    public static function createWithData(AggregateRootId $id, Name $name, Description $description): self
+    /**
+     * @var string
+     */
+    private $category;
+
+    /**
+     * @var string
+     */
+    private $author;
+
+    public static function createWithData(AggregateRootId $id, Name $name, Description $description, string $category, string $author): self
     {
         /** @var self $event */
         $event = self::occur($id->toString(), [
             'name' => $name->toString(),
             'description' => $description->toString(),
+            'category' => $category,
+            'author' => $author,
         ]);
 
         $event->id = $id;
         $event->name = $name;
         $event->description = $description;
+        $event->author = $author;
+        $event->category = $category;
 
         return $event;
     }
@@ -66,5 +80,29 @@ final class BookWasCreated extends AggregateChanged
         }
 
         return $this->description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategory(): string
+    {
+        if (null === $this->category) {
+            $this->category = $this->payload['category'];
+        }
+
+        return $this->category;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthor(): string
+    {
+        if (null === $this->author) {
+            $this->author = $this->payload['author'];
+        }
+
+        return $this->author;
     }
 }

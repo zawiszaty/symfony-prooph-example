@@ -1,9 +1,15 @@
 .PHONY: start
-start: erase up
+start: erase up dbReset
 
 .PHONY: stop
 stop: ## stop environment
 		docker-compose stop
+
+.PHONY: dbReset
+dbReset: ## stop environment
+		docker-compose exec php php bin/db-drop.php
+		docker-compose exec php php bin/db-create.php
+		docker-compose exec php php bin/schema-create.php
 
 .PHONY: down
 down: ## stop environment
