@@ -20,6 +20,14 @@ services:
     links:
       - db
 
+  composer:
+    image: composer:1.8
+    working_dir: /var/www/project
+    volumes:
+      - ./app:/var/www/project
+    links:
+      - php
+
   db:
     image: mysql:5.7
     environment:

@@ -1,5 +1,5 @@
 .PHONY: start
-start: erase up
+start: erase up composer
 
 .PHONY: stop
 stop: ## stop environment
@@ -24,7 +24,7 @@ up: ## spin up environment
 
 .PHONY: composer
 composer: ## spin up environment
-		docker-compose exec php composer install
+		docker-compose run composer composer install --ignore-platform-reqs
 
 .PHONY: php
 php: ## spin up environment
