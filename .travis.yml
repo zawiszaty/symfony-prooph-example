@@ -17,6 +17,7 @@ before_install:
 
 before_script:
   - make start
+  - make dbReset
 
 script:
   - make test

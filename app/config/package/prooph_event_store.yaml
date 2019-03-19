@@ -1,0 +1,31 @@
+prooph_event_store:
+  stores:
+    books_store:
+      event_store: Prooph\EventStore\Pdo\MySqlEventStore
+      repositories:
+        book:
+          repository_class: App\Infrastructure\Book\Repository\BookStoreRepository
+          aggregate_type: App\Domain\Book\Book
+          aggregate_translator: prooph_event_sourcing.aggregate_translator
+
+  projection_managers:
+    todo_projection_manager:
+      event_store: Prooph\EventStore\Pdo\MySqlEventStore # event store
+      connection: 'doctrine.pdo.connection'
+      projections:
+
+
+
+services:
+  Prooph\EventStore\Pdo\MySqlEventStore:
+    arguments: ['@prooph_event_store.message_factory', '@doctrine.pdo.connection', '@prooph_event_store.single_stream_strategy']
+
+  doctrine.pdo.connection:
+    class: PDO
+    factory: ['@database_connection', getWrappedConnection]
+
+  prooph_event_store.single_stream_strategy:
+    class: Prooph\EventStore\Pdo\PersistenceStrategy\MySqlSingleStreamStrategy
+
+  prooph_event_sourcing.aggregate_translator:
+    class: Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator

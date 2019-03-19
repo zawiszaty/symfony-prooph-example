@@ -6,6 +6,7 @@ namespace App;
 
 use App\Infrastructure\Common\BusPass;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Prooph\Bundle\EventStore\ProophEventStoreBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -23,6 +24,7 @@ class Kernel extends BaseKernel
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new MonologBundle(),
             new DoctrineBundle(),
+            new ProophEventStoreBundle(),
         ];
 
 //        if ($this->getEnvironment() == 'dev') {
@@ -34,8 +36,9 @@ class Kernel extends BaseKernel
 
     protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader): void
     {
-        $loader->load(__DIR__.'/../config/package/framework.yml');
+        $loader->load(__DIR__.'/../config/package/framework.yaml');
         $loader->load(__DIR__.'/../config/package/monolog.yaml');
+        $loader->load(__DIR__.'/../config/package/doctrine.yaml');
         $loader->load(__DIR__.'/../config/package/doctrine.yaml');
         $loader->load(__DIR__.'/../config/services.yml');
 

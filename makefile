@@ -1,5 +1,5 @@
 .PHONY: start
-start: erase up dbReset
+start: erase up
 
 .PHONY: stop
 stop: ## stop environment
