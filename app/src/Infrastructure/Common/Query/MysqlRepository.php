@@ -15,19 +15,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 abstract class MysqlRepository
 {
     /**
-     * @param $model
+     * @param object $model
      */
-    public function get($model, string $id): object
-    {
-        $entity = $this->entityManager->getRepository($model)->find($id);
-
-        return $entity;
-    }
-
-    /**
-     * @param $model
-     */
-    public function register($model): void
+    public function register(object $model): void
     {
         $this->entityManager->persist($model);
         $this->apply();

@@ -4,44 +4,51 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Book\Projection;
 
-use App\Domain\Common\ValueObject\AggregateRootId;
+use App\Infrastructure\Book\Query\Projections\BookMysqlRepository;
 use App\Infrastructure\Book\Query\Projections\BookView;
-use App\Infrastructure\Common\Query\MysqlRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Prooph\EventStore\Projection\AbstractReadModel;
 
-class BookReadModel extends MysqlRepository
+class BookReadModel extends AbstractReadModel
 {
-    public function add(BookView $postView): void
-    {
-        $this->register($postView);
-    }
-
     /**
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @var BookMysqlRepository
      */
-    public function oneByUuid(AggregateRootId $id)
-    {
-        $qb = $this->repository
-            ->createQueryBuilder('book')
-            ->where('book.id = :id')
-            ->setParameter('id', $id->toString());
+    private $bookMysqlRepository;
 
-        return $this->oneOrException($qb);
+    public function __construct(BookMysqlRepository $bookMysqlRepository)
+    {
+        $this->bookMysqlRepository = $bookMysqlRepository;
     }
 
-    public function delete(string $id)
+    public function init(): void
     {
-        $post = $this->repository->find($id);
-        $this->entityManager->remove($post);
-        $this->entityManager->flush();
+        return;
     }
 
-    /**
-     * MysqlUserReadModelRepository constructor.
-     */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function isInitialized(): bool
     {
-        $this->class = BookView::class;
-        parent::__construct($entityManager);
+        return true;
+    }
+
+    public function reset(): void
+    {
+        return;
+    }
+
+    public function delete(): void
+    {
+        return;
+    }
+
+    protected function insert(array $bookView)
+    {
+        $bookView = new BookView(
+            $bookView['id'],
+            $bookView['name'],
+            $bookView['description'],
+            $bookView['category'],
+            $bookView['author']
+        );
+        $this->bookMysqlRepository->add($bookView);
     }
 }
