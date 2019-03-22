@@ -17,6 +17,12 @@ $schemaTool = new SchemaTool($manager);
 $sqls = $schemaTool->getCreateSchemaSql($metadatas);
 echo "Schema droping.... \n";
 $schemaTool->dropSchema($metadatas);
+/** @var \Doctrine\DBAL\Connection $connection */
+$connection = $container->get('doctrine')->getConnection();
+$connection->beginTransaction();
+$connection->query('DROP TABLE `event_streams`;');
+$connection->commit();
+$connection->close();
 if (empty($sqls)) {
     echo "Nothing to Drop \n";
 
