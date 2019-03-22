@@ -1,5 +1,5 @@
 .PHONY: start
-start: erase up dbReset
+start: erase composer up dbReset
 
 .PHONY: stop
 stop: ## stop environment
