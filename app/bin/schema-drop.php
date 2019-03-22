@@ -21,6 +21,7 @@ $schemaTool->dropSchema($metadatas);
 $connection = $container->get('doctrine')->getConnection();
 $connection->beginTransaction();
 $connection->query('DROP TABLE `event_streams`;');
+$connection->query('DROP TABLE `projections`;');
 $connection->commit();
 $connection->close();
 if (empty($sqls)) {

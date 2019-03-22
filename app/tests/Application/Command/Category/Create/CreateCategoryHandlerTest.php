@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Application\Command\Category\Create;
 
 use App\Application\Command\Category\Create\CreateCategoryCommand;
+use App\Infrastructure\Category\Query\Projections\CategoryView;
+use Assert\Assertion;
 use Tests\TestCase;
 
 class CreateCategoryHandlerTest extends TestCase
@@ -22,8 +24,11 @@ class CreateCategoryHandlerTest extends TestCase
 
     public function test_it_handle()
     {
-        $command = new CreateCategoryCommand('test');
+        $name = 'test';
+        $command = new CreateCategoryCommand($name);
         $this->commandBus->handle($command);
-        $this->assertSame(1, 1);
+        /** @var CategoryView $category */
+        $category = $this->container->get('doctrine')->getManager()->getRepository(CategoryView::class)->findOneBy(['name' => 'test']);
+        $this->assertTrue(true);
     }
 }

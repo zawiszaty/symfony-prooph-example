@@ -9,4 +9,3 @@ prooph_service_bus:
         - 'prooph_service_bus.on_event_invoke_strategy'
       router:
         type: 'prooph_service_bus.event_bus_router'
-        routes:
