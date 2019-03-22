@@ -2,23 +2,34 @@ services:
 
   _defaults:
     autowire: true
-    autoconfigure: false
+    autoconfigure: true
     public: false
+    bind:
+      $aggregateTranslator: '@prooph_event_sourcing.aggregate_translator'
 
   _instanceof:
     App\Infrastructure\Common\CommandHandler\CommandHandlerInterface:
-      public: true
       tags: ['app.command_handler']
 
     App\Infrastructure\Common\QueryHandler\QueryHandlerInterface:
-      public: true
       tags: ['app.query']
 
-  App\Application\Command\Category\Create\CreateCategoryHandler:
-    public: true
+    Prooph\EventStore\Projection\AbstractReadModel:
+      public: true
+
+    Prooph\Bundle\EventStore\Projection\ReadModelProjection:
+      public: true
+
+
+
+  App\:
+    resource: '../src/*'
+    exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
   App\Infrastructure\Common\CommandHandler\CommandBus:
     public: true
+
+  App\Infrastructure\Category\Repository\CategoryStoreRepository: ~
 
   App\Infrastructure\Common\QueryHandler\QueryBus:
     public: true

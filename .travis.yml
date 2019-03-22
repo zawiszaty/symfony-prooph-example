@@ -16,3 +16,5 @@ before_script:
 script:
   - make test
 
+after_success:
+  - travis_retry php app/vendor/bin/php-coveralls --root_dir=./app/

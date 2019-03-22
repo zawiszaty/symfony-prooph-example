@@ -7,14 +7,22 @@ prooph_event_store:
           repository_class: App\Infrastructure\Book\Repository\BookStoreRepository
           aggregate_type: App\Domain\Book\Book
           aggregate_translator: prooph_event_sourcing.aggregate_translator
+        category:
+          repository_class: App\Infrastructure\Category\Repository\CategoryStoreRepository
+          aggregate_type: App\Domain\Category\Category
+          aggregate_translator: prooph_event_sourcing.aggregate_translator
 
   projection_managers:
     todo_projection_manager:
       event_store: Prooph\EventStore\Pdo\MySqlEventStore # event store
       connection: 'doctrine.pdo.connection'
       projections:
-
-
+        book_projection:
+          read_model: App\Infrastructure\Book\Projection\BookReadModel
+          projection: App\Infrastructure\Book\Projection\BookProjection
+        category_projection:
+          read_model: App\Infrastructure\Category\Projection\CategoryReadModel
+          projection: App\Infrastructure\Category\Projection\CategoryProjection
 
 services:
   Prooph\EventStore\Pdo\MySqlEventStore:

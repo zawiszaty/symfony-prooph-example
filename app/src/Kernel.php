@@ -7,6 +7,7 @@ namespace App;
 use App\Infrastructure\Common\BusPass;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Prooph\Bundle\EventStore\ProophEventStoreBundle;
+use Prooph\Bundle\ServiceBus\ProophServiceBusBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -25,6 +26,7 @@ class Kernel extends BaseKernel
             new MonologBundle(),
             new DoctrineBundle(),
             new ProophEventStoreBundle(),
+            new ProophServiceBusBundle(),
         ];
 
 //        if ($this->getEnvironment() == 'dev') {
@@ -39,7 +41,8 @@ class Kernel extends BaseKernel
         $loader->load(__DIR__.'/../config/package/framework.yaml');
         $loader->load(__DIR__.'/../config/package/monolog.yaml');
         $loader->load(__DIR__.'/../config/package/doctrine.yaml');
-        $loader->load(__DIR__.'/../config/package/doctrine.yaml');
+        $loader->load(__DIR__.'/../config/package/prooph_event_store.yaml');
+        $loader->load(__DIR__.'/../config/package/prooph_service_bus.yaml');
         $loader->load(__DIR__.'/../config/services.yml');
 
         // configure WebProfilerBundle only if the bundle is enabled

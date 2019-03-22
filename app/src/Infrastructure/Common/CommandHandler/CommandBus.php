@@ -28,7 +28,7 @@ class CommandBus
         $handler($command);
     }
 
-    public function addCommandHandler(object $handler)
+    public function addCommandHandler(object $handler): void
     {
         $this->handlers[\get_class($handler)] = $handler;
     }

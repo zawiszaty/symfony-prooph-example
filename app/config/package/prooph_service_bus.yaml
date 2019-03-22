@@ -1,0 +1,12 @@
+prooph_service_bus:
+  command_buses:
+    book_command_bus:
+      router:
+        type: 'prooph_service_bus.command_bus_router'
+  event_buses:
+    book_event_bus:
+      plugins:
+        - 'prooph_service_bus.on_event_invoke_strategy'
+      router:
+        type: 'prooph_service_bus.event_bus_router'
+        routes:
