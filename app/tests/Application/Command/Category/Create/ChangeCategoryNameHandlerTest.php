@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Application\Command\Category\Create;
 
+use App\Application\Command\Category\ChangeName\ChangeCategoryNameCommand;
 use App\Application\Command\Category\Create\CreateCategoryCommand;
 use App\Infrastructure\Category\Query\Projections\CategoryView;
+use App\Infrastructure\Common\CommandHandler\CommandBus;
 use Tests\TestCase;
 
-class CreateCategoryHandlerTest extends TestCase
+class ChangeCategoryNameHandlerTest extends TestCase
 {
     /**
      * @var CommandBus|null
@@ -28,6 +30,12 @@ class CreateCategoryHandlerTest extends TestCase
         $this->commandBus->handle($command);
         /** @var CategoryView $category */
         $category = $this->getCategory($name);
-        $this->assertSame($category->getName(), $name);
+        $name = 'test2';
+        $command = new ChangeCategoryNameCommand($category->getId(), $name);
+        $this->commandBus->handle($command);
+        /** @var CategoryView $category */
+        $category = $this->getCategory('test2');
+        $category->changeName('test2');
+        $this->assertSame($category->getName(), 'test2');
     }
 }

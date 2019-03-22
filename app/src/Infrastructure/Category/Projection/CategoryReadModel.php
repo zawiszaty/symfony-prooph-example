@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Category\Projection;
 
+use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Infrastructure\Category\Query\Projections\CategoryView;
 use App\Infrastructure\Category\Query\Repository\MysqlCategoryRepository;
 use Prooph\EventStore\Projection\AbstractReadModel;
@@ -47,5 +48,18 @@ class CategoryReadModel extends AbstractReadModel
             $categoryView['name']
         );
         $this->categoryRepository->add($categoryView);
+    }
+
+    public function changeName(array $data)
+    {
+        /** @var CategoryView $categoryView */
+        $categoryView = $this->categoryRepository->oneByUuid(AggregateRootId::fromString($data['id']));
+        $categoryView->changeName($data['name']);
+        $this->categoryRepository->apply();
+    }
+
+    public function deleteCategory(array $data)
+    {
+        $this->categoryRepository->delete($data['id']);
     }
 }
