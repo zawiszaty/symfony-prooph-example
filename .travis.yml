@@ -1,5 +1,7 @@
 sudo: required
-
+language: php
+php:
+  - '7.3'
 before_install:
   - sudo service mysql stop
   - sudo service mysql status
