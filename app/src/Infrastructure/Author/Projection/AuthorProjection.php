@@ -23,23 +23,23 @@ class AuthorProjection implements ReadModelProjection
                     /** @var AuthorReadModel $readModel */
                     $readModel = $this->readModel();
                     $readModel->stack('insert', [
-                        'id' => $event->getId(),
-                        'name' => $event->getName(),
+                        'id' => $event->getId()->toString(),
+                        'name' => $event->getName()->toString(),
                     ]);
                 },
                 AuthorNameWasChanged::class => function ($state, AuthorNameWasChanged $event) {
                     /** @var AuthorReadModel $readModel */
                     $readModel = $this->readModel();
                     $readModel->stack('changeName', [
-                        'id' => $event->getId(),
-                        'name' => $event->getName(),
+                        'id' => $event->getId()->toString(),
+                        'name' => $event->getName()->toString(),
                     ]);
                 },
                 AuthorWasDeleted::class => function ($state, AuthorWasDeleted $event) {
                     /** @var AuthorReadModel $readModel */
                     $readModel = $this->readModel();
                     $readModel->stack('deleteAuthor', [
-                        'id' => $event->getId(),
+                        'id' => $event->getId()->toString(),
                     ]);
                 },
             ]);

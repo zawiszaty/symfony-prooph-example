@@ -40,4 +40,17 @@ services:
   App\Infrastructure\Common\QueryHandler\QueryBus:
     public: true
 
+  App\Infrastructure\Category\Projection\CategoryReadModel:
+    public: true
 
+  Prooph\EventStore\EventStore:
+    alias: 'Prooph\EventStore\Pdo\MySqlEventStore'
+    public: true
+
+  Prooph\EventStore\ReadOnlyEventStore:
+    alias: 'Prooph\EventStore\Pdo\MySqlEventStore'
+    public: true
+
+  Prooph\Common\Messaging\MessageFactory:
+    alias: 'prooph_service_bus.message_factory'
+    public: true

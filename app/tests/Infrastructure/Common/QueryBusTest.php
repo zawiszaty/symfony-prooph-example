@@ -14,8 +14,9 @@ class TestQuery
 
 class TestHandler implements QueryHandlerInterface
 {
-    public function __invoke(TestQuery $command): void
+    public function __invoke(TestQuery $command): array
     {
+        return [];
     }
 }
 

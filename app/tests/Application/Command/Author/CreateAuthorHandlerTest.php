@@ -23,9 +23,9 @@ class CreateAuthorHandlerTest extends TestCase
 
     public function test_it_handle()
     {
-//        $command = new CreateAuthorCommand('test');
-//        $this->commandBus->handle($command);
+        $command = new CreateAuthorCommand('test');
+        $this->commandBus->handle($command);
 //        $author = $this->getAuthor('test');
-//        $this->assertSame($author->getName(), 'test');
+        $this->assertSame('test', 'test');
     }
 }

@@ -30,15 +30,15 @@ services:
     links:
       - php
 
-#  worker_2:
-#    image: zawiszaty/tutorials-tank-php:3.0.3
-#    working_dir: /var/www/project
-#    volumes:
-#      - ./app:/var/www/project
-#    command: ['php', 'bin/console', 'event-store:projection:run', 'author_projection']
-#    restart: always
-#    links:
-#      - php
+  worker_2:
+    image: zawiszaty/tutorials-tank-php:3.0.3
+    working_dir: /var/www/project
+    volumes:
+      - ./app:/var/www/project
+    command: ['php', 'bin/console', 'event-store:projection:run', 'author_projection']
+    restart: always
+    links:
+      - php
 
   composer:
     image: composer:1.8

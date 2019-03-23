@@ -4,26 +4,36 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Category\Projection;
 
+use App\Domain\Category\Events\CategoryNameWasChanged;
+use App\Domain\Category\Events\CategoryWasCreated;
+use App\Domain\Category\Events\CategoryWasDeleted;
 use App\Infrastructure\Category\Query\Projections\CategoryView;
 use App\Infrastructure\Category\Query\Repository\MysqlCategoryRepository;
-use Doctrine\DBAL\Connection;
+use Prooph\EventSourcing\AggregateChanged;
 use Prooph\EventStore\Projection\AbstractReadModel;
 
 class CategoryReadModel extends AbstractReadModel
 {
+    public function __invoke(AggregateChanged $event)
+    {
+        dump(123);
+        if ($event instanceof CategoryWasCreated) {
+            $this->insert($event->toArray());
+        } else if ($event instanceof CategoryNameWasChanged) {
+            $this->changeName($event->toArray());
+        } else if ($event instanceof CategoryWasDeleted) {
+            $this->deleteCategory($event->toArray());
+        }
+    }
+
     /**
      * @var MysqlCategoryRepository
      */
     private $categoryRepository;
-    /**
-     * @var Connection
-     */
-    private $connection;
 
-    public function __construct(MysqlCategoryRepository $categoryRepository, Connection $connection)
+    public function __construct(MysqlCategoryRepository $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
-        $this->connection = $connection;
     }
 
     public function init(): void

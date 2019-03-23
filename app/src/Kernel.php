@@ -44,7 +44,7 @@ class Kernel extends BaseKernel
         $loader->load(__DIR__.'/../config/package/monolog.yaml');
         $loader->load(__DIR__.'/../config/package/doctrine.yaml');
         $loader->load(__DIR__.'/../config/package/prooph_event_store.yaml');
-        $loader->load(__DIR__.'/../config/package/prooph_event_store.yaml');
+        $loader->load(__DIR__.'/../config/package/prooph_service_bus.yaml');
         $loader->load(__DIR__.'/../config/package/routing.yaml');
         $loader->load(__DIR__.'/../config/services.yml');
 
