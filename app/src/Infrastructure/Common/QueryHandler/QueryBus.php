@@ -26,11 +26,13 @@ class QueryBus
      *
      * @throws HandlerNotFoundException
      */
-    public function handle(object $command): void
+    public function handle(object $command): array
     {
         $handler = $this->commandToHandler(\get_class($command));
         /* @var QueryBusAbstract $handler */
-        $handler($command);
+        $data = $handler($command);
+
+        return $data;
     }
 
     /**

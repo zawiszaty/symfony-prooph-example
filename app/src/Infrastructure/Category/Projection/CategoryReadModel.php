@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Category\Projection;
 
-use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Infrastructure\Category\Query\Projections\CategoryView;
 use App\Infrastructure\Category\Query\Repository\MysqlCategoryRepository;
+use Doctrine\DBAL\Connection;
 use Prooph\EventStore\Projection\AbstractReadModel;
 
 class CategoryReadModel extends AbstractReadModel
@@ -15,10 +15,15 @@ class CategoryReadModel extends AbstractReadModel
      * @var MysqlCategoryRepository
      */
     private $categoryRepository;
+    /**
+     * @var Connection
+     */
+    private $connection;
 
-    public function __construct(MysqlCategoryRepository $categoryRepository)
+    public function __construct(MysqlCategoryRepository $categoryRepository, Connection $connection)
     {
         $this->categoryRepository = $categoryRepository;
+        $this->connection = $connection;
     }
 
     public function init(): void
@@ -50,15 +55,15 @@ class CategoryReadModel extends AbstractReadModel
         $this->categoryRepository->add($categoryView);
     }
 
-    public function changeName(array $data)
+    protected function changeName(array $data)
     {
         /** @var CategoryView $categoryView */
-        $categoryView = $this->categoryRepository->oneByUuid(AggregateRootId::fromString($data['id']));
+        $categoryView = $this->categoryRepository->find($data['id']);
         $categoryView->changeName($data['name']);
         $this->categoryRepository->apply();
     }
 
-    public function deleteCategory(array $data)
+    protected function deleteCategory(array $data)
     {
         $this->categoryRepository->delete($data['id']);
     }

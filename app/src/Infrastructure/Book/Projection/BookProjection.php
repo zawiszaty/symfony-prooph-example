@@ -30,5 +30,7 @@ class BookProjection implements ReadModelProjection
                     ]);
                 },
             ]);
+
+        return $projector;
     }
 }

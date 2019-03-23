@@ -34,8 +34,8 @@ class ChangeCategoryNameHandlerTest extends TestCase
         $command = new ChangeCategoryNameCommand($category->getId(), $name);
         $this->commandBus->handle($command);
         /** @var CategoryView $category */
-        $category = $this->getCategory('test2');
-        $category->changeName('test2');
-        $this->assertSame($category->getName(), 'test2');
+        $newCategory = $this->getCategory('test2');
+        var_dump($newCategory);
+        $this->assertSame($newCategory->getName(), 'test2');
     }
 }

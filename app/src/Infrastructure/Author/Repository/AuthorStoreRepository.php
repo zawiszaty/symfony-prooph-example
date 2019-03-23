@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Book\Repository;
+namespace App\Infrastructure\Author\Repository;
 
-use App\Domain\Book\Book;
+use App\Domain\Author\Author;
+use App\Domain\Author\AuthorStore;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Prooph\EventSourcing\Aggregate\AggregateTranslator;
 use Prooph\EventSourcing\Aggregate\AggregateType;
 use Prooph\EventStore\Pdo\MySqlEventStore;
 
-class BookStoreRepository extends AggregateRepository
+class AuthorStoreRepository extends AggregateRepository implements AuthorStore
 {
     /**
      * CategoryStoreRepository constructor.
@@ -20,21 +21,21 @@ class BookStoreRepository extends AggregateRepository
     {
         parent::__construct(
             $eventStore,
-            AggregateType::fromString(Book::class),
+            AggregateType::fromAggregateRootClass(Author::class),
             $aggregateTranslator
         );
     }
 
-    public function save(Book $todo): void
+    public function save(Author $todo): void
     {
         $this->saveAggregateRoot($todo);
     }
 
-    public function get(AggregateRootId $todoId): ?Book
+    public function get(AggregateRootId $todoId): ?Author
     {
-        /** @var Book $book */
-        $book = $this->getAggregateRoot($todoId->toString());
+        /** @var Author $author */
+        $author = $this->getAggregateRoot($todoId->toString());
 
-        return $book;
+        return $author;
     }
 }

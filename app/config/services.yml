@@ -20,6 +20,10 @@ services:
     Prooph\Bundle\EventStore\Projection\ReadModelProjection:
       public: true
 
+    Prooph\EventSourcing\Aggregate\AggregateRepository:
+      public: true
+
+
 
 
   App\:
@@ -31,6 +35,9 @@ services:
 
   App\Infrastructure\Category\Repository\CategoryStoreRepository: ~
 
+  App\Infrastructure\Author\Repository\AuthorStoreRepository: ~
+
   App\Infrastructure\Common\QueryHandler\QueryBus:
     public: true
+
 

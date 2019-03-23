@@ -22,6 +22,7 @@ $connection = $container->get('doctrine')->getConnection();
 $connection->beginTransaction();
 $connection->query('DROP TABLE `event_streams`;');
 $connection->query('DROP TABLE `projections`;');
+$connection->query('DROP TABLE `_4228e4a00331b5d5e751db0481828e22a2c3c8ef`;');
 $connection->commit();
 $connection->close();
 if (empty($sqls)) {

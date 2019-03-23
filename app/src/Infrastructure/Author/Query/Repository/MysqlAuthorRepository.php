@@ -2,19 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Category\Query\Repository;
+namespace App\Infrastructure\Author\Query\Repository;
 
 use App\Domain\Common\ValueObject\AggregateRootId;
-use App\Infrastructure\Category\Query\Projections\CategoryView;
+use App\Infrastructure\Author\Query\Projections\AuthorView;
 use App\Infrastructure\Common\Query\MysqlRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-/**
- * @method stack(string $string, array $array)
- */
-class MysqlCategoryRepository extends MysqlRepository
+class MysqlAuthorRepository extends MysqlRepository
 {
-    public function add(CategoryView $postView): void
+    public function add(AuthorView $postView): void
     {
         $this->register($postView);
     }
@@ -25,11 +22,19 @@ class MysqlCategoryRepository extends MysqlRepository
     public function oneByUuid(AggregateRootId $id)
     {
         $qb = $this->repository
-            ->createQueryBuilder('category')
-            ->where('category.id = :id')
+            ->createQueryBuilder('author')
+            ->where('author.id = :id')
             ->setParameter('id', $id->toString());
 
         return $this->oneOrException($qb);
+    }
+
+    public function find(string $id): AuthorView
+    {
+        /** @var AuthorView $author */
+        $author = $this->repository->find($id);
+
+        return $author;
     }
 
     public function delete(string $id)
@@ -45,15 +50,7 @@ class MysqlCategoryRepository extends MysqlRepository
      */
     public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->class = CategoryView::class;
+        $this->class = AuthorView::class;
         parent::__construct($entityManager);
-    }
-
-    public function find(string $id): CategoryView
-    {
-        /** @var CategoryView $category */
-        $category = $this->repository->find($id);
-
-        return $category;
     }
 }
