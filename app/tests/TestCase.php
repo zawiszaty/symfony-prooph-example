@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use App\Infrastructure\Author\Query\Projections\AuthorView;
 use App\Infrastructure\Category\Query\Projections\CategoryView;
 use App\Kernel;
 use Doctrine\DBAL\Connection;
@@ -87,6 +88,16 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $category = null;
         while (null === $category) {
             $category = $this->container->get('doctrine')->getManager()->getRepository(CategoryView::class)->findOneBy(['name' => $name]);
+        }
+
+        return $category;
+    }
+
+    protected function getAuthor(string $name): CategoryView
+    {
+        $category = null;
+        while (null === $category) {
+            $category = $this->container->get('doctrine')->getManager()->getRepository(AuthorView::class)->findOneBy(['name' => $name]);
         }
 
         return $category;
