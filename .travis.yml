@@ -19,4 +19,4 @@ script:
   - make test
 
 after_success:
-  - travis_retry sudo chown $USER:$USER -R . && php app/vendor/bin/php-coveralls -v --root_dir=./app/
+  - travis_retry sudo chown $USER:$USER -R . && php symfony/vendor/bin/php-coveralls -v --root_dir=symfony

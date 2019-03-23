@@ -1,4 +1,0 @@
-home:
-  path: /
-  methods: GET
-  controller: App\UI\HTTP\REST\Controller\HomeController:homeAction

@@ -1,7 +1,7 @@
 .idea
-app/vendor
-app/var/
-app/.phpunit.result.cache
-app/.php_cs.cache
-app/.deptrac.cache
-app/build
+symfony/vendor
+symfony/var/
+symfony/.phpunit.result.cache
+symfony/.php_cs.cache
+symfony/.deptrac.cache
+symfony/build

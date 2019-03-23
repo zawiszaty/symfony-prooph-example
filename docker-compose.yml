@@ -6,7 +6,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./app:/var/www/project
+      - ./symfony:/var/www/project
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     links:
       - db
@@ -16,7 +16,7 @@ services:
     image: zawiszaty/tutorials-tank-php:3.0.3
     working_dir: /var/www/project
     volumes:
-      - ./app:/var/www/project
+      - ./symfony:/var/www/project
     links:
       - db
 
@@ -24,7 +24,7 @@ services:
     image: zawiszaty/tutorials-tank-php:3.0.3
     working_dir: /var/www/project
     volumes:
-      - ./app:/var/www/project
+      - ./symfony:/var/www/project
     command: ['php', 'bin/console', 'event-store:projection:run', 'category_projection']
     restart: always
     links:
@@ -34,7 +34,7 @@ services:
     image: zawiszaty/tutorials-tank-php:3.0.3
     working_dir: /var/www/project
     volumes:
-      - ./app:/var/www/project
+      - ./symfony:/var/www/project
     command: ['php', 'bin/console', 'event-store:projection:run', 'author_projection']
     restart: always
     links:
@@ -44,7 +44,7 @@ services:
     image: composer:1.8
     working_dir: /var/www/project
     volumes:
-      - ./app:/var/www/project
+      - ./symfony:/var/www/project
     links:
       - php
 
@@ -58,6 +58,20 @@ services:
     ports:
       - 3307:3307
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: admin
+      PMA_PORT: "3307"
+      PMA_HOST: db
+    restart: always
+    ports:
+      - 8000:80
+    volumes:
+      - /sessions
+
 volumes:
   php:
   db_data:
+  sessions:

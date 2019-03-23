@@ -7,10 +7,12 @@ stop: ## stop environment
 
 .PHONY: dbReset
 dbReset: ## stop environment
-		docker-compose exec php php bin/db-drop.php
-		docker-compose exec php php bin/db-create.php
-		docker-compose exec php php bin/schema-create.php
-		docker-compose exec php php bin/event-store-create.php
+		docker-compose exec php php bin/console d:d:d --if-exists --force
+		docker-compose exec php php bin/console d:d:c
+		docker-compose exec php php bin/console d:s:c
+		docker-compose exec php php bin/console p:c:d
+		docker-compose exec php php bin/console e:e:c
+
 
 .PHONY: down
 down: ## stop environment

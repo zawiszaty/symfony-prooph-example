@@ -1,0 +1,11 @@
+prooph_service_bus:
+    event_buses:
+        default_event_bus:
+          plugins:
+            - 'prooph_service_bus.on_event_invoke_strategy'
+          router:
+            type: 'prooph_service_bus.event_bus_router'
+            routes:
+              'App\Domain\Category\Events\CategoryWasCreated':
+                - 'App\Infrastructure\Category\Projection\CategoryReadModel'
+
