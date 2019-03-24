@@ -23,7 +23,7 @@ class BookMysqlRepository extends MysqlRepository implements BookRepository
     /**
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function oneByUuid(AggregateRootId $id)
+    public function oneByUuid(AggregateRootId $id): BookView
     {
         $qb = $this->repository
             ->createQueryBuilder('book')
@@ -33,7 +33,7 @@ class BookMysqlRepository extends MysqlRepository implements BookRepository
         return $this->oneOrException($qb);
     }
 
-    public function delete(string $id)
+    public function delete(string $id): void
     {
         /** @var object|null $post */
         $post = $this->repository->find($id);

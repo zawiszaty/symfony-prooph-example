@@ -12,15 +12,15 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class MysqlAuthorRepository extends MysqlRepository implements AuthorRepository
 {
-    public function add(AuthorView $postView): void
+    public function add(AuthorView $authorView): void
     {
-        $this->register($postView);
+        $this->register($authorView);
     }
 
     /**
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function oneByUuid(AggregateRootId $id)
+    public function oneByUuid(AggregateRootId $id): AuthorView
     {
         $qb = $this->repository
             ->createQueryBuilder('author')
@@ -38,7 +38,7 @@ class MysqlAuthorRepository extends MysqlRepository implements AuthorRepository
         return $author;
     }
 
-    public function delete(string $id)
+    public function delete(string $id): void
     {
         /** @var object $post */
         $post = $this->repository->find($id);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Category\Query\Repository;
 
+use App\Domain\Category\CategoryRepository;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Infrastructure\Category\Query\Projections\CategoryView;
 use App\Infrastructure\Common\Query\MysqlRepository;
@@ -12,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 /**
  * @method stack(string $string, array $array)
  */
-class MysqlCategoryRepository extends MysqlRepository
+class MysqlCategoryRepository extends MysqlRepository implements CategoryRepository
 {
     public function add(CategoryView $postView): void
     {
@@ -22,7 +23,7 @@ class MysqlCategoryRepository extends MysqlRepository
     /**
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function oneByUuid(AggregateRootId $id)
+    public function oneByUuid(AggregateRootId $id): CategoryView
     {
         $qb = $this->repository
             ->createQueryBuilder('category')
@@ -32,7 +33,7 @@ class MysqlCategoryRepository extends MysqlRepository
         return $this->oneOrException($qb);
     }
 
-    public function delete(string $id)
+    public function delete(string $id): void
     {
         /** @var object $post */
         $post = $this->repository->find($id);

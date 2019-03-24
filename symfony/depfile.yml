@@ -16,6 +16,7 @@ layers:
         regex: App\\Infrastructure\\.*
 ruleset:
   Domain:
+    - Infrastructure
   Application:
     - Domain
     - Infrastructure

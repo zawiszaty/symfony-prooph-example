@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Author\Projection;
 
+use App\Domain\Author\AuthorRepository;
 use App\Infrastructure\Author\Query\Projections\AuthorView;
-use App\Infrastructure\Author\Query\Repository\MysqlAuthorRepository;
 use Doctrine\DBAL\Connection;
 use Prooph\EventStore\Projection\AbstractReadModel;
 
 class AuthorReadModel extends AbstractReadModel
 {
     /**
-     * @var MysqlAuthorRepository
+     * @var AuthorRepository
      */
     private $authorRepository;
     /**
@@ -25,7 +25,7 @@ class AuthorReadModel extends AbstractReadModel
      */
     private $schema;
 
-    public function __construct(MysqlAuthorRepository $authorRepository, Connection $connection)
+    public function __construct(AuthorRepository $authorRepository, Connection $connection)
     {
         $this->authorRepository = $authorRepository;
         $this->connection = $connection;

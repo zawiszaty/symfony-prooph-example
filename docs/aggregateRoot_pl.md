@@ -1,6 +1,6 @@
 # AggregateRoot
 ### Czym to własciwie jest ? 
-Aggregaty, czyli twój problem biznesowy, czyli jeżeli masz bloga twoimi agregatami będą Post, User, Comment itp. Jest to obiekt, który posiada stan i zachowanie. Najczęściej składa się on z ValueObjects, czyli obiektów wartości. ValueObject są poniekąd przechowalnia nadych.
+Aggregaty, czyli twój problem biznesowy, czyli jeżeli masz bloga twoimi agregatami będą Post, User, Comment itp. Jest to obiekt, który posiada stan i zachowanie. Najczęściej składa się on z ValueObjects, czyli obiektów wartości. ValueObject są poniekąd przechowalnia danych.
 ```php
 class AggregateRootId
 {
