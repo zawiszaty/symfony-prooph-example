@@ -10,6 +10,7 @@
 >
     <php>
         <ini name="error_reporting" value="-1" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
     </php>
     <logging>
         <log type="coverage-clover" target="build/logs/clover.xml"/>

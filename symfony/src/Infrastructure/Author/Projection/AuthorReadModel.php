@@ -55,7 +55,6 @@ class AuthorReadModel extends AbstractReadModel
 
     public function insert(array $data)
     {
-        var_dump($data);
         $author = new AuthorView(
             $data['id'],
             $data['name']

@@ -15,7 +15,7 @@ use Prooph\EventStore\Pdo\MySqlEventStore;
 class BookStoreRepository extends AggregateRepository implements BookStore
 {
     /**
-     * CategoryStoreRepository constructor.
+     * BookStoreRepository constructor.
      */
     public function __construct(MySqlEventStore $eventStore, AggregateTranslator $aggregateTranslator)
     {

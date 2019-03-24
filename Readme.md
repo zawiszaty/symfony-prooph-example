@@ -6,7 +6,8 @@
 ### This repo is example how to use Prooph in Symfony project
 ### Documentation:
 * English (soon)
-* Polish (soon)
+* [Polish](docs/index_pl.md)
+### Import *[Prooph Example.postman_collection.json]* into Postman to test the REST API
 ### How to run Linux or Mac:
 
 * You must have install docker, docker-compose, composer locally 
@@ -21,8 +22,9 @@
 
 - [x] Environment in Docker
 - [x] Travis Ci
-- [ ] PHPUnit Coveralls
-- [ ] TDD
-- [ ] Unit, Integration, Functional Test
-- [ ] Event Sourcing implementation in prooph
-- [ ] Documentation 
+- [ ] PHPUnit Coveralls (its dont work i dont know why ¯\\\_\(ツ)\_\/¯ )
+- [x] TDD
+- [x] Integration Test
+- [ ] Functional Test (soon)
+- [x] Event Sourcing implementation in prooph
+- [x] Documentation 
