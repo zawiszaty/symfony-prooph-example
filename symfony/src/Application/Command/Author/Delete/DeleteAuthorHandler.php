@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Command\Category\Delete;
+namespace App\Application\Command\Author\Delete;
 
 use App\Application\Command\Book\Delete\DeleteBookCommand;
+use App\Domain\Author\Author;
+use App\Domain\Author\AuthorStore;
 use App\Domain\Book\BookRepository;
-use App\Domain\Category\Category;
-use App\Domain\Category\CategoryStore;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Infrastructure\Book\Query\Projections\BookView;
 use App\Infrastructure\Common\CommandHandler\CommandBus;
 use App\Infrastructure\Common\CommandHandler\CommandHandlerInterface;
 
-class DeleteCategoryHandler implements CommandHandlerInterface
+class DeleteAuthorHandler implements CommandHandlerInterface
 {
     /**
-     * @var CategoryStore
+     * @var AuthorStore
      */
-    private $categoryStoreRepository;
+    private $authorStore;
     /**
      * @var BookRepository
      */
@@ -28,14 +28,14 @@ class DeleteCategoryHandler implements CommandHandlerInterface
      */
     private $commandBus;
 
-    public function __construct(CategoryStore $categoryStoreRepository, BookRepository $bookRepository, CommandBus $commandBus)
+    public function __construct(AuthorStore $authorStore, BookRepository $bookRepository, CommandBus $commandBus)
     {
-        $this->categoryStoreRepository = $categoryStoreRepository;
+        $this->authorStore = $authorStore;
         $this->bookRepository = $bookRepository;
         $this->commandBus = $commandBus;
     }
 
-    public function __invoke(DeleteCategoryCommand $command)
+    public function __invoke(DeleteAuthorCommand $command): void
     {
         $books = $this->bookRepository->getAllByAuthorId($command->getId());
         /** @var BookView $book */
@@ -43,9 +43,9 @@ class DeleteCategoryHandler implements CommandHandlerInterface
             $command = new DeleteBookCommand($book->getId());
             $this->commandBus->handle($command);
         }
-        /** @var Category $category */
-        $category = $this->categoryStoreRepository->get(AggregateRootId::fromString($command->getId()));
-        $category->delete();
-        $this->categoryStoreRepository->save($category);
+        /** @var Author $author */
+        $author = $this->authorStore->get(AggregateRootId::fromString($command->getId()));
+        $author->delete();
+        $this->authorStore->save($author);
     }
 }

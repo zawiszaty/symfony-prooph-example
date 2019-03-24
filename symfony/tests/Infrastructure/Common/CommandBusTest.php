@@ -24,7 +24,7 @@ class CommandBusTest extends TestCase
     /**
      * @var CommandBus|null
      */
-    private $commandBus;
+    protected $commandBus;
 
     protected function setUp(): void
     {

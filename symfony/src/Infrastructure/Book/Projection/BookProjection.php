@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Book\Projection;
 
 use App\Domain\Book\Event\BookWasCreated;
+use App\Domain\Book\Event\BookWasDeleted;
 use App\Infrastructure\Book\Query\Projections\BookMysqlRepository;
 use Prooph\Bundle\EventStore\Projection\ReadModelProjection;
 use Prooph\EventStore\Projection\ReadModelProjector;
@@ -27,6 +28,13 @@ class BookProjection implements ReadModelProjection
                         'description' => $event->getDescription()->toString(),
                         'author' => $event->getAuthor(),
                         'category' => $event->getCategory(),
+                    ]);
+                },
+                BookWasDeleted::class => function ($state, BookWasDeleted $event) {
+                    /** @var BookMysqlRepository $readModel */
+                    $readModel = $this->readModel();
+                    $readModel->stack('deleteBook', [
+                        'id' => $event->getId()->toString(),
                     ]);
                 },
             ]);

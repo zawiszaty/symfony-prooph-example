@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Book\Query\Projections;
 
+use App\Domain\Book\BookRepository;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Infrastructure\Common\Query\MysqlRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method stack(string $string, array $array)
  */
-class BookMysqlRepository extends MysqlRepository
+class BookMysqlRepository extends MysqlRepository implements BookRepository
 {
     public function add(BookView $postView): void
     {
@@ -33,10 +35,26 @@ class BookMysqlRepository extends MysqlRepository
 
     public function delete(string $id)
     {
-        /** @var object $post */
+        /** @var object|null $post */
         $post = $this->repository->find($id);
+
+        if (!$post) {
+            throw new NotFoundHttpException();
+        }
         $this->entityManager->remove($post);
         $this->entityManager->flush();
+    }
+
+    public function getAllByAuthorId(string $name): array
+    {
+        $data = $this->repository
+            ->createQueryBuilder('book')
+            ->where('book.author = :id')
+            ->setParameter('id', $name)
+            ->getQuery()
+            ->getResult();
+
+        return $data;
     }
 
     /**

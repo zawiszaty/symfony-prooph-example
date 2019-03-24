@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Infrastructure\Book\Repository;
 
 use App\Domain\Book\Book;
+use App\Domain\Book\BookStore;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Prooph\EventSourcing\Aggregate\AggregateTranslator;
 use Prooph\EventSourcing\Aggregate\AggregateType;
 use Prooph\EventStore\Pdo\MySqlEventStore;
 
-class BookStoreRepository extends AggregateRepository
+class BookStoreRepository extends AggregateRepository implements BookStore
 {
     /**
      * CategoryStoreRepository constructor.

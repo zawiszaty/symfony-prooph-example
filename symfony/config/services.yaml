@@ -49,17 +49,7 @@ services:
     App\Infrastructure\Common\QueryHandler\QueryBus:
         public: true
 
-    Prooph\EventStore\EventStore:
-        alias: 'Prooph\EventStore\Pdo\MySqlEventStore'
-        public: true
+    App\UI\HTTP\REST\EventSubscriber\JsonBodyParserSubscriber:
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.request', method: 'onKernelRequest', priority: 100 }
 
-    Prooph\EventStore\ReadOnlyEventStore:
-        alias: 'Prooph\EventStore\Pdo\MySqlEventStore'
-        public: true
-
-    Prooph\Common\Messaging\MessageFactory:
-        alias: 'prooph_service_bus.message_factory'
-        public: true
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones

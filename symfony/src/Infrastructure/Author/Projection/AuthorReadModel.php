@@ -6,6 +6,7 @@ namespace App\Infrastructure\Author\Projection;
 
 use App\Infrastructure\Author\Query\Projections\AuthorView;
 use App\Infrastructure\Author\Query\Repository\MysqlAuthorRepository;
+use Doctrine\DBAL\Connection;
 use Prooph\EventStore\Projection\AbstractReadModel;
 
 class AuthorReadModel extends AbstractReadModel
@@ -14,30 +15,42 @@ class AuthorReadModel extends AbstractReadModel
      * @var MysqlAuthorRepository
      */
     private $authorRepository;
+    /**
+     * @var Connection
+     */
+    private $connection;
 
-    public function __construct(MysqlAuthorRepository $authorRepository)
+    /**
+     * @var \Doctrine\DBAL\Schema\Schema
+     */
+    private $schema;
+
+    public function __construct(MysqlAuthorRepository $authorRepository, Connection $connection)
     {
         $this->authorRepository = $authorRepository;
+        $this->connection = $connection;
+        $this->schema = $connection->getSchemaManager()->createSchema();
     }
 
     public function init(): void
     {
-        return;
+        $this->schema->createTable('author');
     }
 
     public function isInitialized(): bool
     {
-        return true;
+        return $this->schema->hasTable('author');
     }
 
     public function reset(): void
     {
-        return;
+        $this->schema->dropTable('author');
+        $this->schema->createTable('author');
     }
 
     public function delete(): void
     {
-        return;
+        $this->schema->dropTable('author');
     }
 
     public function insert(array $data)

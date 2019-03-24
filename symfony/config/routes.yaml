@@ -1,3 +1,42 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+add_category:
+  path: /api/category
+  methods: POST
+  controller: App\UI\HTTP\REST\Controller\CategoryController:createCategoryAction
+
+change_category_name:
+  path: /api/category/{category}
+  methods: PATCH
+  controller: App\UI\HTTP\REST\Controller\CategoryController:changeCategoryNameAction
+
+delete_category:
+  path: /api/category/{category}
+  methods: DELETE
+  controller: App\UI\HTTP\REST\Controller\CategoryController:deleteCategoryAction
+
+add_author:
+  path: /api/author
+  methods: POST
+  controller: App\UI\HTTP\REST\Controller\AuthorController:createAuthorAction
+
+change_author_name:
+  path: /api/author/{author}
+  methods: PATCH
+  controller: App\UI\HTTP\REST\Controller\AuthorController:changeAuthorNameAction
+
+delete_author:
+  path: /api/author/{author}
+  methods: DELETE
+  controller: App\UI\HTTP\REST\Controller\AuthorController:deleteAuthorAction
+
+create_book:
+  path: /api/book
+  methods: POST
+  controller: App\UI\HTTP\REST\Controller\BookController:createBookAction
+
+delete_book:
+  path: /api/book/{book}
+  methods: DELETE
+  controller: App\UI\HTTP\REST\Controller\BookController:deleteBookAction
+
+
+

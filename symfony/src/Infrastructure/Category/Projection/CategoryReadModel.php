@@ -9,10 +9,21 @@ use App\Domain\Category\Events\CategoryWasCreated;
 use App\Domain\Category\Events\CategoryWasDeleted;
 use App\Infrastructure\Category\Query\Projections\CategoryView;
 use App\Infrastructure\Category\Query\Repository\MysqlCategoryRepository;
+use Doctrine\DBAL\Connection;
 use Prooph\EventStore\Projection\AbstractReadModel;
 
 class CategoryReadModel extends AbstractReadModel
 {
+    /**
+     * @var Connection
+     */
+    private $connection;
+
+    /**
+     * @var \Doctrine\DBAL\Schema\Schema
+     */
+    private $schema;
+
     public function __invoke($event): void
     {
         if ($event instanceof CategoryWasCreated) {
@@ -29,29 +40,32 @@ class CategoryReadModel extends AbstractReadModel
      */
     private $categoryRepository;
 
-    public function __construct(MysqlCategoryRepository $categoryRepository)
+    public function __construct(MysqlCategoryRepository $categoryRepository, Connection $connection)
     {
         $this->categoryRepository = $categoryRepository;
+        $this->connection = $connection;
+        $this->schema = $connection->getSchemaManager()->createSchema();
     }
 
     public function init(): void
     {
-        return;
+        $this->schema->createTable('category');
     }
 
     public function isInitialized(): bool
     {
-        return true;
+        return $this->schema->hasTable('category');
     }
 
     public function reset(): void
     {
-        return;
+        $this->schema->dropTable('category');
+        $this->schema->createTable('category');
     }
 
     public function delete(): void
     {
-        return;
+        $this->schema->dropTable('category');
     }
 
     protected function insert(array $categoryView)

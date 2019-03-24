@@ -5,3 +5,5 @@ parameters:
 	    - '#Trying to invoke App\\Infrastructure\\Common\\CommandHandler\\CommandHandlerInterface but it might not be a callable#'
 	    - '#Trying to invoke App\\Infrastructure\\Common\\QueryHandler\\QueryHandlerInterface but it might not be a callable#'
 	    - '#Call to an undefined method object::getConnection().#'
+	    - '#Call to an undefined method Symfony\\Component\\Form\\FormError|Symfony\\Component\\Form\\FormErrorIterator::getMessage().#'
+	    - '#Access to an undefined property Symfony\\Component\\Validator\\Constraint.#'
