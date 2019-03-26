@@ -7,6 +7,7 @@ namespace App\Infrastructure\Author\Projection;
 use App\Domain\Author\AuthorRepository;
 use App\Infrastructure\Author\Query\Projections\AuthorView;
 use Doctrine\DBAL\Connection;
+use Prooph\EventSourcing\AggregateChanged;
 use Prooph\EventStore\Projection\AbstractReadModel;
 
 class AuthorReadModel extends AbstractReadModel
@@ -24,6 +25,11 @@ class AuthorReadModel extends AbstractReadModel
      * @var \Doctrine\DBAL\Schema\Schema
      */
     private $schema;
+
+    public function __invoke(AggregateChanged $events)
+    {
+        $this->insert($events->toArray());
+    }
 
     public function __construct(AuthorRepository $authorRepository, Connection $connection)
     {

@@ -10,20 +10,15 @@ use App\Domain\Common\ValueObject\AggregateRootId;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Prooph\EventSourcing\Aggregate\AggregateTranslator;
 use Prooph\EventSourcing\Aggregate\AggregateType;
-use Prooph\EventStore\Pdo\MySqlEventStore;
+use Prooph\EventStore\EventStore;
+use Prooph\EventStore\StreamName;
+use Prooph\SnapshotStore\SnapshotStore;
 
 class BookStoreRepository extends AggregateRepository implements BookStore
 {
-    /**
-     * BookStoreRepository constructor.
-     */
-    public function __construct(MySqlEventStore $eventStore, AggregateTranslator $aggregateTranslator)
+    public function __construct(EventStore $eventStore, AggregateType $aggregateType, AggregateTranslator $aggregateTranslator, SnapshotStore $snapshotStore = null, StreamName $streamName = null, bool $oneStreamPerAggregate = false, bool $disableIdentityMap = false, array $metadata = [])
     {
-        parent::__construct(
-            $eventStore,
-            AggregateType::fromString(Book::class),
-            $aggregateTranslator
-        );
+        parent::__construct($eventStore, $aggregateType, $aggregateTranslator, $snapshotStore, $streamName, $oneStreamPerAggregate, $disableIdentityMap, $metadata);
     }
 
     public function save(Book $todo): void
