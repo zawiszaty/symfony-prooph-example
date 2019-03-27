@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Author\Projection;
 
-use App\Domain\Author\Events\AuthorNameWasChanged;
-use App\Domain\Author\Events\AuthorWasCreated;
-use App\Domain\Author\Events\AuthorWasDeleted;
 use Prooph\Bundle\EventStore\Projection\ReadModelProjection;
+use Prooph\Common\Messaging\Message;
 use Prooph\EventStore\Projection\ReadModelProjector;
 
 /**
@@ -18,31 +16,10 @@ class AuthorProjection implements ReadModelProjection
     public function project(ReadModelProjector $projector): ReadModelProjector
     {
         $projector->fromStream('event_stream')
-            ->when([
-                AuthorWasCreated::class => function ($state, AuthorWasCreated $event) {
-                    /** @var AuthorReadModel $readModel */
-                    $readModel = $this->readModel();
-                    $readModel->stack('insert', [
-                        'id' => $event->getId()->toString(),
-                        'name' => $event->getName()->toString(),
-                    ]);
-                },
-                AuthorNameWasChanged::class => function ($state, AuthorNameWasChanged $event) {
-                    /** @var AuthorReadModel $readModel */
-                    $readModel = $this->readModel();
-                    $readModel->stack('changeName', [
-                        'id' => $event->getId()->toString(),
-                        'name' => $event->getName()->toString(),
-                    ]);
-                },
-                AuthorWasDeleted::class => function ($state, AuthorWasDeleted $event) {
-                    /** @var AuthorReadModel $readModel */
-                    $readModel = $this->readModel();
-                    $readModel->stack('deleteAuthor', [
-                        'id' => $event->getId()->toString(),
-                    ]);
-                },
-            ]);
+            ->whenAny(function ($state, Message $event) {
+                $readModel = $this->readModel();
+                $readModel($event);
+            });
 
         return $projector;
     }

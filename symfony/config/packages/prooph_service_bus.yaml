@@ -8,8 +8,6 @@ prooph_service_bus:
             router:
                 type: 'prooph_service_bus.event_bus_router'
                 routes:
-                    'App\Domain\Author\Events\AuthorWasCreated':
-                        - '@App\Infrastructure\Author\Projection\AuthorReadModel'
     query_buses:
         default_query_bus: ~
 

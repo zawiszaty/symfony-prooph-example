@@ -27,11 +27,11 @@ class CategoryReadModel extends AbstractReadModel
     public function __invoke($event): void
     {
         if ($event instanceof CategoryWasCreated) {
-            $this->insert($event->toArray());
+            $this->insert($event);
         } elseif ($event instanceof CategoryNameWasChanged) {
-            $this->changeName($event->toArray());
+            $this->changeName($event);
         } elseif ($event instanceof CategoryWasDeleted) {
-            $this->deleteCategory($event->toArray());
+            $this->deleteCategory($event);
         }
     }
 
@@ -68,25 +68,25 @@ class CategoryReadModel extends AbstractReadModel
         $this->schema->dropTable('category');
     }
 
-    protected function insert(array $categoryView)
+    protected function insert(CategoryWasCreated $categoryWasCreated)
     {
         $categoryView = new CategoryView(
-            $categoryView['id'],
-            $categoryView['name']
+            $categoryWasCreated->getId()->toString(),
+            $categoryWasCreated->getName()->toString()
         );
         $this->categoryRepository->add($categoryView);
     }
 
-    protected function changeName(array $data)
+    protected function changeName(CategoryNameWasChanged $categoryNameWasChanged)
     {
         /** @var CategoryView $categoryView */
-        $categoryView = $this->categoryRepository->find($data['id']);
-        $categoryView->changeName($data['name']);
+        $categoryView = $this->categoryRepository->find($categoryNameWasChanged->getId()->toString());
+        $categoryView->changeName($categoryNameWasChanged->getName()->toString());
         $this->categoryRepository->apply();
     }
 
-    protected function deleteCategory(array $data)
+    protected function deleteCategory(CategoryWasDeleted $categoryWasDeleted)
     {
-        $this->categoryRepository->delete($data['id']);
+        $this->categoryRepository->delete($categoryWasDeleted->getId()->toString());
     }
 }

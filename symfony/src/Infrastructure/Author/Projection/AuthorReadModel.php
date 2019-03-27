@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Infrastructure\Author\Projection;
 
 use App\Domain\Author\AuthorRepository;
+use App\Domain\Author\Events\AuthorNameWasChanged;
+use App\Domain\Author\Events\AuthorWasCreated;
+use App\Domain\Author\Events\AuthorWasDeleted;
 use App\Infrastructure\Author\Query\Projections\AuthorView;
 use Doctrine\DBAL\Connection;
 use Prooph\EventSourcing\AggregateChanged;
@@ -26,9 +29,25 @@ class AuthorReadModel extends AbstractReadModel
      */
     private $schema;
 
-    public function __invoke(AggregateChanged $events)
+    public function __invoke(AggregateChanged $event)
     {
-        $this->insert($events->toArray());
+        switch (get_class($event)) {
+            case AuthorWasCreated::class:
+                /** @var AuthorWasCreated $event */
+                $authorWasCreated = $event;
+                $this->insert($authorWasCreated);
+                break;
+            case AuthorNameWasChanged::class:
+                /** @var AuthorNameWasChanged $event */
+                $authorNameWasChanged = $event;
+                $this->changeName($authorNameWasChanged);
+                break;
+            case AuthorWasDeleted::class:
+                /** @var AuthorWasDeleted $event */
+                $authorWasDeleted = $event;
+                $this->deleteAuthor($authorWasDeleted->getId()->toString());
+                break;
+        }
     }
 
     public function __construct(AuthorRepository $authorRepository, Connection $connection)
@@ -59,24 +78,24 @@ class AuthorReadModel extends AbstractReadModel
         $this->schema->dropTable('author');
     }
 
-    public function insert(array $data)
+    public function insert(AuthorWasCreated $authorWasCreated)
     {
         $author = new AuthorView(
-            $data['id'],
-            $data['name']
+            $authorWasCreated->getId()->toString(),
+            $authorWasCreated->getName()->toString()
         );
         $this->authorRepository->add($author);
     }
 
-    public function changeName(array $data)
+    public function changeName(AuthorNameWasChanged $authorNameWasChanged)
     {
-        $author = $this->authorRepository->find($data['id']);
-        $author->changeName($data['name']);
+        $author = $this->authorRepository->find($authorNameWasChanged->getId()->toString());
+        $author->changeName($authorNameWasChanged->getName()->toString());
         $this->authorRepository->apply();
     }
 
-    public function deleteAuthor(array $data)
+    public function deleteAuthor(string $id)
     {
-        $this->authorRepository->delete($data['id']);
+        $this->authorRepository->delete($id);
     }
 }

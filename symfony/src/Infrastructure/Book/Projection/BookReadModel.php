@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Book\Projection;
 
+use App\Domain\Book\Event\BookWasCreated;
+use App\Domain\Book\Event\BookWasDeleted;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Infrastructure\Author\Query\Repository\MysqlAuthorRepository;
 use App\Infrastructure\Book\Query\Projections\BookMysqlRepository;
 use App\Infrastructure\Book\Query\Projections\BookView;
 use App\Infrastructure\Category\Query\Repository\MysqlCategoryRepository;
 use Doctrine\DBAL\Connection;
+use Prooph\EventSourcing\AggregateChanged;
 use Prooph\EventStore\Projection\AbstractReadModel;
 
 class BookReadModel extends AbstractReadModel
@@ -46,6 +49,15 @@ class BookReadModel extends AbstractReadModel
         $this->schema = $schema->getSchemaManager()->createSchema();
     }
 
+    public function __invoke(AggregateChanged $event)
+    {
+        if ($event instanceof BookWasCreated) {
+            $this->insert($event);
+        } elseif ($event instanceof BookWasDeleted) {
+            $this->deleteBook($event);
+        }
+    }
+
     public function init(): void
     {
         $this->schema->createTable('book');
@@ -67,22 +79,22 @@ class BookReadModel extends AbstractReadModel
         $this->schema->dropTable('book');
     }
 
-    protected function insert(array $bookView): void
+    protected function insert(BookWasCreated $bookWasCreated): void
     {
-        $category = $this->categoryRepository->oneByUuid(AggregateRootId::fromString($bookView['category']));
-        $author = $this->authorRepository->oneByUuid(AggregateRootId::fromString($bookView['author']));
+        $category = $this->categoryRepository->oneByUuid(AggregateRootId::fromString($bookWasCreated->getCategory()));
+        $author = $this->authorRepository->oneByUuid(AggregateRootId::fromString($bookWasCreated->getAuthor()));
         $bookView = new BookView(
-            $bookView['id'],
-            $bookView['name'],
-            $bookView['description'],
+            $bookWasCreated->getId()->toString(),
+            $bookWasCreated->getName()->toString(),
+            $bookWasCreated->getDescription()->toString(),
             $category,
             $author
         );
         $this->bookMysqlRepository->add($bookView);
     }
 
-    public function deleteBook(array $data): void
+    public function deleteBook(BookWasDeleted $bookWasDeleted): void
     {
-        $this->bookMysqlRepository->delete($data['id']);
+        $this->bookMysqlRepository->delete($bookWasDeleted->getId()->toString());
     }
 }

@@ -25,6 +25,7 @@
 - [ ] PHPUnit Coveralls (its dont work i dont know why ¯\\\_\(ツ)\_\/¯ )
 - [x] TDD
 - [x] Integration Test
-- [ ] Functional Test (soon)
+- [x] Functional Test 
+- [ ] End to End Test (soon)
 - [x] Event Sourcing implementation in prooph
 - [x] Documentation 

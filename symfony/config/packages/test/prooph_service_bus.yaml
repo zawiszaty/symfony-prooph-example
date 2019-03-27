@@ -1,0 +1,34 @@
+prooph_service_bus:
+    command_buses:
+        default_command_bus: ~
+    event_buses:
+        default_event_bus:
+            plugins:
+                - 'prooph_service_bus.on_event_invoke_strategy'
+            router:
+                type: 'prooph_service_bus.event_bus_router'
+                routes:
+                    'App\Domain\Author\Events\AuthorWasCreated':
+                        - '@App\Infrastructure\Author\Projection\AuthorReadModel'
+                    'App\Domain\Author\Events\AuthorNameWasChanged':
+                        - '@App\Infrastructure\Author\Projection\AuthorReadModel'
+                    'App\Domain\Author\Events\AuthorWasDeleted':
+                        - '@App\Infrastructure\Author\Projection\AuthorReadModel'
+                    'App\Domain\Category\Events\CategoryWasCreated':
+                        - '@App\Infrastructure\Category\Projection\CategoryReadModel'
+                    'App\Domain\Category\Events\CategoryNameWasChanged':
+                        - '@App\Infrastructure\Category\Projection\CategoryReadModel'
+                    'App\Domain\Category\Events\CategoryWasDeleted':
+                        - '@App\Infrastructure\Category\Projection\CategoryReadModel'
+                    'App\Domain\Book\Event\BookWasCreated':
+                        - '@App\Infrastructure\Book\Projection\BookReadModel'
+                    'App\Domain\Book\Event\BookWasDeleted':
+                        - '@App\Infrastructure\Book\Projection\BookReadModel'
+    query_buses:
+        default_query_bus: ~
+
+services:
+    _defaults:
+        public: false
+
+    Prooph\ServiceBus\CommandBus: '@prooph_service_bus.default_command_bus'

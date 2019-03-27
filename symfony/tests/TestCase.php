@@ -29,9 +29,13 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     private $connection;
     /**
-     * @var CommandBus|null
+     * @var CommandBus
      */
     protected $commandBus;
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    protected $manager;
 
     protected function setUp(): void
     {
@@ -49,6 +53,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->connection->query('SET FOREIGN_KEY_CHECKS=1');
         $this->connection->commit();
         $this->commandBus = $this->container->get('App\Infrastructure\Common\CommandHandler\CommandBus');
+        /* @var \Doctrine\ORM\EntityManager $manager */
+        $this->manager = $this->container->get('doctrine')->getManager();
     }
 
     protected function tearDown(): void
