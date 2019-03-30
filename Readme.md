@@ -25,6 +25,7 @@
 - [x] TDD
 - [x] Unit Test
 - [x] Integration Test
+- [x] Functional Test
 - [x] End to End Test
 - [x] Event Sourcing implementation in prooph
 - [x] Documentation 

@@ -100,29 +100,4 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
         return $this->aggregateTranslator;
     }
-
-    protected function getCategory(string $name): CategoryView
-    {
-        $category = null;
-        while (null === $category) {
-            $category = $this->container->get('doctrine')->getManager()->getRepository(CategoryView::class)->findOneBy(['name' => $name]);
-            if (null === $category) {
-                sleep(2);
-            } else {
-                break;
-            }
-        }
-
-        return $category;
-    }
-
-    protected function getAuthor(string $name): CategoryView
-    {
-        $category = null;
-        while (null === $category) {
-            $category = $this->container->get('doctrine')->getManager()->getRepository(AuthorView::class)->findOneBy(['name' => $name]);
-        }
-
-        return $category;
-    }
 }

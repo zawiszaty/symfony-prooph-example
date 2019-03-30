@@ -35,7 +35,6 @@ services:
     Prooph\EventStore\Pdo\PersistenceStrategy: '@Prooph\EventStore\Pdo\PersistenceStrategy\MySqlSingleStreamStrategy'
     Prooph\EventStore\Pdo\MySqlEventStore:
         arguments: ['@prooph_event_store.message_factory', '@Doctrine\DBAL\Driver\PDOConnection', '@Prooph\EventStore\Pdo\PersistenceStrategy\MySqlSingleStreamStrategy']
-
     PDO: '@Doctrine\DBAL\Driver\PDOConnection'
     Prooph\EventStore\EventStore: '@prooph_event_store.default'
     Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator: ~

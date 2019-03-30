@@ -32,22 +32,13 @@ class AuthorReadModel extends AbstractReadModel
 
     public function __invoke(AggregateChanged $event)
     {
-        switch (get_class($event)) {
-            case AuthorWasCreated::class:
-                /** @var AuthorWasCreated $event */
-                $authorWasCreated = $event;
-                $this->insert($authorWasCreated);
-                break;
-            case AuthorNameWasChanged::class:
-                /** @var AuthorNameWasChanged $event */
-                $authorNameWasChanged = $event;
-                $this->changeName($authorNameWasChanged);
-                break;
-            case AuthorWasDeleted::class:
-                /** @var AuthorWasDeleted $event */
-                $authorWasDeleted = $event;
-                $this->deleteAuthor($authorWasDeleted->getId()->toString());
-                break;
+        if ($event instanceof AuthorWasCreated)
+        {
+            $this->insert($event);
+        } else if ($event instanceof AuthorNameWasChanged){
+            $this->changeName($event);
+        } else if ($event instanceof AuthorWasDeleted) {
+            $this->deleteAuthor($event->getId()->toString());
         }
     }
 

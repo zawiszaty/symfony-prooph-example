@@ -71,22 +71,22 @@ class AuthorTest extends TestCase
         $this->assertEquals($expectedPayload, $events[0]->payload());
     }
 
-    // public function test_it_delete_author()
-    // {
-    //     $author = Author::create(AggregateRootId::generate(), Name::fromString('test'));
-    //     $this->assertInstanceOf(Author::class, $author);
-    //     $events = $this->popRecordedEvent($author);
-    //     $this->assertEquals(1, \count($events));
-    //     $this->assertInstanceOf(AuthorWasCreated::class, $events[0]);
-    //     $expectedPayload = [
-    //         'name' => 'test',
-    //     ];
-    //     $this->assertEquals($expectedPayload, $events[0]->payload());
-    //     $author->delete();
-    //     $events = $this->popRecordedEvent($author);
-    //     $this->assertEquals(1, \count($events));
-    //     $this->assertInstanceOf(AuthorWasDeleted::class, $events[0]);
-    //     $expectedPayload = [];
-    //     $this->assertEquals($expectedPayload, $events[0]->payload());
-    // }
+     public function test_it_delete_author()
+     {
+         $author = Author::create(AggregateRootId::generate(), Name::fromString('test'));
+         $this->assertInstanceOf(Author::class, $author);
+         $events = $this->popRecordedEvent($author);
+         $this->assertEquals(1, \count($events));
+         $this->assertInstanceOf(AuthorWasCreated::class, $events[0]);
+         $expectedPayload = [
+             'name' => 'test',
+         ];
+         $this->assertEquals($expectedPayload, $events[0]->payload());
+         $author->delete();
+         $events = $this->popRecordedEvent($author);
+         $this->assertEquals(1, \count($events));
+         $this->assertInstanceOf(AuthorWasDeleted::class, $events[0]);
+         $expectedPayload = [];
+         $this->assertEquals($expectedPayload, $events[0]->payload());
+     }
 }

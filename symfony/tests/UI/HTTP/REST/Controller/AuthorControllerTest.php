@@ -13,6 +13,9 @@ class AuthorControllerTest extends TestCase
     {
         $this->client->request('POST', '/api/author', ['name' => 'test']);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        /** @var AuthorView $author */
+        $author = $this->manager->getRepository(AuthorView::class)->findOneBy(['name' => 'test']);
+        $this->assertNotNull($author);
     }
 
     public function test_it_create_validatate_author()
