@@ -7,10 +7,13 @@ namespace Tests;
 use App\Infrastructure\Author\Query\Projections\AuthorView;
 use App\Infrastructure\Category\Query\Projections\CategoryView;
 use App\Kernel;
+use ArrayIterator;
 use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManager;
 use Prooph\EventSourcing\Aggregate\AggregateType;
 use Prooph\EventSourcing\AggregateRoot;
 use Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator;
+use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\DependencyInjection\Container;
 
 class TestCase extends \PHPUnit\Framework\TestCase
@@ -33,9 +36,13 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected $commandBus;
     /**
-     * @var \Doctrine\ORM\EntityManager
+     * @var EntityManager
      */
     protected $manager;
+    /**
+     * @var object|Client
+     */
+    protected $client;
 
     protected function setUp(): void
     {
@@ -53,8 +60,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->connection->query('SET FOREIGN_KEY_CHECKS=1');
         $this->connection->commit();
         $this->commandBus = $this->container->get('App\Infrastructure\Common\CommandHandler\CommandBus');
-        /* @var \Doctrine\ORM\EntityManager $manager */
+        /* @var EntityManager $manager */
         $this->manager = $this->container->get('doctrine')->getManager();
+        $this->client = $this->container->get('test.client');
     }
 
     protected function tearDown(): void
@@ -80,7 +88,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     {
         return $this->getAggregateTranslator()->reconstituteAggregateFromHistory(
             AggregateType::fromAggregateRootClass($aggregateRootClass),
-            new \ArrayIterator($events)
+            new ArrayIterator($events)
         );
     }
 

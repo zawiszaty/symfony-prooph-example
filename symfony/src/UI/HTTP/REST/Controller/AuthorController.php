@@ -40,7 +40,7 @@ class AuthorController extends RestController
         }
         $erros = $this->getErrorMessages($form);
 
-        return new JsonResponse($erros);
+        return new JsonResponse($erros, 400);
     }
 
     public function changeAuthorNameAction(Request $request, string $author): JsonResponse
@@ -57,7 +57,7 @@ class AuthorController extends RestController
         }
         $erros = $this->getErrorMessages($form);
 
-        return new JsonResponse($erros);
+        return new JsonResponse($erros, 400);
     }
 
     public function deleteAuthorAction(Request $request, string $author): JsonResponse

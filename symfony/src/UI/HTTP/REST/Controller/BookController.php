@@ -43,7 +43,7 @@ class BookController extends RestController
         }
         $erros = $this->getErrorMessages($form);
 
-        return new JsonResponse($erros);
+        return new JsonResponse($erros, 400);
     }
 
     public function deleteBookAction(Request $request, string $book): JsonResponse

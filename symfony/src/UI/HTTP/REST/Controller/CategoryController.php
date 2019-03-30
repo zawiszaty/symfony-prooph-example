@@ -40,7 +40,7 @@ class CategoryController extends RestController
         }
         $erros = $this->getErrorMessages($form);
 
-        return new JsonResponse($erros);
+        return new JsonResponse($erros, 400);
     }
 
     public function changeCategoryNameAction(Request $request, string $category): JsonResponse
@@ -57,7 +57,7 @@ class CategoryController extends RestController
         }
         $erros = $this->getErrorMessages($form);
 
-        return new JsonResponse($erros);
+        return new JsonResponse($erros, 400);
     }
 
     public function deleteCategoryAction(Request $request, string $category): JsonResponse
