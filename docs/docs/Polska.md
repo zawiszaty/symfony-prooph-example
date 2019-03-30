@@ -1,3 +1,86 @@
+### Instalacja
+#### Composer
+```bash
+composer require prooph/service-bus prooph/event-sourcing prooph/event-store prooph/pdo-event-store prooph/event-store-bus-bridge prooph/snapshotter prooph/pdo-snapshot-store prooph/event-store-symfony-bundle prooph/service-bus-symfony-bundle
+```
+#### Konfiguracja Plików
+Po instalacji w projekcie symfony i użyciu auto instalacji z symfony flex. Utworzy się nam kilka plików, nas będą interesować tylko dwa.
+```
+config/prooph_event_store.yaml // konfiguracja projekcji, aggregatów itp
+config/prooph_service_bus.yaml // konfiguracja Event Busa (jeżeli używacie także Command i Query Busa)
+```
+Dodajcie ten kod w services w config/prooph_event_store.yaml
+[Przykład](https://github.com/zawiszaty/symfony-prooph-example/blob/master/symfony/config/packages/prooph_event_store.yaml)
+```yaml
+services:
+    Prooph\EventStore\Pdo\PersistenceStrategy\MySqlSingleStreamStrategy: ~
+    Prooph\EventStore\Pdo\PersistenceStrategy: '@Prooph\EventStore\Pdo\PersistenceStrategy\MySqlSingleStreamStrategy'
+    Prooph\EventStore\Pdo\MySqlEventStore:
+        arguments: ['@prooph_event_store.message_factory', '@Doctrine\DBAL\Driver\PDOConnection', '@Prooph\EventStore\Pdo\PersistenceStrategy\MySqlSingleStreamStrategy']
+    PDO: '@Doctrine\DBAL\Driver\PDOConnection'
+    Prooph\EventStore\EventStore: '@prooph_event_store.default'
+    Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator: ~
+```
+#### Symfony Di
+Kod, który jest bezpośrednio uzależniony od prooha wyłączam poza di container (prooph ma swoje rozwiązanie i możecie mieć "dziwne" problemy jeżeli tego nie zrobicie).
+```yaml
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: 'en'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    _instanceof:
+        App\Infrastructure\Common\CommandHandler\CommandHandlerInterface:
+            tags: ['app.command_handler']
+
+        App\Infrastructure\Common\QueryHandler\QueryHandlerInterface:
+            tags: ['app.query']
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude:
+            - '../src/{DependencyInjection,Entity,Migrations,Repository,Tests,Kernel.php}'
+            - '../src/{Infrastructure/Book/Repository,Infrastructure/Author/Repository,Infrastructure/Category/Repository}'
+            - '../src/{Infrastructure/Book/Projection,Infrastructure/Author/Projection,Infrastructure/Category/Projection}'
+
+    App\Infrastructure\Author\Projection\AuthorReadModel: ~
+    App\Infrastructure\Book\Projection\BookReadModel: ~
+    App\Infrastructure\Category\Projection\CategoryReadModel: ~
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\UI\HTTP\REST\Controller\:
+        resource: '../src/UI/HTTP/REST/Controller'
+        tags: ['controller.service_arguments']
+
+    App\Infrastructure\Common\CommandHandler\CommandBus:
+        public: true
+
+    App\Infrastructure\Common\QueryHandler\QueryBus:
+        public: true
+
+    App\UI\HTTP\REST\EventSubscriber\JsonBodyParserSubscriber:
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.request', method: 'onKernelRequest', priority: 100 }
+
+    Doctrine\DBAL\Driver\PDOConnection:
+        factory: ["@doctrine.dbal.default_connection", getWrappedConnection]
+
+    App\Domain\Author\AuthorStore: '@App\Infrastructure\Author\Repository\AuthorStoreRepository'
+    App\Domain\Book\BookStore: '@App\Infrastructure\Book\Repository\BookStoreRepository'
+    App\Domain\Category\CategoryStore: '@App\Infrastructure\Category\Repository\CategoryStoreRepository'
+```
+U mnie to wygląda tak wyłączam je przez exclude odpowiedniego folderu (używam automatycznej konfiguracji w innych przypadkach). I definiuje je tylko bez żadnej konfiguracji resztę zrobi za mnie prooph (prooph bierze te konfiguracje z *config/prooph_event_store.yaml*) oraz przekierowuje interface na konkretne repozytorium.
+
 ### Command i Query ?
 #### Command:
 Komendy zmieniają stan systemu jednak w event sorucingu nie bezpośrednio. Są one mediatorami miedzy warstwa UI a Domeny. 
@@ -8,14 +91,22 @@ class CreateAuthorHandler implements CommandHandlerInterface
      * @var AuthorStore
      */
     private $authorStoreRepository;
+    /**
+     * @var AuthorValidator
+     */
+    private $authorValidator;
 
-    public function __construct(AuthorStore $authorStoreRepository)
-    {
+    public function __construct(
+        AuthorStore $authorStoreRepository,
+        AuthorValidator $authorValidator
+    ) {
         $this->authorStoreRepository = $authorStoreRepository;
+        $this->authorValidator = $authorValidator;
     }
 
     public function __invoke(CreateAuthorCommand $command): void
     {
+        $this->authorValidator->authorNameExist($command->getName());
         $author = Author::create(
             AggregateRootId::generate(),
             Name::fromString($command->getName())
@@ -30,50 +121,52 @@ Ja personalnie używam własnej implementacji CommandBusa. Jak ona działa ? Wys
 #### Query
 Służa do pobierania danych np getAllBooksQuery działa to analogicznie jak komendy
 ### AggregateRoot 
-Aggregaty, czyli twój problem biznesowy, czyli jeżeli masz bloga twoimi agregatami będą Post, User, Comment itp. Jest to obiekt, który posiada stan i zachowanie. Najczęściej składa się on z ValueObjects, czyli obiektów wartości. ValueObject są poniekąd przechowalnia danych.
+#### ValueObjects
+Aggregaty, czyli twój problem biznesowy, czyli jeżeli masz bloga twoimi agregatami będą Post, User, Comment itp. Jest to obiekt, który posiada stan i zachowanie. Najczęściej składa się on z ValueObjects, czyli obiektów wartości. ValueObject są poniekąd przechowalnia danych oraz powinny być immutable.
 ```php
-class AggregateRootId
+class Name
 {
     /**
      * @var string
      */
-    private $id;
+    private $name;
 
     /**
-     * AggregateRootId constructor.
+     * Name constructor.
      *
-     * @param string $id
+     * @param string $name
      */
-    public function __construct(string $id)
+    public function __construct(string $name)
     {
-        $this->id = $id;
+        $this->name = $name;
     }
 
-    public static function generate()
+    public static function fromString(string $name): self
     {
-        $id = new self(Uuid::uuid4()->toString());
+        $name = new self($name);
 
-        return $id;
+        return $name;
     }
 
     public function toString(): string
     {
-        return $this->id;
+        return $this->name;
     }
 
-    public static function fromString(string $id): self
+    public function changeName(string $name): self
     {
-        Assertion::uuid($id);
-        $id = new self($id);
+        if ($this->name === $name) {
+            throw new SameNameException();
+        }
 
-        return $id;
+        return new self($name);
     }
 }
 ```
 Jak widać posiadają też walidacje. Jeżeli ValueObject się utworzył znaczy to tyle że ma w sobie poprawną wartość. 
 
 Właśnie po to tworzy się ValueObjects, aby wydzielić cześć walidacji z domeny
-### Event Sourcing
+#### Aggregaty
 ```php
 class Author extends AggregateRoot
 {
@@ -178,6 +271,7 @@ W Event Sorcingu nie ma miejsca na settery, każda metoda musi opisywać zachowa
         $this->name = $authorWasCreated->getName();
     }
 ```
+#### Events
 Każde zachowanie musi tworzyć event. AggregatRoot zapisuje w sobie event i zatwierdza go na sobie (później przez EventStoreRepository właśnie te eventy będą zapisane w EventStore)
 ```php
 final class AuthorWasCreated extends AggregateChanged
@@ -297,6 +391,26 @@ class AuthorProjection implements ReadModelProjection
     public function project(ReadModelProjector $projector): ReadModelProjector
     {
         $projector->fromStream('event_stream')
+            ->whenAny(function ($state, Message $event) {
+                $readModel = $this->readModel();
+                $readModel($event);
+            });
+
+        return $projector;
+    }
+}
+```
+W tym podjeściu każdy event jest łapany przez ReadModel i tam przez metode __invoke() jest odpalana konkretna metoda, mozesz mieć też inny 
+sposób, sam konfigurjesz w projektorze który event która metoda.
+```php
+/**
+ * @method readModel()
+ */
+class AuthorProjection implements ReadModelProjection
+{
+    public function project(ReadModelProjector $projector): ReadModelProjector
+    {
+        $projector->fromStream('event_stream')
             ->when([
                 AuthorWasCreated::class => function ($state, AuthorWasCreated $event) {
                     /** @var AuthorReadModel $readModel */
@@ -326,13 +440,14 @@ class AuthorProjection implements ReadModelProjection
         return $projector;
     }
 }
-```
+````
+#### ReadModel
 Kiedy wystąpi Event ma go złapać i odpalić odpowiednią metode ReadModelu
 ```php
 class AuthorReadModel extends AbstractReadModel
 {
     /**
-     * @var MysqlAuthorRepository
+     * @var AuthorRepository
      */
     private $authorRepository;
     /**
@@ -345,7 +460,19 @@ class AuthorReadModel extends AbstractReadModel
      */
     private $schema;
 
-    public function __construct(MysqlAuthorRepository $authorRepository, Connection $connection)
+    public function __invoke(AggregateChanged $event)
+    {
+        if ($event instanceof AuthorWasCreated)
+        {
+            $this->insert($event);
+        } else if ($event instanceof AuthorNameWasChanged){
+            $this->changeName($event);
+        } else if ($event instanceof AuthorWasDeleted) {
+            $this->deleteAuthor($event->getId()->toString());
+        }
+    }
+
+    public function __construct(AuthorRepository $authorRepository, Connection $connection)
     {
         $this->authorRepository = $authorRepository;
         $this->connection = $connection;
@@ -373,25 +500,26 @@ class AuthorReadModel extends AbstractReadModel
         $this->schema->dropTable('author');
     }
 
-    public function insert(array $data)
+    public function insert(AuthorWasCreated $authorWasCreated)
     {
         $author = new AuthorView(
-            $data['id'],
-            $data['name']
+            $authorWasCreated->getId()->toString(),
+            $authorWasCreated->getName()->toString()
         );
         $this->authorRepository->add($author);
     }
 
-    public function changeName(array $data)
+    public function changeName(AuthorNameWasChanged $authorNameWasChanged)
     {
-        $author = $this->authorRepository->find($data['id']);
-        $author->changeName($data['name']);
+        /** @var Author $author */
+        $author = $this->authorRepository->find($authorNameWasChanged->getId()->toString());
+        $author->changeName($authorNameWasChanged->getName()->toString());
         $this->authorRepository->apply();
     }
 
-    public function deleteAuthor(array $data)
+    public function deleteAuthor(string $id)
     {
-        $this->authorRepository->delete($data['id']);
+        $this->authorRepository->delete($id);
     }
 }
 ```
@@ -417,4 +545,362 @@ Ja używam do tego kontenera dockera, który automatycznie po uruchomieniu odpal
     restart: always
     links:
       - php
+```
+#### Synchroniczne Projekcje
+Istnieje też możliwość zrobienie tego sync. Wyłączasz workery i na sztywno kierujesz 
+eventy do read modelu. 
+```yaml
+prooph_service_bus:
+    command_buses:
+        default_command_bus: ~
+    event_buses:
+        default_event_bus:
+            plugins:
+                - 'prooph_service_bus.on_event_invoke_strategy'
+            router:
+                type: 'prooph_service_bus.event_bus_router'
+                routes:
+                    'App\Domain\Author\Events\AuthorWasCreated':
+                        - '@App\Infrastructure\Author\Projection\AuthorReadModel'
+                    'App\Domain\Author\Events\AuthorNameWasChanged':
+                        - '@App\Infrastructure\Author\Projection\AuthorReadModel'
+                    'App\Domain\Author\Events\AuthorWasDeleted':
+                        - '@App\Infrastructure\Author\Projection\AuthorReadModel'
+                    'App\Domain\Category\Events\CategoryWasCreated':
+                        - '@App\Infrastructure\Category\Projection\CategoryReadModel'
+                    'App\Domain\Category\Events\CategoryNameWasChanged':
+                        - '@App\Infrastructure\Category\Projection\CategoryReadModel'
+                    'App\Domain\Category\Events\CategoryWasDeleted':
+                        - '@App\Infrastructure\Category\Projection\CategoryReadModel'
+                    'App\Domain\Book\Event\BookWasCreated':
+                        - '@App\Infrastructure\Book\Projection\BookReadModel'
+                    'App\Domain\Book\Event\BookWasDeleted':
+                        - '@App\Infrastructure\Book\Projection\BookReadModel'
+    query_buses:
+        default_query_bus: ~
+
+services:
+    _defaults:
+        public: false
+
+    Prooph\ServiceBus\CommandBus: '@prooph_service_bus.default_command_bus'
+```
+Ja zrobiłem tak tylko dla env test, wiec moja konfiguracja znajduje sie w config/test/prooph_service_bus.yaml
+### Testy
+#### Unit 
+Unity pisze sie tak jak wszedzie ale dam jakiś przykładowy.
+Testujemy głównie ValueObjects, jakieś wieksze walidatory itp.
+```php
+const existUuid = '680a2529-7b10-41d8-9002-e7d68be03faa';
+const notExistUuid = '680a2529-7b10-41d8-9002-e7d68be03fa2';
+
+class TestAuthorRepository implements AuthorRepository
+{
+    public function add(AuthorView $authorView): void
+    {
+        // TODO: Implement add() method.
+    }
+
+    public function oneByUuid(AggregateRootId $id): AuthorView
+    {
+        // TODO: Implement oneByUuid() method.
+    }
+
+    public function find(string $id): ?AuthorView
+    {
+        if (existUuid === $id) {
+            return new AuthorView(existUuid, 'test');
+        }
+
+        return null;
+    }
+
+    public function findOneBy(array $query): ?AuthorView
+    {
+        if ('test' === $query['name']) {
+            return new AuthorView(existUuid, 'test');
+        }
+
+        return null;
+    }
+
+    public function delete(string $id): void
+    {
+        // TODO: Implement delete() method.
+    }
+
+    public function apply(): void
+    {
+        // TODO: Implement apply() method.
+    }
+}
+
+class AuthorValidatorTest extends TestCase
+{
+    public function test_it_check_exist()
+    {
+        $validator = new AuthorValidator(new TestAuthorRepository());
+        $this->assertNull($validator->exist(existUuid));
+    }
+
+    public function test_it_check_it_not_exist()
+    {
+        $this->expectException(AuthorNotFoundException::class);
+        $validator = new AuthorValidator(new TestAuthorRepository());
+        $validator->exist(notExistUuid);
+    }
+
+    public function test_it_check_it_name_exist()
+    {
+        $this->expectException(AuthorNameFoundException::class);
+        $validator = new AuthorValidator(new TestAuthorRepository());
+        $this->assertNull($validator->authorNameExist('test'));
+    }
+
+    public function test_it_check_it_name_not_exist()
+    {
+        $validator = new AuthorValidator(new TestAuthorRepository());
+        $this->assertNull($validator->authorNameExist('test2'));
+    }
+}
+```
+#### Domena (Integracyjne)
+Testy domeny są troche bardziej zawiłe.
+Tworzymy własny TestCase
+```php
+class TestCase extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @var Container|null
+     */
+    protected $container;
+
+    /**
+     * @var Kernel
+     */
+    private $kernel;
+    /**
+     * @var Connection
+     */
+    private $connection;
+    /**
+     * @var CommandBus
+     */
+    protected $commandBus;
+    /**
+     * @var EntityManager
+     */
+    protected $manager;
+    /**
+     * @var object|Client
+     */
+    protected $client;
+
+    protected function setUp(): void
+    {
+        $this->kernel = new Kernel('test', true);
+        $this->kernel->boot();
+        $this->container = $this->kernel->getContainer();
+        $this->connection = $this->container->get('doctrine')->getConnection();
+        $this->connection->beginTransaction();
+        $this->connection->query('SET FOREIGN_KEY_CHECKS=0');
+        $this->connection->query('truncate table `_4228e4a00331b5d5e751db0481828e22a2c3c8ef`;');
+        $this->connection->query('truncate table `author`;');
+        $this->connection->query('truncate table `category`;');
+        $this->connection->query('truncate table `book`;');
+        $this->connection->query('truncate table `projections`;');
+        $this->connection->query('SET FOREIGN_KEY_CHECKS=1');
+        $this->connection->commit();
+        $this->commandBus = $this->container->get('App\Infrastructure\Common\CommandHandler\CommandBus');
+        /* @var EntityManager $manager */
+        $this->manager = $this->container->get('doctrine')->getManager();
+        $this->client = $this->container->get('test.client');
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown(); // TODO: Change the autogenerated stub
+        $this->connection->close();
+    }
+
+    /**
+     * @var AggregateTranslator
+     */
+    private $aggregateTranslator;
+
+    protected function popRecordedEvent(AggregateRoot $aggregateRoot): array
+    {
+        return $this->getAggregateTranslator()->extractPendingStreamEvents($aggregateRoot);
+    }
+
+    /**
+     * @return object
+     */
+    protected function reconstituteAggregateFromHistory(string $aggregateRootClass, array $events): object
+    {
+        return $this->getAggregateTranslator()->reconstituteAggregateFromHistory(
+            AggregateType::fromAggregateRootClass($aggregateRootClass),
+            new ArrayIterator($events)
+        );
+    }
+
+    private function getAggregateTranslator(): AggregateTranslator
+    {
+        if (null === $this->aggregateTranslator) {
+            $this->aggregateTranslator = new AggregateTranslator();
+        }
+
+        return $this->aggregateTranslator;
+    }
+}
+```
+Oraz piszemy przykładowy test
+```php
+class AuthorTest extends TestCase
+{
+    public function test_it_create()
+    {
+        $author = Author::create(AggregateRootId::generate(), Name::fromString('test'));
+        $this->assertInstanceOf(Author::class, $author);
+        $events = $this->popRecordedEvent($author);
+        $this->assertEquals(1, \count($events));
+        $this->assertInstanceOf(AuthorWasCreated::class, $events[0]);
+        $expectedPayload = [
+            'name' => 'test',
+        ];
+        $this->assertEquals($expectedPayload, $events[0]->payload());
+    }
+
+    public function test_it_change_name()
+    {
+        $author = Author::create(AggregateRootId::generate(), Name::fromString('test'));
+        $this->assertInstanceOf(Author::class, $author);
+        $events = $this->popRecordedEvent($author);
+        $this->assertEquals(1, \count($events));
+        $this->assertInstanceOf(AuthorWasCreated::class, $events[0]);
+        $expectedPayload = [
+            'name' => 'test',
+        ];
+        $this->assertEquals($expectedPayload, $events[0]->payload());
+        $author->changeName('test2');
+        $events = $this->popRecordedEvent($author);
+        $this->assertEquals(1, \count($events));
+        $this->assertInstanceOf(AuthorNameWasChanged::class, $events[0]);
+        $expectedPayload = [
+            'name' => 'test2',
+        ];
+        $this->assertEquals($expectedPayload, $events[0]->payload());
+    }
+
+    public function test_it_change_same_name()
+    {
+        $this->expectException(SameNameException::class);
+        $author = Author::create(AggregateRootId::generate(), Name::fromString('test'));
+        $this->assertInstanceOf(Author::class, $author);
+        $events = $this->popRecordedEvent($author);
+        $this->assertEquals(1, \count($events));
+        $this->assertInstanceOf(AuthorWasCreated::class, $events[0]);
+        $expectedPayload = [
+            'name' => 'test',
+        ];
+        $this->assertEquals($expectedPayload, $events[0]->payload());
+        $author->changeName('test');
+        $events = $this->popRecordedEvent($author);
+        $this->assertEquals(1, \count($events));
+        $this->assertInstanceOf(AuthorNameWasChanged::class, $events[0]);
+        $expectedPayload = [
+            'name' => 'test2',
+        ];
+        $this->assertEquals($expectedPayload, $events[0]->payload());
+    }
+
+     public function test_it_delete_author()
+     {
+         $author = Author::create(AggregateRootId::generate(), Name::fromString('test'));
+         $this->assertInstanceOf(Author::class, $author);
+         $events = $this->popRecordedEvent($author);
+         $this->assertEquals(1, \count($events));
+         $this->assertInstanceOf(AuthorWasCreated::class, $events[0]);
+         $expectedPayload = [
+             'name' => 'test',
+         ];
+         $this->assertEquals($expectedPayload, $events[0]->payload());
+         $author->delete();
+         $events = $this->popRecordedEvent($author);
+         $this->assertEquals(1, \count($events));
+         $this->assertInstanceOf(AuthorWasDeleted::class, $events[0]);
+         $expectedPayload = [];
+         $this->assertEquals($expectedPayload, $events[0]->payload());
+     }
+}
+```
+Testy domeny opieramy na eventach nie sprawdzamy czy dodało sie do bazy itp. Tylko
+czy Event ma poprawna strukture.
+#### Komendy (Funkcjonalne)
+W testach komend juz mozemy sie pokusic o sprawdzanie bazy, ponieważ w tej czesci aplikacji nasz kod komunikuje sie z nią.
+```php
+class CreateAuthorTest extends TestCase
+{
+    public function test_author_it_create()
+    {
+        $command = new CreateAuthorCommand('test');
+        $this->commandBus->handle($command);
+        /** @var \Doctrine\ORM\EntityManager $manager */
+        $manager = $this->container->get('doctrine')->getManager();
+        $author = $manager->getRepository(\App\Infrastructure\Author\Query\Projections\AuthorView::class)->findOneBy(['name' => 'test']);
+        $this->assertSame($author->getName(), 'test');
+    }
+}
+```
+#### Kontrolery (End to End)
+Typowe testy z którymi chyba każdy sie spotkał, sprawdzamy ze walidacja działa, czy routing jest dobry, czy zwraca dobry HTTP Status Code itp.
+```php
+class AuthorControllerTest extends TestCase
+{
+    public function test_it_create_author()
+    {
+        $this->client->request('POST', '/api/author', ['name' => 'test']);
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        /** @var AuthorView $author */
+        $author = $this->manager->getRepository(AuthorView::class)->findOneBy(['name' => 'test']);
+        $this->assertNotNull($author);
+    }
+
+    public function test_it_create_validatate_author()
+    {
+        $this->client->request('POST', '/api/author', []);
+        $this->assertEquals(400, $this->client->getResponse()->getStatusCode());
+        $this->client->request('POST', '/api/author', ['name' => 'test']);
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->client->request('POST', '/api/author', ['name' => 'test']);
+        $this->assertEquals(400, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function test_it_change_author_name()
+    {
+        $this->client->request('POST', '/api/author', ['name' => 'test']);
+        $id = $this->manager->getRepository(AuthorView::class)->findOneBy(['name' => 'test'])->getId();
+        $this->client->request('PATCH', "/api/author/$id", ['name' => 'test2']);
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        /** @var AuthorView $author */
+        $author = $this->manager->getRepository(AuthorView::class)->findOneBy(['name' => 'test2']);
+        $this->assertSame($author->getName(), 'test2');
+    }
+
+    public function test_it_validate_change_author_name()
+    {
+        $this->client->request('POST', '/api/author', ['name' => 'test']);
+        $id = $this->manager->getRepository(AuthorView::class)->findOneBy(['name' => 'test'])->getId();
+        $this->client->request('PATCH', "/api/author/$id", ['name' => 'test']);
+        $this->assertEquals(400, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function test_it_delete_author()
+    {
+        $this->client->request('POST', '/api/author', ['name' => 'test']);
+        $id = $this->manager->getRepository(AuthorView::class)->findOneBy(['name' => 'test'])->getId();
+        $this->client->request('DELETE', "/api/author/$id");
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+    }
+}
 ```
