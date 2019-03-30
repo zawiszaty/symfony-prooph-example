@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Category;
+namespace App\Infrastructure\Category\Query;
 
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Infrastructure\Category\Query\Projections\CategoryView;

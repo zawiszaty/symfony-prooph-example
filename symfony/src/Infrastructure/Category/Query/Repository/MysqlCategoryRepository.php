@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Category\Query\Repository;
 
-use App\Domain\Category\CategoryRepository;
 use App\Domain\Common\ValueObject\AggregateRootId;
+use App\Infrastructure\Category\Query\CategoryRepository;
 use App\Infrastructure\Category\Query\Projections\CategoryView;
 use App\Infrastructure\Common\Query\MysqlRepository;
 use Doctrine\ORM\EntityManagerInterface;

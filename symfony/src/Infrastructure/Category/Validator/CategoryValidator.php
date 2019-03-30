@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Category\Validator;
+namespace App\Infrastructure\Category\Validator;
 
-use App\Domain\Category\CategoryRepository;
 use App\Domain\Category\Exception\CategoryNameExistException;
 use App\Domain\Category\Exception\CategoryNotExistException;
+use App\Infrastructure\Category\Query\CategoryRepository;
 use Assert\Assertion;
 
 class CategoryValidator
@@ -38,6 +38,7 @@ class CategoryValidator
      * @param string $string
      *
      * @throws CategoryNotExistException
+     * @throws CategoryNameExistException
      */
     public function categoryNameExist(string $string): void
     {

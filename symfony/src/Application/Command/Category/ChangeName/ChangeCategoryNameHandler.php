@@ -8,8 +8,8 @@ use App\Domain\Category\Assertion\CategoryAssertion;
 use App\Domain\Category\Category;
 use App\Domain\Category\CategoryStore;
 use App\Domain\Category\Exception\CategoryNotExistException;
-use App\Domain\Category\Validator\CategoryValidator;
 use App\Domain\Common\ValueObject\AggregateRootId;
+use App\Infrastructure\Category\Validator\CategoryValidator;
 use App\Infrastructure\Common\CommandHandler\CommandHandlerInterface;
 
 class ChangeCategoryNameHandler implements CommandHandlerInterface

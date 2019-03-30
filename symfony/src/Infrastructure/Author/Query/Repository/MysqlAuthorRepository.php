@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Author\Query\Repository;
 
-use App\Domain\Author\AuthorRepository;
 use App\Domain\Common\ValueObject\AggregateRootId;
+use App\Infrastructure\Author\Query\AuthorRepository;
 use App\Infrastructure\Author\Query\Projections\AuthorView;
 use App\Infrastructure\Common\Query\MysqlRepository;
 use Doctrine\ORM\EntityManagerInterface;

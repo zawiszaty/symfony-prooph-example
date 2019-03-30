@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Book\Query\Projections;
 
-use App\Domain\Book\BookRepository;
 use App\Domain\Common\ValueObject\AggregateRootId;
+use App\Infrastructure\Book\Query\BookRepository;
 use App\Infrastructure\Common\Query\MysqlRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

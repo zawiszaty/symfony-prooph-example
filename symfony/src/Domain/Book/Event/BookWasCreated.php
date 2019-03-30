@@ -8,6 +8,8 @@ use App\Domain\Book\ValueObject\Description;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
 use Prooph\EventSourcing\AggregateChanged;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 final class BookWasCreated extends AggregateChanged
 {
@@ -27,23 +29,23 @@ final class BookWasCreated extends AggregateChanged
     private $description;
 
     /**
-     * @var string
+     * @var UuidInterface
      */
     private $category;
 
     /**
-     * @var string
+     * @var UuidInterface
      */
     private $author;
 
-    public static function createWithData(AggregateRootId $id, Name $name, Description $description, string $category, string $author): self
+    public static function createWithData(AggregateRootId $id, Name $name, Description $description, UuidInterface $category, UuidInterface $author): self
     {
         /** @var self $event */
         $event = self::occur($id->toString(), [
             'name' => $name->toString(),
             'description' => $description->toString(),
-            'category' => $category,
-            'author' => $author,
+            'category' => $category->toString(),
+            'author' => $author->toString(),
         ]);
 
         $event->id = $id;
@@ -83,24 +85,24 @@ final class BookWasCreated extends AggregateChanged
     }
 
     /**
-     * @return string
+     * @return UuidInterface
      */
-    public function getCategory(): string
+    public function getCategory(): UuidInterface
     {
         if (null === $this->category) {
-            $this->category = $this->payload['category'];
+            $this->category = Uuid::fromString($this->payload['category']);
         }
 
         return $this->category;
     }
 
     /**
-     * @return string
+     * @return UuidInterface
      */
-    public function getAuthor(): string
+    public function getAuthor(): UuidInterface
     {
         if (null === $this->author) {
-            $this->author = $this->payload['author'];
+            $this->author = Uuid::fromString($this->payload['author']);
         }
 
         return $this->author;

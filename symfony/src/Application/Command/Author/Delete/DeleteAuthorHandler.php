@@ -9,8 +9,8 @@ use App\Domain\Author\Assertion\AuthorAssertion;
 use App\Domain\Author\Author;
 use App\Domain\Author\AuthorStore;
 use App\Domain\Author\Exception\AuthorNotFoundException;
-use App\Domain\Book\BookRepository;
 use App\Domain\Common\ValueObject\AggregateRootId;
+use App\Infrastructure\Book\Query\Projections\BookMysqlRepository;
 use App\Infrastructure\Book\Query\Projections\BookView;
 use App\Infrastructure\Common\CommandHandler\CommandBus;
 use App\Infrastructure\Common\CommandHandler\CommandHandlerInterface;
@@ -23,7 +23,7 @@ class DeleteAuthorHandler implements CommandHandlerInterface
      */
     private $authorStore;
     /**
-     * @var BookRepository
+     * @var BookMysqlRepository
      */
     private $bookRepository;
     /**
@@ -31,7 +31,7 @@ class DeleteAuthorHandler implements CommandHandlerInterface
      */
     private $commandBus;
 
-    public function __construct(AuthorStore $authorStore, BookRepository $bookRepository, CommandBus $commandBus)
+    public function __construct(AuthorStore $authorStore, BookMysqlRepository $bookRepository, CommandBus $commandBus)
     {
         $this->authorStore = $authorStore;
         $this->bookRepository = $bookRepository;

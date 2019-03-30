@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Domain\Author\Validator;
 
-use App\Domain\Author\AuthorRepository;
 use App\Domain\Author\Exception\AuthorNameFoundException;
 use App\Domain\Author\Exception\AuthorNotFoundException;
-use App\Domain\Author\Validator\AuthorValidator;
 use App\Domain\Common\ValueObject\AggregateRootId;
+use App\Infrastructure\Author\Query\AuthorRepository;
 use App\Infrastructure\Author\Query\Projections\AuthorView;
+use App\Infrastructure\Author\Validator\AuthorValidator;
 use Tests\TestCase;
 
 const existUuid = '680a2529-7b10-41d8-9002-e7d68be03faa';

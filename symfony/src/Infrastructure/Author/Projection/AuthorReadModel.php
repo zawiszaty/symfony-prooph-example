@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Infrastructure\Author\Projection;
 
 use App\Domain\Author\Author;
-use App\Domain\Author\AuthorRepository;
 use App\Domain\Author\Events\AuthorNameWasChanged;
 use App\Domain\Author\Events\AuthorWasCreated;
 use App\Domain\Author\Events\AuthorWasDeleted;
 use App\Infrastructure\Author\Query\Projections\AuthorView;
+use App\Infrastructure\Author\Query\Repository\MysqlAuthorRepository;
 use Doctrine\DBAL\Connection;
 use Prooph\EventSourcing\AggregateChanged;
 use Prooph\EventStore\Projection\AbstractReadModel;
@@ -17,7 +17,7 @@ use Prooph\EventStore\Projection\AbstractReadModel;
 class AuthorReadModel extends AbstractReadModel
 {
     /**
-     * @var AuthorRepository
+     * @var MysqlAuthorRepository
      */
     private $authorRepository;
     /**
@@ -41,7 +41,7 @@ class AuthorReadModel extends AbstractReadModel
         }
     }
 
-    public function __construct(AuthorRepository $authorRepository, Connection $connection)
+    public function __construct(MysqlAuthorRepository $authorRepository, Connection $connection)
     {
         $this->authorRepository = $authorRepository;
         $this->connection = $connection;

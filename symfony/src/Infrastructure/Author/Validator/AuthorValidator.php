@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Author\Validator;
+namespace App\Infrastructure\Author\Validator;
 
-use App\Domain\Author\AuthorRepository;
 use App\Domain\Author\Exception\AuthorNameFoundException;
 use App\Domain\Author\Exception\AuthorNotFoundException;
+use App\Infrastructure\Author\Query\AuthorRepository;
 
 class AuthorValidator
 {

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Application\Command\Category\Delete;
 
 use App\Application\Command\Book\Delete\DeleteBookCommand;
-use App\Domain\Book\BookRepository;
 use App\Domain\Category\Assertion\CategoryAssertion;
 use App\Domain\Category\Category;
 use App\Domain\Category\CategoryStore;
 use App\Domain\Category\Exception\CategoryNotExistException;
 use App\Domain\Common\ValueObject\AggregateRootId;
+use App\Infrastructure\Book\Query\Projections\BookMysqlRepository;
 use App\Infrastructure\Book\Query\Projections\BookView;
 use App\Infrastructure\Common\CommandHandler\CommandBus;
 use App\Infrastructure\Common\CommandHandler\CommandHandlerInterface;
@@ -23,7 +23,7 @@ class DeleteCategoryHandler implements CommandHandlerInterface
      */
     private $categoryStoreRepository;
     /**
-     * @var BookRepository
+     * @var BookMysqlRepository
      */
     private $bookRepository;
     /**
@@ -31,7 +31,7 @@ class DeleteCategoryHandler implements CommandHandlerInterface
      */
     private $commandBus;
 
-    public function __construct(CategoryStore $categoryStoreRepository, BookRepository $bookRepository, CommandBus $commandBus)
+    public function __construct(CategoryStore $categoryStoreRepository, BookMysqlRepository $bookRepository, CommandBus $commandBus)
     {
         $this->categoryStoreRepository = $categoryStoreRepository;
         $this->bookRepository = $bookRepository;

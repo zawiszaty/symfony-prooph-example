@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Author;
+namespace App\Infrastructure\Author\Query;
 
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Infrastructure\Author\Query\Projections\AuthorView;

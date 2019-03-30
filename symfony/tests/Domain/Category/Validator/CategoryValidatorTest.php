@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Domain\Category\Validator;
 
-use App\Domain\Category\CategoryRepository;
 use App\Domain\Category\Exception\CategoryNameExistException;
 use App\Domain\Category\Exception\CategoryNotExistException;
-use App\Domain\Category\Validator\CategoryValidator;
 use App\Domain\Common\ValueObject\AggregateRootId;
+use App\Infrastructure\Category\Query\CategoryRepository;
 use App\Infrastructure\Category\Query\Projections\CategoryView;
+use App\Infrastructure\Category\Validator\CategoryValidator;
 use Tests\TestCase;
 
 const existUuid = '680a2529-7b10-41d8-9002-e7d68be03faa';

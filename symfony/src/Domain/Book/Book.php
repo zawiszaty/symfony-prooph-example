@@ -13,33 +13,35 @@ use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
 use Prooph\EventSourcing\AggregateChanged;
 use Prooph\EventSourcing\AggregateRoot;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 class Book extends AggregateRoot
 {
     /**
      * @var AggregateRootId
      */
-    protected $id;
+    private $id;
 
     /**
      * @var Name
      */
-    protected $name;
+    private $name;
 
     /**
      * @var Description
      */
-    protected $description;
+    private $description;
 
     /**
-     * @var string
+     * @var UuidInterface
      */
-    protected $category;
+    private $category;
 
     /**
-     * @var string
+     * @var UuidInterface
      */
-    protected $author;
+    private $author;
 
     public static function create(
         AggregateRootId $id,
@@ -49,7 +51,7 @@ class Book extends AggregateRoot
         string $author
     ): self {
         $self = new self();
-        $self->recordThat(BookWasCreated::createWithData($id, $name, $description, $category, $author));
+        $self->recordThat(BookWasCreated::createWithData($id, $name, $description, Uuid::fromString($category), Uuid::fromString($author)));
 
         return $self;
     }

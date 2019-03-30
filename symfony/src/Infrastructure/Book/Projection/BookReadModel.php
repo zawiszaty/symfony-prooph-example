@@ -81,8 +81,8 @@ class BookReadModel extends AbstractReadModel
 
     protected function insert(BookWasCreated $bookWasCreated): void
     {
-        $category = $this->categoryRepository->oneByUuid(AggregateRootId::fromString($bookWasCreated->getCategory()));
-        $author = $this->authorRepository->oneByUuid(AggregateRootId::fromString($bookWasCreated->getAuthor()));
+        $category = $this->categoryRepository->oneByUuid(AggregateRootId::fromString($bookWasCreated->getCategory()->toString()));
+        $author = $this->authorRepository->oneByUuid(AggregateRootId::fromString($bookWasCreated->getAuthor()->toString()));
         $bookView = new BookView(
             $bookWasCreated->getId()->toString(),
             $bookWasCreated->getName()->toString(),

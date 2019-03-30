@@ -6,9 +6,9 @@ namespace App\Application\Command\Author\Create;
 
 use App\Domain\Author\Author;
 use App\Domain\Author\AuthorStore;
-use App\Domain\Author\Validator\AuthorValidator;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
+use App\Infrastructure\Author\Validator\AuthorValidator;
 use App\Infrastructure\Common\CommandHandler\CommandHandlerInterface;
 
 class CreateAuthorHandler implements CommandHandlerInterface

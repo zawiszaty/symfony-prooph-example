@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Book;
+namespace App\Infrastructure\Book\Query;
 
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Infrastructure\Book\Query\Projections\BookView;

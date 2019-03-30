@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Application\Command\Book\Create;
 
 use App\Domain\Author\Exception\AuthorNotFoundException;
-use App\Domain\Author\Validator\AuthorValidator;
 use App\Domain\Book\Book;
 use App\Domain\Book\BookStore;
 use App\Domain\Book\ValueObject\Description;
 use App\Domain\Category\Exception\CategoryNotExistException;
-use App\Domain\Category\Validator\CategoryValidator;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
+use App\Infrastructure\Author\Validator\AuthorValidator;
+use App\Infrastructure\Category\Validator\CategoryValidator;
 use App\Infrastructure\Common\CommandHandler\CommandHandlerInterface;
 
 class CreateBookHandler implements CommandHandlerInterface
