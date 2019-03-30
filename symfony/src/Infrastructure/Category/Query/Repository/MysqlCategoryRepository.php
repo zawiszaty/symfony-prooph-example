@@ -50,10 +50,18 @@ class MysqlCategoryRepository extends MysqlRepository implements CategoryReposit
         parent::__construct($entityManager);
     }
 
-    public function find(string $id): CategoryView
+    public function find(string $id): ?CategoryView
     {
         /** @var CategoryView $category */
         $category = $this->repository->find($id);
+
+        return $category;
+    }
+
+    public function findOneBy(array $query): ?CategoryView
+    {
+        /** @var CategoryView|null $category */
+        $category = $this->repository->findOneBy($query);
 
         return $category;
     }

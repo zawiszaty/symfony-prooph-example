@@ -17,5 +17,7 @@ interface CategoryRepository
 
     public function apply(): void;
 
-    public function find(string $id): CategoryView;
+    public function find(string $id): ?CategoryView;
+
+    public function findOneBy(array $query): ?CategoryView;
 }

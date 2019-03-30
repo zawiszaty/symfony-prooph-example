@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Author\Projection;
 
+use App\Domain\Author\Author;
 use App\Domain\Author\AuthorRepository;
 use App\Domain\Author\Events\AuthorNameWasChanged;
 use App\Domain\Author\Events\AuthorWasCreated;
@@ -89,6 +90,7 @@ class AuthorReadModel extends AbstractReadModel
 
     public function changeName(AuthorNameWasChanged $authorNameWasChanged)
     {
+        /** @var Author $author */
         $author = $this->authorRepository->find($authorNameWasChanged->getId()->toString());
         $author->changeName($authorNameWasChanged->getName()->toString());
         $this->authorRepository->apply();

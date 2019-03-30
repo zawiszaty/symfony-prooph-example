@@ -7,8 +7,6 @@ namespace App\UI\HTTP\REST\Controller;
 use App\Application\Command\Category\ChangeName\ChangeCategoryNameCommand;
 use App\Application\Command\Category\Create\CreateCategoryCommand;
 use App\Application\Command\Category\Delete\DeleteCategoryCommand;
-use App\Domain\Common\ValueObject\AggregateRootId;
-use App\Infrastructure\Category\Query\Projections\CategoryView;
 use App\Infrastructure\Category\Query\Repository\MysqlCategoryRepository;
 use App\Infrastructure\Common\System\System;
 use App\UI\HTTP\REST\Common\Form\CategoryTypeForm;
@@ -23,10 +21,9 @@ class CategoryController extends RestController
      */
     private $categoryRepository;
 
-    public function __construct(System $system, MysqlCategoryRepository $categoryRepository)
+    public function __construct(System $system)
     {
         parent::__construct($system);
-        $this->categoryRepository = $categoryRepository;
     }
 
     public function createCategoryAction(Request $request): JsonResponse
@@ -50,11 +47,10 @@ class CategoryController extends RestController
     {
         $form = $this->createForm(CategoryTypeForm::class);
         $form->submit($request->request->all());
-        /** @var CategoryView $category */
-        $category = $this->categoryRepository->oneByUuid(AggregateRootId::fromString($category));
+
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $command = new ChangeCategoryNameCommand($category->getId(), $data['name']);
+            $command = new ChangeCategoryNameCommand($category, $data['name']);
             $this->system->handle($command);
 
             return new JsonResponse('ok', 200);
@@ -66,9 +62,7 @@ class CategoryController extends RestController
 
     public function deleteCategoryAction(Request $request, string $category): JsonResponse
     {
-        /** @var CategoryView $category */
-        $category = $this->categoryRepository->oneByUuid(AggregateRootId::fromString($category));
-        $command = new DeleteCategoryCommand($category->getId());
+        $command = new DeleteCategoryCommand($category);
         $this->system->handle($command);
 
         return new JsonResponse('ok', 200);

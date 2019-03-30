@@ -6,7 +6,7 @@ namespace Tests\Application\Author;
 
 use App\Application\Command\Author\ChangeName\ChangeAuthorNameCommand;
 use App\Application\Command\Author\Create\CreateAuthorCommand;
-use App\Domain\Category\Exception\SameNameException;
+use App\Domain\Author\Exception\AuthorNameFoundException;
 use Tests\TestCase;
 
 class AuthorChangeNameTest extends TestCase
@@ -26,7 +26,7 @@ class AuthorChangeNameTest extends TestCase
 
     public function test_author_it_not_change_same_name()
     {
-        $this->expectException(SameNameException::class);
+        $this->expectException(AuthorNameFoundException::class);
         $command = new CreateAuthorCommand('test');
         $this->commandBus->handle($command);
         /** @var \Doctrine\ORM\EntityManager $manager */

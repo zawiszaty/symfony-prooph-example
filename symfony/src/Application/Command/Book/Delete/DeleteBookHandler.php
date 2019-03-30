@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Command\Book\Delete;
 
+use App\Domain\Book\Assertion\BookAssertion;
 use App\Domain\Book\Book;
 use App\Domain\Book\BookStore;
 use App\Domain\Common\ValueObject\AggregateRootId;
@@ -21,10 +22,16 @@ class DeleteBookHandler implements CommandHandlerInterface
         $this->bookStore = $bookStore;
     }
 
+    /**
+     * @param DeleteBookCommand $command
+     *
+     * @throws \App\Domain\Book\Exception\BookNotFoundException
+     */
     public function __invoke(DeleteBookCommand $command)
     {
         /** @var Book $book */
         $book = $this->bookStore->get(AggregateRootId::fromString($command->getId()));
+        BookAssertion::exist($book);
         $book->delete();
         $this->bookStore->save($book);
     }

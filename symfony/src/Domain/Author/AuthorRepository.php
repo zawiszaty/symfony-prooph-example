@@ -13,7 +13,9 @@ interface AuthorRepository
 
     public function oneByUuid(AggregateRootId $id): AuthorView;
 
-    public function find(string $id): AuthorView;
+    public function find(string $id): ?AuthorView;
+
+    public function findOneBy(array $query): ?AuthorView;
 
     public function delete(string $id): void;
 

@@ -34,8 +34,7 @@ class Author extends AggregateRoot
 
     public function changeName(string $string): void
     {
-        $this->name->changeName($string);
-        $this->recordThat(AuthorNameWasChanged::createWithData($this->id, $this->name));
+        $this->recordThat(AuthorNameWasChanged::createWithData($this->id, $this->name->changeName($string)));
     }
 
     public function delete()

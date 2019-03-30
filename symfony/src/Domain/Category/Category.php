@@ -34,12 +34,12 @@ class Category extends AggregateRoot
 
     public function changeName(string $name)
     {
-        $this->recordThat(CategoryNameWasChanged::createWithData($this->getId(), Name::fromString($name)));
+        $this->recordThat(CategoryNameWasChanged::createWithData($this->getId(), $this->name->changeName($name)));
     }
 
     public function applyCategoryNameWasChanged(CategoryNameWasChanged $categoryNameWasChanged)
     {
-        $this->getName()->changeName($categoryNameWasChanged->getName()->toString());
+        $this->name = $categoryNameWasChanged->getName();
     }
 
     public function delete()

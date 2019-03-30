@@ -35,11 +35,12 @@ class Name
         return $this->name;
     }
 
-    public function changeName(string $name): void
+    public function changeName(string $name): self
     {
         if ($this->name === $name) {
             throw new SameNameException();
         }
-        $this->name = $name;
+
+        return new self($name);
     }
 }

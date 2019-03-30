@@ -4,9 +4,8 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/zawiszaty/symfony-prooph-example/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/zawiszaty/symfony-prooph-example/?branch=master)
 [![Code Intelligence Status](https://scrutinizer-ci.com/g/zawiszaty/symfony-prooph-example/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 ### This repo is example how to use Prooph in Symfony project
-### Documentation:
-* English (soon)
-* [Polish](docs/index_pl.md)
+### [Documentation](https://bit.ly/2V17l3E)
+
 ### Import *[Prooph Example.postman_collection.json]* into Postman to test the REST API
 ### How to run Linux or Mac:
 
@@ -24,6 +23,7 @@
 - [x] Travis Ci
 - [ ] PHPUnit Coveralls (its dont work i dont know why ¯\\\_\(ツ)\_\/¯ )
 - [x] TDD
+- [x] Unit Test
 - [x] Integration Test
 - [x] Functional Test 
 - [ ] End to End Test (soon)

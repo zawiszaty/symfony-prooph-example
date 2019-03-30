@@ -30,7 +30,7 @@ class MysqlAuthorRepository extends MysqlRepository implements AuthorRepository
         return $this->oneOrException($qb);
     }
 
-    public function find(string $id): AuthorView
+    public function find(string $id): ?AuthorView
     {
         /** @var AuthorView $author */
         $author = $this->repository->find($id);
@@ -53,5 +53,13 @@ class MysqlAuthorRepository extends MysqlRepository implements AuthorRepository
     {
         $this->class = AuthorView::class;
         parent::__construct($entityManager);
+    }
+
+    public function findOneBy(array $query): ?AuthorView
+    {
+        /** @var AuthorView|null $author */
+        $author = $this->repository->findOneBy($query);
+
+        return $author;
     }
 }

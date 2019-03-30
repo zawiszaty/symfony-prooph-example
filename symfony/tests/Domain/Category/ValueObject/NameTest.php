@@ -28,8 +28,7 @@ class NameTest extends TestCase
 
     public function test_it_change_name_correct()
     {
-        $this->name->changeName('test2');
-        $this->assertSame($this->name->toString(), 'test2');
+        $this->assertSame($this->name->changeName('test2')->toString(), 'test2');
     }
 
     public function test_it_throw_when_same_name()

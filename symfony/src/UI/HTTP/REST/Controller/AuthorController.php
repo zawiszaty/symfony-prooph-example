@@ -7,8 +7,6 @@ namespace App\UI\HTTP\REST\Controller;
 use App\Application\Command\Author\ChangeName\ChangeAuthorNameCommand;
 use App\Application\Command\Author\Create\CreateAuthorCommand;
 use App\Application\Command\Author\Delete\DeleteAuthorCommand;
-use App\Domain\Common\ValueObject\AggregateRootId;
-use App\Infrastructure\Author\Query\Projections\AuthorView;
 use App\Infrastructure\Author\Query\Repository\MysqlAuthorRepository;
 use App\Infrastructure\Common\System\System;
 use App\UI\HTTP\REST\Common\Form\AuthorTypeForm;
@@ -23,10 +21,9 @@ class AuthorController extends RestController
      */
     private $authorRepository;
 
-    public function __construct(System $system, MysqlAuthorRepository $authorRepository)
+    public function __construct(System $system)
     {
         parent::__construct($system);
-        $this->authorRepository = $authorRepository;
     }
 
     public function createAuthorAction(Request $request): JsonResponse
@@ -50,12 +47,10 @@ class AuthorController extends RestController
     {
         $form = $this->createForm(AuthorTypeForm::class);
         $form->submit($request->request->all());
-        /** @var AuthorView $author */
-        $author = $this->authorRepository->oneByUuid(AggregateRootId::fromString($author));
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $command = new ChangeAuthorNameCommand($author->getId(), $data['name']);
+            $command = new ChangeAuthorNameCommand($author, $data['name']);
             $this->system->handle($command);
 
             return new JsonResponse('ok', 200);
@@ -67,9 +62,7 @@ class AuthorController extends RestController
 
     public function deleteAuthorAction(Request $request, string $author): JsonResponse
     {
-        /** @var AuthorView $author */
-        $author = $this->authorRepository->oneByUuid(AggregateRootId::fromString($author));
-        $command = new DeleteAuthorCommand($author->getId());
+        $command = new DeleteAuthorCommand($author);
         $this->system->handle($command);
 
         return new JsonResponse('ok', 200);

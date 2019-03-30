@@ -65,8 +65,7 @@ class Book extends AggregateRoot
 
     public function changeName(string $name)
     {
-        $this->name->changeName($name);
-        $this->recordThat(BookNameWasChanged::createWithData($this->id, $this->name));
+        $this->recordThat(BookNameWasChanged::createWithData($this->id, $this->name->changeName($name)));
     }
 
     public function changeDescription(string $description)
