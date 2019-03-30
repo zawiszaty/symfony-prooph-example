@@ -17,12 +17,12 @@ class Author extends AggregateRoot
     /**
      * @var AggregateRootId
      */
-    protected $id;
+    private $id;
 
     /**
      * @var Name
      */
-    protected $name;
+    private $name;
 
     public static function create(AggregateRootId $generate, Name $name): Author
     {
@@ -42,7 +42,7 @@ class Author extends AggregateRoot
         $this->recordThat(AuthorWasDeleted::createWithData($this->id));
     }
 
-    public function applyAuthorWasDeleted(AuthorWasDeleted $authorWasDeleted)
+    protected function applyAuthorWasDeleted(AuthorWasDeleted $authorWasDeleted)
     {
     }
 

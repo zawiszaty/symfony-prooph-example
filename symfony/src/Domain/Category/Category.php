@@ -47,7 +47,7 @@ class Category extends AggregateRoot
         $this->recordThat(CategoryWasDeleted::createWithData($this->getId()));
     }
 
-    public function applyCategoryWasDeleted(CategoryWasDeleted $categoryWasDeleted)
+    protected function applyCategoryWasDeleted(CategoryWasDeleted $categoryWasDeleted)
     {
     }
 

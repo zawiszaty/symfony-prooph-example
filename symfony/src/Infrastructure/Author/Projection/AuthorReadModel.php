@@ -32,12 +32,11 @@ class AuthorReadModel extends AbstractReadModel
 
     public function __invoke(AggregateChanged $event)
     {
-        if ($event instanceof AuthorWasCreated)
-        {
+        if ($event instanceof AuthorWasCreated) {
             $this->insert($event);
-        } else if ($event instanceof AuthorNameWasChanged){
+        } elseif ($event instanceof AuthorNameWasChanged) {
             $this->changeName($event);
-        } else if ($event instanceof AuthorWasDeleted) {
+        } elseif ($event instanceof AuthorWasDeleted) {
             $this->deleteAuthor($event->getId()->toString());
         }
     }
