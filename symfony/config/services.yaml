@@ -27,9 +27,12 @@ services:
             - '../src/{Infrastructure/Book/Repository,Infrastructure/Author/Repository,Infrastructure/Category/Repository}'
             - '../src/{Infrastructure/Book/Projection,Infrastructure/Author/Projection,Infrastructure/Category/Projection}'
 
-    App\Infrastructure\Author\Projection\AuthorReadModel: ~
-    App\Infrastructure\Book\Projection\BookReadModel: ~
-    App\Infrastructure\Category\Projection\CategoryReadModel: ~
+    App\Infrastructure\Author\Projection\AuthorReadModel:
+        public: true
+    App\Infrastructure\Book\Projection\BookReadModel:
+        public: true
+    App\Infrastructure\Category\Projection\CategoryReadModel:
+        public: true
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\UI\HTTP\REST\Controller\:
@@ -52,3 +55,5 @@ services:
     App\Domain\Author\AuthorStore: '@App\Infrastructure\Author\Repository\AuthorStoreRepository'
     App\Domain\Book\BookStore: '@App\Infrastructure\Book\Repository\BookStoreRepository'
     App\Domain\Category\CategoryStore: '@App\Infrastructure\Category\Repository\CategoryStoreRepository'
+
+

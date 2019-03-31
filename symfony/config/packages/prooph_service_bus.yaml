@@ -16,3 +16,4 @@ services:
         public: false
 
     Prooph\ServiceBus\CommandBus: '@prooph_service_bus.default_command_bus'
+

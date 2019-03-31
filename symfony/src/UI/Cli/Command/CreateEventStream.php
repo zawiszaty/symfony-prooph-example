@@ -23,7 +23,7 @@ class CreateEventStream extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var EventStore $eventStore */
-        $eventStore = $this->getContainer()->get('prooph_event_store.default');
+        $eventStore = $this->getContainer()->get('prooph_event_store.projection_definition');
         $eventStore->create(new Stream(new StreamName('event_stream'), new \ArrayIterator([])));
         $output->writeln('<info>Event stream was created successfully.</info>');
     }

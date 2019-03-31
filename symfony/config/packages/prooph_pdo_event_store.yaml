@@ -6,6 +6,7 @@ services:
 
     app.event_store.default:
         class: Prooph\EventStore\Pdo\MySqlEventStore
+        public: true
         arguments:
             - '@prooph_event_store.message_factory'
             - '@app.event_store.pdo_connection.mysql'
@@ -13,6 +14,7 @@ services:
 
     app.event_store.pdo_connection.mysql:
         class: \PDO
+        public: true
         arguments:
             - '%env(MYSQL_DSN)%'
             - '%env(MYSQL_USER)%'
@@ -20,3 +22,5 @@ services:
 
     app.event_store.mysql.persistence_strategy:
         class: Prooph\EventStore\Pdo\PersistenceStrategy\MySqlSingleStreamStrategy
+
+

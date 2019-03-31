@@ -38,3 +38,18 @@ services:
     PDO: '@Doctrine\DBAL\Driver\PDOConnection'
     Prooph\EventStore\EventStore: '@prooph_event_store.default'
     Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator: ~
+    Prooph\SnapshotStore\Pdo\PdoSnapshotStore:
+        arguments:
+            - 'PDO'
+    Prooph\Snapshotter\SnapshotReadModel:
+        arguments:
+            $aggregateTypes: [App\Domain\Author\Author]
+            $aggregateRepository: '@App\Domain\Author\AuthorStore'
+            $aggregateTranslator: '@Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator'
+            $snapshotStore: '@Prooph\SnapshotStore\Pdo\PdoSnapshotStore'
+
+    read_model_projector.snapshots:
+        class: Prooph\EventStore\Pdo\Projection\PdoEventStoreReadModelProjector
+        arguments:
+            $name: 'snapshots'
+            $readModel: '@Prooph\Snapshotter\SnapshotReadModel'
