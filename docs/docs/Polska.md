@@ -586,6 +586,15 @@ services:
     Prooph\ServiceBus\CommandBus: '@prooph_service_bus.default_command_bus'
 ```
 Ja zrobiłem tak tylko dla env test, wiec moja konfiguracja znajduje sie w config/test/prooph_service_bus.yaml
+#### Powtarzanie Eventów
+Jeżeli wasz read model nie zgadza sie z Event Store w każdej chwili
+możecie powtórzyć Eventy. Ja stworzyłem własna komenda która pobiera mi Eventy z Event Store
+oraz resetuje projekcje przez co nasz Read Model jest aktualny.
+Powtarzanie eventów jest pomocne kiedy zmieniamy baze danych.
+```bash
+make php
+php bin/console e:r:c
+```
 ### Testy
 #### Unit 
 Unity pisze sie tak jak wszedzie ale dam jakiś przykładowy.

@@ -29,5 +29,5 @@
 - [x] End to End Test
 - [x] Event Sourcing implementation in prooph
 - [x] Documentation 
-- [ ] Event Replay
+- [X] Event Replay
 - [ ] Snapshot

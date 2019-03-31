@@ -14,13 +14,15 @@
  make test
 ```
 ### Implementation
-- [X] Environment in Docker
-- [X] Travis Ci
+- [x] Environment in Docker
+- [x] Travis Ci
 - [ ] PHPUnit Coveralls (its dont work i dont know why ¯\\\_\(ツ)\_\/¯ )
-- [X] TDD
-- [X] Unit Test
-- [X] Integration Test
-- [X] Functional Test
-- [X] End to End Test
-- [X] Event Sourcing implementation in prooph
-- [X] Documentation 
+- [x] TDD
+- [x] Unit Test
+- [x] Integration Test
+- [x] Functional Test
+- [x] End to End Test
+- [x] Event Sourcing implementation in prooph
+- [x] Documentation 
+- [X] Event Replay
+- [ ] Snapshot
