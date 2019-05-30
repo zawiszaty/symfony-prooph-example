@@ -23,7 +23,7 @@ class Description
         $this->description = $description;
     }
 
-    public static function fromString(string $description): self
+    public static function withDescription(string $description): self
     {
         $self = new self($description);
 

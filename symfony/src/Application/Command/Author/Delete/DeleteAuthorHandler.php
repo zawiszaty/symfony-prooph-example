@@ -47,7 +47,7 @@ class DeleteAuthorHandler implements CommandHandlerInterface
     public function __invoke(DeleteAuthorCommand $command): void
     {
         /** @var Author $author */
-        $author = $this->authorStore->get(AggregateRootId::fromString($command->getId()));
+        $author = $this->authorStore->get(AggregateRootId::withId($command->getId()));
         AuthorAssertion::exist($author);
         $books = $this->bookRepository->getAllByAuthorId($command->getId());
         /** @var BookView $book */

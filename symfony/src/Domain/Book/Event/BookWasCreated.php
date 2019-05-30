@@ -60,7 +60,7 @@ final class BookWasCreated extends AggregateChanged
     public function getId(): AggregateRootId
     {
         if (null === $this->id) {
-            $this->id = AggregateRootId::fromString($this->aggregateId());
+            $this->id = AggregateRootId::withId($this->aggregateId());
         }
 
         return $this->id;
@@ -69,7 +69,7 @@ final class BookWasCreated extends AggregateChanged
     public function getName(): Name
     {
         if (null === $this->name) {
-            $this->name = Name::fromString($this->payload['name']);
+            $this->name = Name::withName($this->payload['name']);
         }
 
         return $this->name;
@@ -78,7 +78,7 @@ final class BookWasCreated extends AggregateChanged
     public function getDescription(): Description
     {
         if (null === $this->description) {
-            $this->description = Description::fromString($this->payload['description']);
+            $this->description = Description::withDescription($this->payload['description']);
         }
 
         return $this->description;

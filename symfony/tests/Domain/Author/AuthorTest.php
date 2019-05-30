@@ -17,7 +17,7 @@ class AuthorTest extends TestCase
 {
     public function test_it_create()
     {
-        $author = Author::create(AggregateRootId::generate(), Name::fromString('test'));
+        $author = Author::create(AggregateRootId::generate(), Name::withName('test'));
         $this->assertInstanceOf(Author::class, $author);
         $events = $this->popRecordedEvent($author);
         $this->assertEquals(1, \count($events));
@@ -30,7 +30,7 @@ class AuthorTest extends TestCase
 
     public function test_it_change_name()
     {
-        $author = Author::create(AggregateRootId::generate(), Name::fromString('test'));
+        $author = Author::create(AggregateRootId::generate(), Name::withName('test'));
         $this->assertInstanceOf(Author::class, $author);
         $events = $this->popRecordedEvent($author);
         $this->assertEquals(1, \count($events));
@@ -39,7 +39,7 @@ class AuthorTest extends TestCase
             'name' => 'test',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
-        $author->changeName(Name::fromString('test2'));
+        $author->changeName(Name::withName('test2'));
         $events = $this->popRecordedEvent($author);
         $this->assertEquals(1, \count($events));
         $this->assertInstanceOf(AuthorNameWasChanged::class, $events[0]);
@@ -51,7 +51,7 @@ class AuthorTest extends TestCase
 
     public function test_it_change_same_name()
     {
-        $author = Author::create(AggregateRootId::generate(), Name::fromString('test'));
+        $author = Author::create(AggregateRootId::generate(), Name::withName('test'));
         $this->assertInstanceOf(Author::class, $author);
         $events = $this->popRecordedEvent($author);
         $this->assertEquals(1, \count($events));
@@ -61,12 +61,12 @@ class AuthorTest extends TestCase
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
         $this->expectException(SameNameException::class);
-        $author->changeName(Name::fromString('test'));
+        $author->changeName(Name::withName('test'));
     }
 
     public function test_it_delete_author()
     {
-        $author = Author::create(AggregateRootId::generate(), Name::fromString('test'));
+        $author = Author::create(AggregateRootId::generate(), Name::withName('test'));
         $this->assertInstanceOf(Author::class, $author);
         $events = $this->popRecordedEvent($author);
         $this->assertEquals(1, \count($events));

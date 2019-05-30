@@ -35,7 +35,7 @@ class CreateAuthorHandler implements CommandHandlerInterface
         $this->authorValidator->authorNameExist($command->getName());
         $author = Author::create(
             AggregateRootId::generate(),
-            Name::fromString($command->getName())
+            Name::withName($command->getName())
         );
         $this->authorStoreRepository->save($author);
     }

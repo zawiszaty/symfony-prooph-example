@@ -21,7 +21,7 @@ class Name
         $this->name = $name;
     }
 
-    public static function fromString(string $name): self
+    public static function withName(string $name): self
     {
         $name = new self($name);
 

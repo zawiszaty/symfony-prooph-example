@@ -27,7 +27,7 @@ final class AuthorWasDeleted extends AggregateChanged
     public function getId(): AggregateRootId
     {
         if (null === $this->id) {
-            $this->id = AggregateRootId::fromString($this->aggregateId());
+            $this->id = AggregateRootId::withId($this->aggregateId());
         }
 
         return $this->id;

@@ -41,9 +41,9 @@ class ChangeCategoryNameHandler implements CommandHandlerInterface
     {
         $this->categoryValidator->categoryNameExist($command->getName());
         /** @var Category $category */
-        $category = $this->categoryStoreRepository->get(AggregateRootId::fromString($command->getId()));
+        $category = $this->categoryStoreRepository->get(AggregateRootId::withId($command->getId()));
         CategoryAssertion::exist($category);
-        $category->changeName(Name::fromString($command->getName()));
+        $category->changeName(Name::withName($command->getName()));
         $this->categoryStoreRepository->save($category);
     }
 }

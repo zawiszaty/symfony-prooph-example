@@ -25,8 +25,8 @@ class BookTest extends TestCase
         $author = UuidAdapter::generate();
         $book = Book::create(
             AggregateRootId::generate(),
-            Name::fromString('test'),
-            Description::fromString('test'),
+            Name::withName('test'),
+            Description::withDescription('test'),
             $category,
             $author
         );
@@ -49,8 +49,8 @@ class BookTest extends TestCase
         $author = UuidAdapter::generate();
         $book = Book::create(
             AggregateRootId::generate(),
-            Name::fromString('test'),
-            Description::fromString('test'),
+            Name::withName('test'),
+            Description::withDescription('test'),
             $category,
             $author
         );
@@ -65,7 +65,7 @@ class BookTest extends TestCase
             'author' => $author->toString(),
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
-        $book->changeName(Name::fromString('test2'));
+        $book->changeName(Name::withName('test2'));
         $events = $this->popRecordedEvent($book);
         $this->assertEquals(1, \count($events));
         $this->assertInstanceOf(BookNameWasChanged::class, $events[0]);
@@ -82,8 +82,8 @@ class BookTest extends TestCase
         $author = UuidAdapter::generate();
         $book = Book::create(
             AggregateRootId::generate(),
-            Name::fromString('test'),
-            Description::fromString('test'),
+            Name::withName('test'),
+            Description::withDescription('test'),
             $category,
             $author
         );
@@ -98,7 +98,7 @@ class BookTest extends TestCase
             'author' => $author->toString(),
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
-        $book->changeName(Name::fromString('test'));
+        $book->changeName(Name::withName('test'));
     }
 
     public function test_book_it_change_same_description()
@@ -108,8 +108,8 @@ class BookTest extends TestCase
         $author = UuidAdapter::generate();
         $book = Book::create(
             AggregateRootId::generate(),
-            Name::fromString('test'),
-            Description::fromString('test'),
+            Name::withName('test'),
+            Description::withDescription('test'),
             $category,
             $author
         );
@@ -124,7 +124,7 @@ class BookTest extends TestCase
             'author' => $author->toString(),
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
-        $book->changeDescription(Description::fromString('test'));
+        $book->changeDescription(Description::withDescription('test'));
     }
 
     public function test_book_it_change_description()
@@ -133,8 +133,8 @@ class BookTest extends TestCase
         $author = UuidAdapter::generate();
         $book = Book::create(
             AggregateRootId::generate(),
-            Name::fromString('test'),
-            Description::fromString('test'),
+            Name::withName('test'),
+            Description::withDescription('test'),
             $category,
             $author
         );
@@ -149,7 +149,7 @@ class BookTest extends TestCase
             'author' => $author->toString(),
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
-        $book->changeDescription(Description::fromString('test2'));
+        $book->changeDescription(Description::withDescription('test2'));
         $events = $this->popRecordedEvent($book);
         $this->assertEquals(1, \count($events));
         $this->assertInstanceOf(BookDescriptionWasChanged::class, $events[0]);
@@ -165,8 +165,8 @@ class BookTest extends TestCase
         $author = UuidAdapter::generate();
         $book = Book::create(
             AggregateRootId::generate(),
-            Name::fromString('test'),
-            Description::fromString('test'),
+            Name::withName('test'),
+            Description::withDescription('test'),
             $category,
             $author
         );

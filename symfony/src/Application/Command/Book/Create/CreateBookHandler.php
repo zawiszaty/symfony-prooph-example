@@ -55,8 +55,8 @@ class CreateBookHandler implements CommandHandlerInterface
         $this->authorValidator->exist($command->getAuthor());
         $book = Book::create(
             AggregateRootId::generate(),
-            Name::fromString($command->getName()),
-            Description::fromString($command->getDescription()),
+            Name::withName($command->getName()),
+            Description::withDescription($command->getDescription()),
             UuidAdapter::fromString($command->getCategory()),
             UuidAdapter::fromString($command->getAuthor())
         );

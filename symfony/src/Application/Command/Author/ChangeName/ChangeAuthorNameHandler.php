@@ -35,9 +35,9 @@ class ChangeAuthorNameHandler implements CommandHandlerInterface
     {
         $this->authorValidator->authorNameExist($command->getName());
         /** @var Author $author */
-        $author = $this->authorStore->get(AggregateRootId::fromString($command->getId()));
+        $author = $this->authorStore->get(AggregateRootId::withId($command->getId()));
         AuthorAssertion::exist($author);
-        $author->changeName(Name::fromString($command->getName()));
+        $author->changeName(Name::withName($command->getName()));
         $this->authorStore->save($author);
     }
 }

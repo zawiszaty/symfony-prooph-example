@@ -47,7 +47,7 @@ class DeleteCategoryHandler implements CommandHandlerInterface
     public function __invoke(DeleteCategoryCommand $command)
     {
         /** @var Category $category */
-        $category = $this->categoryStoreRepository->get(AggregateRootId::fromString($command->getId()));
+        $category = $this->categoryStoreRepository->get(AggregateRootId::withId($command->getId()));
         CategoryAssertion::exist($category);
         $books = $this->bookRepository->getAllByAuthorId($command->getId());
         /** @var BookView $book */

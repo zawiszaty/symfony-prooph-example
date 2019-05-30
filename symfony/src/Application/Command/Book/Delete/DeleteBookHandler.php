@@ -30,7 +30,7 @@ class DeleteBookHandler implements CommandHandlerInterface
     public function __invoke(DeleteBookCommand $command)
     {
         /** @var Book $book */
-        $book = $this->bookStore->get(AggregateRootId::fromString($command->getId()));
+        $book = $this->bookStore->get(AggregateRootId::withId($command->getId()));
         BookAssertion::exist($book);
         $book->delete();
         $this->bookStore->save($book);

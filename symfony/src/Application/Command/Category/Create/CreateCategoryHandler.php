@@ -35,7 +35,7 @@ class CreateCategoryHandler implements CommandHandlerInterface
         $this->categoryValidator->categoryNameExist($command->getName());
         $category = Category::create(
             AggregateRootId::generate(),
-            Name::fromString($command->getName())
+            Name::withName($command->getName())
         );
         $this->categoryStoreRepository->save($category);
     }

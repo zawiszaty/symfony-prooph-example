@@ -36,7 +36,7 @@ class AggregateRootId
         return $this->id;
     }
 
-    public static function fromString(string $id): self
+    public static function withId(string $id): self
     {
         Assertion::uuid($id);
         $id = new self($id);

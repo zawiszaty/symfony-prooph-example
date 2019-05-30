@@ -19,7 +19,7 @@ class CategoryTest extends TestCase
     {
         $category = Category::create(
             AggregateRootId::generate(),
-            Name::fromString('test')
+            Name::withName('test')
         );
         $this->assertInstanceOf(Category::class, $category);
         $events = $this->popRecordedEvent($category);
@@ -35,7 +35,7 @@ class CategoryTest extends TestCase
     {
         $category = Category::create(
             AggregateRootId::generate(),
-            Name::fromString('test')
+            Name::withName('test')
         );
         $this->assertInstanceOf(Category::class, $category);
         $events = $this->popRecordedEvent($category);
@@ -45,7 +45,7 @@ class CategoryTest extends TestCase
             'name' => 'test',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
-        $category->changeName(Name::fromString('test2'));
+        $category->changeName(Name::withName('test2'));
         $events = $this->popRecordedEvent($category);
         $this->assertEquals(1, \count($events));
         $this->assertInstanceOf(CategoryNameWasChanged::class, $events[0]);
@@ -60,7 +60,7 @@ class CategoryTest extends TestCase
         self::expectException(SameNameException::class);
         $category = Category::create(
             AggregateRootId::generate(),
-            Name::fromString('test')
+            Name::withName('test')
         );
         $this->assertInstanceOf(Category::class, $category);
         $events = $this->popRecordedEvent($category);
@@ -70,14 +70,14 @@ class CategoryTest extends TestCase
             'name' => 'test',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
-        $category->changeName(Name::fromString('test'));
+        $category->changeName(Name::withName('test'));
     }
 
     public function test_it_delete()
     {
         $category = Category::create(
             AggregateRootId::generate(),
-            Name::fromString('test')
+            Name::withName('test')
         );
         $this->assertInstanceOf(Category::class, $category);
         $events = $this->popRecordedEvent($category);
