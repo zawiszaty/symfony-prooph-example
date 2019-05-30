@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Domain\Book\Event;
 
 use App\Domain\Book\ValueObject\Description;
+use App\Domain\Common\Adapter\UuidAdapter;
+use App\Domain\Common\Adapter\UuidAdapterInterface;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
 use Prooph\EventSourcing\AggregateChanged;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 final class BookWasCreated extends AggregateChanged
 {
@@ -29,16 +29,16 @@ final class BookWasCreated extends AggregateChanged
     private $description;
 
     /**
-     * @var UuidInterface
+     * @var UuidAdapterInterface
      */
     private $category;
 
     /**
-     * @var UuidInterface
+     * @var UuidAdapterInterface
      */
     private $author;
 
-    public static function createWithData(AggregateRootId $id, Name $name, Description $description, UuidInterface $category, UuidInterface $author): self
+    public static function createWithData(AggregateRootId $id, Name $name, Description $description, UuidAdapterInterface $category, UuidAdapterInterface $author): self
     {
         /** @var self $event */
         $event = self::occur($id->toString(), [
@@ -85,24 +85,24 @@ final class BookWasCreated extends AggregateChanged
     }
 
     /**
-     * @return UuidInterface
+     * @return UuidAdapterInterface
      */
-    public function getCategory(): UuidInterface
+    public function getCategory(): UuidAdapterInterface
     {
         if (null === $this->category) {
-            $this->category = Uuid::fromString($this->payload['category']);
+            $this->category = UuidAdapter::fromString($this->payload['category']);
         }
 
         return $this->category;
     }
 
     /**
-     * @return UuidInterface
+     * @return UuidAdapterInterface
      */
-    public function getAuthor(): UuidInterface
+    public function getAuthor(): UuidAdapterInterface
     {
         if (null === $this->author) {
-            $this->author = Uuid::fromString($this->payload['author']);
+            $this->author = UuidAdapter::fromString($this->payload['category']);
         }
 
         return $this->author;

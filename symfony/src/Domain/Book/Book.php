@@ -11,12 +11,11 @@ use App\Domain\Book\Event\BookWasDeleted;
 use App\Domain\Book\Exception\SameDescryptionException;
 use App\Domain\Book\ValueObject\Description;
 use App\Domain\Category\Exception\SameNameException;
+use App\Domain\Common\Adapter\UuidAdapterInterface;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
 use Prooph\EventSourcing\AggregateChanged;
 use Prooph\EventSourcing\AggregateRoot;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 class Book extends AggregateRoot
 {
@@ -36,12 +35,12 @@ class Book extends AggregateRoot
     private $description;
 
     /**
-     * @var UuidInterface
+     * @var UuidAdapterInterface
      */
     private $category;
 
     /**
-     * @var UuidInterface
+     * @var UuidAdapterInterface
      */
     private $author;
 
@@ -49,11 +48,11 @@ class Book extends AggregateRoot
         AggregateRootId $id,
         Name $name,
         ValueObject\Description $description,
-        string $category,
-        string $author
+        UuidAdapterInterface $category,
+        UuidAdapterInterface $author
     ): self {
         $self = new self();
-        $self->recordThat(BookWasCreated::createWithData($id, $name, $description, Uuid::fromString($category), Uuid::fromString($author)));
+        $self->recordThat(BookWasCreated::createWithData($id, $name, $description, $category, $author));
 
         return $self;
     }

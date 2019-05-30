@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Common\ValueObject;
 
+use App\Domain\Common\Adapter\UuidAdapter;
 use Assert\Assertion;
-use Ramsey\Uuid\Uuid;
 
 class AggregateRootId
 {
@@ -26,7 +26,7 @@ class AggregateRootId
 
     public static function generate()
     {
-        $id = new self(Uuid::uuid4()->toString());
+        $id = new self(UuidAdapter::generate()->toString());
 
         return $id;
     }

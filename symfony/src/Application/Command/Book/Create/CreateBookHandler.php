@@ -9,6 +9,7 @@ use App\Domain\Book\Book;
 use App\Domain\Book\BookStore;
 use App\Domain\Book\ValueObject\Description;
 use App\Domain\Category\Exception\CategoryNotExistException;
+use App\Domain\Common\Adapter\UuidAdapter;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
 use App\Infrastructure\Author\Validator\AuthorValidator;
@@ -56,8 +57,8 @@ class CreateBookHandler implements CommandHandlerInterface
             AggregateRootId::generate(),
             Name::fromString($command->getName()),
             Description::fromString($command->getDescription()),
-            $command->getCategory(),
-            $command->getAuthor()
+            UuidAdapter::fromString($command->getCategory()),
+            UuidAdapter::fromString($command->getAuthor())
         );
         $this->bookStore->save($book);
     }

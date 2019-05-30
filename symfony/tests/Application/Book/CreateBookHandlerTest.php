@@ -12,7 +12,7 @@ use App\Infrastructure\Book\Query\Projections\BookView;
 use App\Infrastructure\Category\Query\Projections\CategoryView;
 use Tests\TestCase;
 
-class CreateBookTest extends TestCase
+class CreateBookHandlerTest extends TestCase
 {
     public function test_it_create_book()
     {
