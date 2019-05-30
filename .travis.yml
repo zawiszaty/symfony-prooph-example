@@ -18,5 +18,3 @@ before_script:
 script:
   - make test
 
-after_success:
-  - travis_retry sudo chown $USER:$USER -R . && php symfony/vendor/bin/php-coveralls -v --root_dir=symfony
