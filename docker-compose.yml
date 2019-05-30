@@ -38,19 +38,6 @@ services:
     ports:
       - 3307:3307
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      MYSQL_USERNAME: root
-      MYSQL_ROOT_PASSWORD: admin
-      PMA_PORT: "3307"
-      PMA_HOST: db
-    restart: always
-    ports:
-      - 8000:80
-    volumes:
-      - /sessions
-
 volumes:
   php:
   db_data:

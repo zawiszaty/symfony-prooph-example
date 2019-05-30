@@ -8,7 +8,9 @@ use App\Domain\Book\Event\BookDescriptionWasChanged;
 use App\Domain\Book\Event\BookNameWasChanged;
 use App\Domain\Book\Event\BookWasCreated;
 use App\Domain\Book\Event\BookWasDeleted;
+use App\Domain\Book\Exception\SameDescryptionException;
 use App\Domain\Book\ValueObject\Description;
+use App\Domain\Category\Exception\SameNameException;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
 use Prooph\EventSourcing\AggregateChanged;
@@ -65,15 +67,31 @@ class Book extends AggregateRoot
         $this->category = $bookWasCreated->getCategory();
     }
 
-    public function changeName(string $name)
+    public function changeName(Name $name)
     {
-        $this->recordThat(BookNameWasChanged::createWithData($this->id, $this->name->changeName($name)));
+        if ($this->name->toString() === $name->toString()) {
+            throw new SameNameException();
+        }
+
+        $this->recordThat(BookNameWasChanged::createWithData($this->id, $name));
     }
 
-    public function changeDescription(string $description)
+    protected function applyBookNameWasChanged(BookNameWasChanged $bookNameWasChanged)
     {
-        $this->description->changeDescription($description);
-        $this->recordThat(BookDescriptionWasChanged::createWithData($this->id, $this->description));
+        $this->name = $bookNameWasChanged->getName();
+    }
+
+    public function changeDescription(Description $description)
+    {
+        if ($this->description->toString() === $description->toString()) {
+            throw new SameDescryptionException();
+        }
+        $this->recordThat(BookDescriptionWasChanged::createWithData($this->id, $description));
+    }
+
+    protected function applyBookDescriptionWasChanged(BookDescriptionWasChanged $bookDescriptionWasChanged)
+    {
+        $this->description = $bookDescriptionWasChanged->getDescription();
     }
 
     public function delete()
@@ -83,16 +101,6 @@ class Book extends AggregateRoot
 
     protected function applyBookWasDeleted(BookWasDeleted $bookWasDeleted)
     {
-    }
-
-    protected function applyBookDescriptionWasChanged(BookDescriptionWasChanged $bookDescriptionWasChanged)
-    {
-        $this->description = $bookDescriptionWasChanged->getDescription();
-    }
-
-    protected function applyBookNameWasChanged(BookNameWasChanged $bookNameWasChanged)
-    {
-        $this->name = $bookNameWasChanged->getName();
     }
 
     protected function aggregateId(): string

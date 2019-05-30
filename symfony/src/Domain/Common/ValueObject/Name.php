@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Common\ValueObject;
 
-use App\Domain\Category\Exception\SameNameException;
-
 class Name
 {
     /**
@@ -33,14 +31,5 @@ class Name
     public function toString(): string
     {
         return $this->name;
-    }
-
-    public function changeName(string $name): self
-    {
-        if ($this->name === $name) {
-            throw new SameNameException();
-        }
-
-        return new self($name);
     }
 }

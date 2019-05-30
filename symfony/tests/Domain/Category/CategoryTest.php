@@ -45,7 +45,7 @@ class CategoryTest extends TestCase
             'name' => 'test',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
-        $category->changeName('test2');
+        $category->changeName(Name::fromString('test2'));
         $events = $this->popRecordedEvent($category);
         $this->assertEquals(1, \count($events));
         $this->assertInstanceOf(CategoryNameWasChanged::class, $events[0]);
@@ -70,14 +70,7 @@ class CategoryTest extends TestCase
             'name' => 'test',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
-        $category->changeName('test');
-        $events = $this->popRecordedEvent($category);
-        $this->assertEquals(1, \count($events));
-        $this->assertInstanceOf(CategoryNameWasChanged::class, $events[0]);
-        $expectedPayload = [
-            'name' => 'test2',
-        ];
-        $this->assertEquals($expectedPayload, $events[0]->payload());
+        $category->changeName(Name::fromString('test'));
     }
 
     public function test_it_delete()

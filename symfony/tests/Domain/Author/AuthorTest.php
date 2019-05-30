@@ -39,7 +39,7 @@ class AuthorTest extends TestCase
             'name' => 'test',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
-        $author->changeName('test2');
+        $author->changeName(Name::fromString('test2'));
         $events = $this->popRecordedEvent($author);
         $this->assertEquals(1, \count($events));
         $this->assertInstanceOf(AuthorNameWasChanged::class, $events[0]);
@@ -51,7 +51,6 @@ class AuthorTest extends TestCase
 
     public function test_it_change_same_name()
     {
-        $this->expectException(SameNameException::class);
         $author = Author::create(AggregateRootId::generate(), Name::fromString('test'));
         $this->assertInstanceOf(Author::class, $author);
         $events = $this->popRecordedEvent($author);
@@ -61,14 +60,8 @@ class AuthorTest extends TestCase
             'name' => 'test',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
-        $author->changeName('test');
-        $events = $this->popRecordedEvent($author);
-        $this->assertEquals(1, \count($events));
-        $this->assertInstanceOf(AuthorNameWasChanged::class, $events[0]);
-        $expectedPayload = [
-            'name' => 'test2',
-        ];
-        $this->assertEquals($expectedPayload, $events[0]->payload());
+        $this->expectException(SameNameException::class);
+        $author->changeName(Name::fromString('test'));
     }
 
     public function test_it_delete_author()

@@ -7,6 +7,7 @@ namespace App\Domain\Author;
 use App\Domain\Author\Events\AuthorNameWasChanged;
 use App\Domain\Author\Events\AuthorWasCreated;
 use App\Domain\Author\Events\AuthorWasDeleted;
+use App\Domain\Category\Exception\SameNameException;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
 use Prooph\EventSourcing\AggregateRoot;
@@ -32,9 +33,29 @@ class Author extends AggregateRoot
         return $author;
     }
 
-    public function changeName(string $string): void
+    protected function applyAuthorWasCreated(AuthorWasCreated $authorWasCreated): void
     {
-        $this->recordThat(AuthorNameWasChanged::createWithData($this->id, $this->name->changeName($string)));
+        $this->id = $authorWasCreated->getId();
+        $this->name = $authorWasCreated->getName();
+    }
+
+    /**
+     * @param Name $name
+     *
+     * @throws SameNameException
+     */
+    public function changeName(Name $name): void
+    {
+        if ($this->name->toString() === $name->toString()) {
+            throw new SameNameException();
+        }
+
+        $this->recordThat(AuthorNameWasChanged::createWithData($this->id, $name));
+    }
+
+    protected function applyAuthorNameWasChanged(AuthorNameWasChanged $authorNameWasChanged)
+    {
+        $this->name = $authorNameWasChanged->getName();
     }
 
     public function delete()
@@ -44,22 +65,6 @@ class Author extends AggregateRoot
 
     protected function applyAuthorWasDeleted(AuthorWasDeleted $authorWasDeleted)
     {
-    }
-
-    protected function applyAuthorNameWasChanged(AuthorNameWasChanged $authorNameWasChanged)
-    {
-        $this->name = $authorNameWasChanged->getName();
-    }
-
-    protected function applyAuthorWasCreated(AuthorWasCreated $authorWasCreated): void
-    {
-        $this->id = $authorWasCreated->getId();
-        $this->name = $authorWasCreated->getName();
-    }
-
-    protected function aggregateId(): string
-    {
-        return $this->id->toString();
     }
 
     /**
@@ -97,5 +102,10 @@ class Author extends AggregateRoot
     public function getName(): Name
     {
         return $this->name;
+    }
+
+    protected function aggregateId(): string
+    {
+        return $this->id->toString();
     }
 }

@@ -7,6 +7,7 @@ namespace App\Domain\Category;
 use App\Domain\Category\Events\CategoryNameWasChanged;
 use App\Domain\Category\Events\CategoryWasCreated;
 use App\Domain\Category\Events\CategoryWasDeleted;
+use App\Domain\Category\Exception\SameNameException;
 use App\Domain\Common\ValueObject\AggregateRootId;
 use App\Domain\Common\ValueObject\Name;
 use Prooph\EventSourcing\AggregateChanged;
@@ -32,9 +33,19 @@ class Category extends AggregateRoot
         return $self;
     }
 
-    public function changeName(string $name)
+    protected function applyCategoryWasCreated(CategoryWasCreated $categoryWasCreated): void
     {
-        $this->recordThat(CategoryNameWasChanged::createWithData($this->getId(), $this->name->changeName($name)));
+        $this->id = $categoryWasCreated->getId();
+        $this->name = $categoryWasCreated->getName();
+    }
+
+    public function changeName(Name $name)
+    {
+        if ($this->name->toString() === $name->toString()) {
+            throw new SameNameException();
+        }
+
+        $this->recordThat(CategoryNameWasChanged::createWithData($this->getId(), $name));
     }
 
     public function applyCategoryNameWasChanged(CategoryNameWasChanged $categoryNameWasChanged)
@@ -49,12 +60,6 @@ class Category extends AggregateRoot
 
     protected function applyCategoryWasDeleted(CategoryWasDeleted $categoryWasDeleted)
     {
-    }
-
-    protected function applyCategoryWasCreated(CategoryWasCreated $categoryWasCreated): void
-    {
-        $this->id = $categoryWasCreated->getId();
-        $this->name = $categoryWasCreated->getName();
     }
 
     /**

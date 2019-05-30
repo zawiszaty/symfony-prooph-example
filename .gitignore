@@ -5,3 +5,4 @@ symfony/.phpunit.result.cache
 symfony/.php_cs.cache
 symfony/.deptrac.cache
 symfony/build
+**/.phpunit.result.cache

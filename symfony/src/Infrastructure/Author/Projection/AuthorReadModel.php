@@ -80,7 +80,7 @@ class AuthorReadModel extends AbstractReadModel
 
     public function changeName(AuthorNameWasChanged $authorNameWasChanged)
     {
-        /** @var Author $author */
+        /** @var AuthorView $author */
         $author = $this->authorRepository->find($authorNameWasChanged->getId()->toString());
         $author->changeName($authorNameWasChanged->getName()->toString());
         $this->authorRepository->apply();

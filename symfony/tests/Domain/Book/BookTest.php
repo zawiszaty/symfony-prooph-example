@@ -60,7 +60,7 @@ class BookTest extends TestCase
             'author' => '8e9c0764-4994-11e9-8646-d663bd873d93',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
-        $book->changeName('test2');
+        $book->changeName(Name::fromString('test2'));
         $events = $this->popRecordedEvent($book);
         $this->assertEquals(1, \count($events));
         $this->assertInstanceOf(BookNameWasChanged::class, $events[0]);
@@ -91,14 +91,7 @@ class BookTest extends TestCase
             'author' => '8e9c0764-4994-11e9-8646-d663bd873d93',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
-        $book->changeName('test');
-        $events = $this->popRecordedEvent($book);
-        $this->assertEquals(1, \count($events));
-        $this->assertInstanceOf(BookNameWasChanged::class, $events[0]);
-        $expectedPayload = [
-            'name' => 'test',
-        ];
-        $this->assertEquals($expectedPayload, $events[0]->payload());
+        $book->changeName(Name::fromString('test'));
     }
 
     public function test_book_it_change_same_description()
@@ -122,14 +115,7 @@ class BookTest extends TestCase
             'author' => '8e9c0764-4994-11e9-8646-d663bd873d93',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
-        $book->changeDescription('test');
-        $events = $this->popRecordedEvent($book);
-        $this->assertEquals(1, \count($events));
-        $this->assertInstanceOf(BookDescriptionWasChanged::class, $events[0]);
-        $expectedPayload = [
-            'description' => 'test',
-        ];
-        $this->assertEquals($expectedPayload, $events[0]->payload());
+        $book->changeDescription(Description::fromString('test'));
     }
 
     public function test_book_it_change_description()
@@ -152,7 +138,7 @@ class BookTest extends TestCase
             'author' => '8e9c0764-4994-11e9-8646-d663bd873d93',
         ];
         $this->assertEquals($expectedPayload, $events[0]->payload());
-        $book->changeDescription('test2');
+        $book->changeDescription(Description::fromString('test2'));
         $events = $this->popRecordedEvent($book);
         $this->assertEquals(1, \count($events));
         $this->assertInstanceOf(BookDescriptionWasChanged::class, $events[0]);

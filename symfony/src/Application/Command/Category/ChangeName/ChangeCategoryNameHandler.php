@@ -9,6 +9,7 @@ use App\Domain\Category\Category;
 use App\Domain\Category\CategoryStore;
 use App\Domain\Category\Exception\CategoryNotExistException;
 use App\Domain\Common\ValueObject\AggregateRootId;
+use App\Domain\Common\ValueObject\Name;
 use App\Infrastructure\Category\Validator\CategoryValidator;
 use App\Infrastructure\Common\CommandHandler\CommandHandlerInterface;
 
@@ -42,7 +43,7 @@ class ChangeCategoryNameHandler implements CommandHandlerInterface
         /** @var Category $category */
         $category = $this->categoryStoreRepository->get(AggregateRootId::fromString($command->getId()));
         CategoryAssertion::exist($category);
-        $category->changeName($command->getName());
+        $category->changeName(Name::fromString($command->getName()));
         $this->categoryStoreRepository->save($category);
     }
 }
