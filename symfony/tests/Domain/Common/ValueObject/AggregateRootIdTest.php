@@ -34,6 +34,6 @@ class AggregateRootIdTest extends TestCase
     public function test_it_throw_exception_when_get_not_uuid()
     {
         $this->expectException(InvalidArgumentException::class);
-        AggregateRootId::withId("bla bla bla");
+        AggregateRootId::withId('bla bla bla');
     }
 }

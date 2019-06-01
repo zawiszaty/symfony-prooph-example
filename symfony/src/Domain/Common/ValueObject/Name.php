@@ -20,7 +20,7 @@ class Name
      */
     private function __construct(string $name)
     {
-        Assertion::notEmpty($name,"Name can' be blank");
+        Assertion::notEmpty($name, "Name can' be blank");
         $this->name = $name;
     }
 

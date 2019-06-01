@@ -21,7 +21,7 @@ class AggregateRootId
      */
     private function __construct(string $id)
     {
-        Assertion::uuid($id, "This is not valid uuid");
+        Assertion::uuid($id, 'This is not valid uuid');
         $this->id = $id;
     }
 

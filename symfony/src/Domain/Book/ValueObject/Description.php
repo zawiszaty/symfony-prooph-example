@@ -20,7 +20,7 @@ class Description
      */
     private function __construct(string $description)
     {
-        Assertion::notEmpty($description,"Description can' be blank");
+        Assertion::notEmpty($description, "Description can' be blank");
         $this->description = $description;
     }
 
