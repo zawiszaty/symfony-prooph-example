@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Book\ValueObject;
 
-use App\Domain\Book\Exception\SameDescryptionException;
+use Assert\Assertion;
 
 class Description
 {
@@ -18,8 +18,9 @@ class Description
      *
      * @param string $description
      */
-    public function __construct(string $description)
+    private function __construct(string $description)
     {
+        Assertion::notEmpty($description,"Description can' be blank");
         $this->description = $description;
     }
 
@@ -33,13 +34,5 @@ class Description
     public function toString(): string
     {
         return $this->description;
-    }
-
-    public function changeDescription(string $description)
-    {
-        if ($this->description === $description) {
-            throw new SameDescryptionException();
-        }
-        $this->description = $description;
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Domain\Common\ValueObject;
 
 use App\Domain\Common\ValueObject\AggregateRootId;
+use Assert\InvalidArgumentException;
 use Tests\TestCase;
 use Assert\Assertion;
 
@@ -28,5 +29,11 @@ class AggregateRootIdTest extends TestCase
         $id = AggregateRootId::generate();
         Assertion::uuid($id->toString());
         $this->assertSame(1, 1);
+    }
+
+    public function test_it_throw_exception_when_get_not_uuid()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        AggregateRootId::withId("bla bla bla");
     }
 }

@@ -19,8 +19,9 @@ class AggregateRootId
      *
      * @param string $id
      */
-    public function __construct(string $id)
+    private function __construct(string $id)
     {
+        Assertion::uuid($id, "This is not valid uuid");
         $this->id = $id;
     }
 
@@ -38,7 +39,6 @@ class AggregateRootId
 
     public static function withId(string $id): self
     {
-        Assertion::uuid($id);
         $id = new self($id);
 
         return $id;

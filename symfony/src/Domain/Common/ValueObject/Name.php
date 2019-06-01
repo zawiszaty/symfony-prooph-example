@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Common\ValueObject;
 
+use Assert\Assertion;
+
 class Name
 {
     /**
@@ -16,8 +18,9 @@ class Name
      *
      * @param string $name
      */
-    public function __construct(string $name)
+    private function __construct(string $name)
     {
+        Assertion::notEmpty($name,"Name can' be blank");
         $this->name = $name;
     }
 
