@@ -1,4 +1,5 @@
 # Symfony Prooph Example
+[![CircleCI](https://circleci.com/gh/zawiszaty/symfony-prooph-example.svg?style=svg)](https://circleci.com/gh/zawiszaty/symfony-prooph-example)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/zawiszaty/symfony-prooph-example/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/zawiszaty/symfony-prooph-example/?branch=master)
 [![Code Intelligence Status](https://scrutinizer-ci.com/g/zawiszaty/symfony-prooph-example/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 ### This repo is example how to use Prooph in Symfony project
