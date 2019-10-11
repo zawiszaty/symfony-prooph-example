@@ -1,0 +1,9 @@
+version: 2
+jobs:
+    build:
+        machine: true
+        steps:
+            - checkout
+            - run: make start
+            - run: make dbReset
+            - run: make test
